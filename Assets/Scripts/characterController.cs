@@ -4,6 +4,7 @@ using System.Collections;
 public class characterController : MonoBehaviour {
 
 	public float speed= 10.0F;
+	public weaponController theWeapon;
 
 	// Use this for initialization
 	void Start () {
@@ -21,5 +22,12 @@ public class characterController : MonoBehaviour {
 
 		if (Input.GetKeyDown ("escape"))
 			Cursor.lockState = CursorLockMode.None;
+		//0 left click
+		if (Input.GetMouseButtonDown (0)) {
+			theWeapon.isFiring = true;
+		}
+		if (Input.GetMouseButtonUp (0)) {
+			theWeapon.isFiring = false;
+		}
 	}
 }
