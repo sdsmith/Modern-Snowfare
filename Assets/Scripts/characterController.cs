@@ -6,23 +6,30 @@ public class characterController : MonoBehaviour {
 	public float speed= 10.0F;
 	public weaponController theWeapon;
 
-	// Use this for initialization
+	// NOTE: Use this for initialization
 	void Start () {
+        // Lock cursor to window (hides OS cursor graphic)
 		Cursor.lockState = CursorLockMode.Locked;
 	}	
 	
-	// Update is called once per frame
+	// NOTE: Update is called once per frame
 	void Update () {
+        // Character object translation
 		float translation = Input.GetAxis ("Vertical") * speed;
-		float straffe = Input.GetAxis ("Horizontal") * speed;
-		straffe *= Time.deltaTime;
+		float strafe = Input.GetAxis ("Horizontal") * speed;
+		strafe *= Time.deltaTime;
 		translation *= Time.deltaTime;
 
-		transform.Translate (straffe, 0, translation);
+		transform.Translate (strafe, 0, translation);
+        
 
+        // TODO(sdsmith): Refactor non-character specific input out of here.
 		if (Input.GetKeyDown ("escape"))
 			Cursor.lockState = CursorLockMode.None;
-		//0 left click
+		
+        
+        // Character Input handling
+        // NOTE: 0 left click
 		if (Input.GetMouseButtonDown (0)) {
 			theWeapon.isFiring = true;
 		}
