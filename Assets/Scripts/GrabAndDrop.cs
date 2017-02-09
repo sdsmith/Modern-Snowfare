@@ -53,7 +53,7 @@ public class GrabAndDrop : MonoBehaviour {
 			{
 				if(grabbedObject == null)
 				{
-					TryGrabObject(GetMouseHoverObject(5));
+					TryGrabObject(GetMouseHoverObject(10));
 				}
 				
 				else
