@@ -14,4 +14,13 @@ public class snowballController : MonoBehaviour {
 		transform.Translate (Vector3.forward * speed * Time.deltaTime);
 	
 	}
+	
+
+	void OnCollisionEnter (Collision collision)
+	{
+		//if (collision.gameObject.name == "Cylinder") {
+			Destroy (this.gameObject);
+		//}
+	}
 }
+
