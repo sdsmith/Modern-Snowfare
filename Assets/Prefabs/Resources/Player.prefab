@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114589788639770402}
   - component: {fileID: 114524900512548696}
   - component: {fileID: 114548041323177250}
+  - component: {fileID: 114060855813594418}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -123,7 +124,7 @@ Transform:
   m_GameObject: {fileID: 1086249880389000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -293, y: -4.3, z: -54.8}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4441746875826144}
   m_Father: {fileID: 0}
@@ -322,6 +323,17 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1267244563604322}
   m_Enabled: 1
+--- !u!114 &114060855813594418
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1086249880389000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 318ef6c03461b43ff8c6078bab2c433b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114403508220706136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -368,7 +380,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 4221889500522710}
+  - {fileID: 114060855813594418}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

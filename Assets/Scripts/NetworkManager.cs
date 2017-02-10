@@ -47,7 +47,6 @@ public class NetworkManager : MonoBehaviour {
 		SpawnSpot mySpawnSpot = spawnSpots [Random.Range (0, spawnSpots.Length)];
 		GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate ("Player", mySpawnSpot.transform.position, mySpawnSpot.transform.rotation, 0);
 		myPlayerGO.GetComponent<characterController> ().enabled = true;
-		// myPlayerGO.GetComponentInChildren<camMouseLook> ().enabled = true;
 		myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
 	}
 
