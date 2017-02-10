@@ -6,6 +6,10 @@ public class NetworkManager : MonoBehaviour {
 
 	SpawnSpot[] spawnSpots;
 
+	public bool offlineMode = false;
+
+	string prefabName = "Player_NEW";
+
 	// Use this for initialization
 	void Start () {
 		Debug.Log ("Start");
@@ -14,9 +18,12 @@ public class NetworkManager : MonoBehaviour {
 	}
 
 	void Connect() {
-		Debug.Log ("Connect");
-		PhotonNetwork.ConnectUsingSettings( "MultiFPS v001" );
-
+		if (offlineMode) {
+			PhotonNetwork.offlineMode = true;
+			OnJoinedLobby ();
+		} else {
+			PhotonNetwork.ConnectUsingSettings ("MultiFPS v001");
+		}
 	}
 
 	void OnGUI() {
@@ -45,8 +52,9 @@ public class NetworkManager : MonoBehaviour {
 			return;
 		}
 		SpawnSpot mySpawnSpot = spawnSpots [Random.Range (0, spawnSpots.Length)];
-		GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate ("Player", mySpawnSpot.transform.position, mySpawnSpot.transform.rotation, 0);
+		GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate (prefabName, mySpawnSpot.transform.position, mySpawnSpot.transform.rotation, 0);
 		myPlayerGO.GetComponent<characterController> ().enabled = true;
+		((MonoBehaviour)myPlayerGO.GetComponent ("PlayerShooting")).enabled = true;
 		myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
 	}
 

@@ -5,6 +5,7 @@ public class characterController : MonoBehaviour {
 
 	public float speed= 10.0F;
 	public weaponController theWeapon;
+	public bool useOldWeapon = false;
 
 	// NOTE: Use this for initialization
 	void Start () {
@@ -29,12 +30,14 @@ public class characterController : MonoBehaviour {
 		
         
         // Character Input handling
-        // NOTE: 0 left click
-		if (Input.GetMouseButtonDown (0)) {
-			theWeapon.isFiring = true;
-		}
-		if (Input.GetMouseButtonUp (0)) {
-			theWeapon.isFiring = false;
+		if (useOldWeapon) {
+			// NOTE: 0 left click
+			if (Input.GetMouseButtonDown (0)) {
+				theWeapon.isFiring = true;
+			}
+			if (Input.GetMouseButtonUp (0)) {
+				theWeapon.isFiring = false;
+			}
 		}
 	}
 }
