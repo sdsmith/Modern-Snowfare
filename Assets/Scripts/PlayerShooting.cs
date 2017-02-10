@@ -33,8 +33,14 @@ public class PlayerShooting : MonoBehaviour {
 
 		// If we hit something, lets resolve the hit
 		if (hitTransform != null) {
-		
+			Debug.Log ("HIT: " + hitTransform.name);
 			Health h = hitTransform.GetComponent<Health> ();
+
+			// check if the things parent has a Health object
+			while (h == null && hitTransform.parent) {
+				hitTransform = hitTransform.parent;
+				h = hitTransform.GetComponent<Health> ();
+			}
 
 			if (h != null) {
 				h.TakeDamage (damage);
