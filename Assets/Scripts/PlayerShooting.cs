@@ -51,7 +51,7 @@ public class PlayerShooting : MonoBehaviour {
 					Debug.Log ("PlayerShooting: PhotonView is null");
 				}
 				else {
-					pv.RPC("TakeDamage", PhotonTargets.All, damage);
+					pv.RPC("TakeDamage", PhotonTargets.AllBuffered, damage);
 				}
 			}
 

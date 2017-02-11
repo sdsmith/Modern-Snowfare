@@ -7,6 +7,8 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 	Vector3 realPosition = Vector3.zero;
 	Quaternion realRotation = Quaternion.identity;
 
+	bool gotFirstUpdate = false;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -39,6 +41,14 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			// milliseconds ago, and update our version of that player.
 			realPosition = (Vector3) stream.ReceiveNext ();
 			realRotation = (Quaternion)stream.ReceiveNext ();
+
+			// If we've never gotten an update, avoid the slide from (0,0,0) to real position
+			// Instantly teleport to correct position
+			if (!gotFirstUpdate) {
+				transform.position = realPosition;
+				transform.rotation = realRotation;
+				gotFirstUpdate = true;
+			}
 
 		}
 	}
