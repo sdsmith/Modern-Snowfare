@@ -43,7 +43,16 @@ public class PlayerShooting : MonoBehaviour {
 			}
 
 			if (h != null) {
-				h.TakeDamage (damage);
+				// TODO h.resolve(damage);
+				// h.TakeDamage (damage);
+				// next line equivalent of calling h.takeDamage except over network
+				PhotonView pv = h.GetComponent<PhotonView> ();
+				if (pv == null) {
+					Debug.Log ("PlayerShooting: PhotonView is null");
+				}
+				else {
+					pv.RPC("TakeDamage", PhotonTargets.All, damage);
+				}
 			}
 
 		}

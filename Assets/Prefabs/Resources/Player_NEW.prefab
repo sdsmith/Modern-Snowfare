@@ -28,6 +28,7 @@ GameObject:
   - component: {fileID: 114548041323177250}
   - component: {fileID: 114060855813594418}
   - component: {fileID: 114262038500482166}
+  - component: {fileID: 114636431690006916}
   m_Layer: 0
   m_Name: Player_NEW
   m_TagString: Untagged
@@ -273,6 +274,18 @@ MonoBehaviour:
   speed: 10
   theWeapon: {fileID: 0}
   useOldWeapon: 0
+--- !u!114 &114636431690006916
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1086249880389000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7af82c54f4dc44168d2e3a7d63c5108, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPoints: 100
 --- !u!124 &124826680480939088
 Behaviour:
   m_ObjectHideFlags: 1

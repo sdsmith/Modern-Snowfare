@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +13,9 @@ public class Health : MonoBehaviour {
 	}
 	
 
-	public void TakeDamage (float amt) {
+	[PunRPC] // can be called indirectly
+	// all players recieve notification of something taking damage
+	public void TakeDamage (float amt)  {
 		currentPoints -= amt;
 
 		if (currentPoints <= 0) {
@@ -22,6 +24,17 @@ public class Health : MonoBehaviour {
 	}
 
 	void Die(){
-		Destroy (gameObject);
+
+		// game objects created locally (crate)
+		if (GetComponent<PhotonView> ().instantiationId == 0) {
+			Destroy (gameObject);
+		} 
+
+		//game objects instantiated over the network (players)
+		else {
+			if (PhotonNetwork.isMasterClient) {
+				PhotonNetwork.Destroy (gameObject);
+			}
+		}
 	}
 }
