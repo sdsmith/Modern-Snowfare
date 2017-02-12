@@ -7,6 +7,15 @@ public class PlayerShooting : MonoBehaviour {
 	public float fireRate = 0.5f;
 	float coolDown = 0;
 	public float damage = 25f;
+	FXManager fxManager;
+
+	void Start(){
+		fxManager = GameObject.FindObjectOfType<FXManager> ();
+
+		if (fxManager == null) {
+			Debug.LogError ("No fxManager");
+		}
+	}
 
 	// Update is called once per frame
 	void Update () {
@@ -49,12 +58,22 @@ public class PlayerShooting : MonoBehaviour {
 				PhotonView pv = h.GetComponent<PhotonView> ();
 				if (pv == null) {
 					Debug.Log ("PlayerShooting: PhotonView is null");
-				}
-				else {
-					pv.RPC("TakeDamage", PhotonTargets.AllBuffered, damage);
+				} else {
+					pv.RPC ("TakeDamage", PhotonTargets.AllBuffered, damage);
 				}
 			}
 
+			if (fxManager != null) {
+				fxManager.GetComponent<PhotonView> ().RPC ("SnowballFX", PhotonTargets.All, Camera.main.transform.position, hitPoint);
+			}
+
+		} 
+		else {
+			// Didn't hit anything (maybe empty space) but we want a visual fx anyway
+			if (fxManager != null) {
+				hitPoint = Camera.main.transform.position + (Camera.main.transform.forward * 100f);
+				fxManager.GetComponent<PhotonView> ().RPC ("SnowballFX", PhotonTargets.All, Camera.main.transform.position, hitPoint);
+			}
 		}
 
 		coolDown = fireRate;

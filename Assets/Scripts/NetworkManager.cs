@@ -16,12 +16,12 @@ public class NetworkManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		spawnSpots = GameObject.FindObjectsOfType<SpawnSpot>();
-		PhotonNetwork.player.name = PlayerPrefs.GetString("Username", "Modern Snowfare");
+		PhotonNetwork.player.NickName = PlayerPrefs.GetString("Username", "Modern Snowfare");
 		chatMessages = new List<string>();
 	}
 
 	void OnDestroy(){
-		PlayerPrefs.SetString ("Username", PhotonNetwork.player.name);
+		PlayerPrefs.SetString ("Username", PhotonNetwork.player.NickName);
 	}
 
 	public void AddChatMessage(string m){
@@ -57,7 +57,7 @@ public class NetworkManager : MonoBehaviour {
 
 			GUILayout.BeginHorizontal ();
 			GUILayout.Label ("Username: ");
-			PhotonNetwork.player.name = GUILayout.TextField (PhotonNetwork.player.name);
+			PhotonNetwork.player.NickName = GUILayout.TextField (PhotonNetwork.player.NickName);
 			GUILayout.EndHorizontal ();
 
 
@@ -110,7 +110,7 @@ public class NetworkManager : MonoBehaviour {
 
 	void SpawnMyPlayer() {
 
-		AddChatMessage ("Spawning player: " + PhotonNetwork.player.name);
+		AddChatMessage ("Spawning player: " + PhotonNetwork.player.NickName);
 
 		if (spawnSpots == null) {
 			Debug.Log ("SpawnMyPlayer: SpawnSpots == null");

@@ -212,6 +212,7 @@ GameObject:
   - component: {fileID: 361969685}
   - component: {fileID: 361969684}
   - component: {fileID: 361969686}
+  - component: {fileID: 361969687}
   m_Layer: 0
   m_Name: _SCRIPTS
   m_TagString: Untagged
@@ -270,6 +271,19 @@ MonoBehaviour:
   instantiationId: 2
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &361969687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 361969683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e3491a162bdc4e0c97d066ea88fc0fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SnowballPrefab: {fileID: 193098, guid: 89ef627f3c43048578b1cb90e36ed088, type: 2}
+  SnowballSpeed: 10
 --- !u!1 &717266244 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1875261803684288, guid: dd4cec28595b548a791b6f86b2c4c59a,

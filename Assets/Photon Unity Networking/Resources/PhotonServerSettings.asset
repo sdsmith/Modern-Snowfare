@@ -45,4 +45,5 @@ MonoBehaviour:
   - TaggedPlayer
   - TakeDamage
   - AddChatMessage_RPC
+  - SnowballFX
   DisableAutoOpenWizard: 1
