@@ -10,8 +10,8 @@ public class characterController : MonoBehaviour {
     public float speed = 10.0F;
     public float jumpSpeed = 15.0F;
     public weaponController theWeapon;
-    private Rigidbody rigidbody;
-    private CapsuleCollider collider;
+    private new Rigidbody rigidbody;
+    private new CapsuleCollider collider;
 
         
     // NOTE: Use this for initialization
