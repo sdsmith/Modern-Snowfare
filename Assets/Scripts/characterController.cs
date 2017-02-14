@@ -70,8 +70,37 @@ public class characterController : MonoBehaviour {
     }
 
 
+    /**
+     * Return true if the character is on the ground, false otherwise.
+     */
     private bool IsGrounded() {
+        /*
+         * NOTE(sdsmith): There was issues with steep slopes when one ray was
+         * shot downward from the center. The fix is shooting one ray every 90
+         * degrees of the circumference of the collider. 
+         *                                                         - 2017-02-13
+         * 
+         * @Performance(sdsmith): Do we want to unroll this, short circuit it, 
+         * keep it the same? I perfer consistent timing for an operation this 
+         * common rather than fluctuating performance. However, it could be
+         * argued that the general case is being on mostly level ground, which 
+         * would short ciruit it on the first of second ray. The downside is 
+         * you get a potential 4x slowdown on steep slopes.
+         *                                                         - 2017-02-13
+         */
         const float errorMargin = 0.1F;
-        return Physics.Raycast(transform.position, -Vector3.up, collider.bounds.extents.y + errorMargin);
+        float colliderRadius = collider.radius;
+
+        bool hit = false;
+
+        for (float deltaX = -colliderRadius; deltaX <= colliderRadius; deltaX += 2*colliderRadius) {
+            for (float deltaY = -colliderRadius; deltaY <= colliderRadius; deltaY += 2 * colliderRadius) {
+                Vector3 delta = new Vector3(deltaX, deltaY, 0);
+                hit = hit || Physics.Raycast(transform.position + delta, -Vector3.up, collider.bounds.extents.y + errorMargin);
+            }
+        }
+
+        //return Physics.Raycast(transform.position, -Vector3.up, collider.bounds.extents.y + errorMargin);
+        return hit;
     }
 }
