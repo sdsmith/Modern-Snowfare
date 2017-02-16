@@ -7,7 +7,7 @@ public class NetworkManager : MonoBehaviour {
 	public GameObject standbyCamera;
 	SpawnSpot[] spawnSpots;
 
-	string prefabName = "Player_NEW";
+	string prefabName = "Player";
 
 	bool connecting = false;
 	List<string> chatMessages;
