@@ -5,11 +5,11 @@ using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
-public class characterController : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
 
     public float speed = 10.0F;
     public float jumpSpeed = 15.0F;
-    public weaponController theWeapon;
+    public WeaponController theWeapon;
     public bool useOldWeapon = false;
 
     private new Rigidbody rigidbody;

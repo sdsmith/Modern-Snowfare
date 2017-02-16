@@ -32,7 +32,7 @@ public class PlayerShooting : MonoBehaviour {
 			return;
 		}
 
-		Debug.Log ("firing gun");
+		// Debug.Log ("firing gun");
 
 		Ray ray = new Ray (Camera.main.transform.position, Camera.main.transform.forward);
 		Transform hitTransform;

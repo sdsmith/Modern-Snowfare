@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class weaponController : MonoBehaviour {
+public class WeaponController : MonoBehaviour {
 
 	public bool isFiring;
 
-	public snowballController snowball;
+	public SnowballController snowball;
 	public float snowballSpeed;
 
 	public float timeBetweenShots;
@@ -23,7 +23,7 @@ public class weaponController : MonoBehaviour {
 			shotCounter -= Time.deltaTime;
 			if (shotCounter <= 0) {
 				shotCounter = timeBetweenShots;
-				snowballController newSnowball = Instantiate (snowball, firePoint.position, firePoint.rotation) as snowballController;
+				SnowballController newSnowball = Instantiate (snowball, firePoint.position, firePoint.rotation) as SnowballController;
 				newSnowball.speed = snowballSpeed;
 			}
 		} else {

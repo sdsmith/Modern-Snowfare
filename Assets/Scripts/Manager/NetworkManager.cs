@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class NetworkManager : MonoBehaviour {
 
 	public GameObject standbyCamera;
@@ -120,7 +121,7 @@ public class NetworkManager : MonoBehaviour {
 		GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate (prefabName, mySpawnSpot.transform.position, mySpawnSpot.transform.rotation, 0);
 		standbyCamera.SetActive(false);
 
-		myPlayerGO.GetComponent<characterController> ().enabled = true;
+		myPlayerGO.GetComponent<PlayerController> ().enabled = true;
 		((MonoBehaviour)myPlayerGO.GetComponent ("PlayerShooting")).enabled = true;
 		myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
 	}

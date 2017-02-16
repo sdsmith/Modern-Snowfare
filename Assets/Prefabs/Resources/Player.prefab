@@ -30,7 +30,7 @@ GameObject:
   - component: {fileID: 114262038500482166}
   - component: {fileID: 114636431690006916}
   m_Layer: 0
-  m_Name: Player_NEW
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -272,6 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  jumpSpeed: 15
   theWeapon: {fileID: 0}
   useOldWeapon: 0
 --- !u!114 &114636431690006916

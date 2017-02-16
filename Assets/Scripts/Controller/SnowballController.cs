@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class snowballController : MonoBehaviour {
+public class SnowballController : MonoBehaviour {
 
 	public float speed = 10f;
 	// Use this for initialization

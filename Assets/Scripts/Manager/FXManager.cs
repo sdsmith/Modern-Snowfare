@@ -13,7 +13,7 @@ public class FXManager : MonoBehaviour {
 	//SniperBulletFx
 	[PunRPC]
 	void SnowballFX(Vector3 startPos, Vector3 endPos){
-		Debug.Log ("Snowball Fx");
+		// Debug.Log ("Snowball Fx");
 
 		Instantiate (SnowballPrefab, startPos, Quaternion.LookRotation( endPos - startPos ));
 		// Instantiate (SnowballPrefab, startPos, Quaternion.identity);
