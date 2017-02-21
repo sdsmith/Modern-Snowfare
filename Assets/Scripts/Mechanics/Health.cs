@@ -32,9 +32,32 @@ public class Health : MonoBehaviour {
 
 		//game objects instantiated over the network (players)
 		else {
-			if (PhotonNetwork.isMasterClient) {
+			// Only the owner of the object destroys the game object
+			if (GetComponent<PhotonView>().isMine) {
+
+				// Check to see if this is MY player object. If it's mine, respawn my character
+				// Note: make sure character prefab has the tag set to player
+				if (gameObject.tag == "Player") {
+					// show the standby camera. Optional for now
+
+					NetworkManager nm = GameObject.FindObjectOfType<NetworkManager> ();
+					nm.standbyCamera.SetActive(true);
+					nm.respawnTimer = 2f;
+				}
 				PhotonNetwork.Destroy (gameObject);
 			}
 		}
 	}
+
+	/*
+	 * DEBUGGING PURPOSES 
+	*/
+//	void OnGUI(){
+//		// If this is my player, kill myself to test respawning
+//		if (GetComponent<PhotonView> ().isMine && gameObject.tag == "Player") {
+//			if (GUI.Button (new Rect (Screen.width - 225, 0, 225, 30), "I don't wanna be here anymore!")) {
+//				Die ();
+//			}
+//		}
+//	}
 }

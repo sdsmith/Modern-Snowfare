@@ -13,7 +13,7 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 	void Start () {
 		
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		if (photonView.isMine) {
@@ -23,8 +23,22 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 			transform.position = Vector3.Lerp (transform.position, realPosition, 0.1f);
 			transform.rotation = Quaternion.Lerp (transform.rotation, realRotation, 0.1f);
 		}
-
 	}
+
+	/*
+	 * FROM https://doc-api.photonengine.com/en/pun/current/group__public_api.html
+	 * 
+	 * Implement to customize the data a PhotonView regularly synchronizes. 
+	 * Called every 'network-update' when observed by Photon View.
+	 * Implementing this method, you can customize which data a PhotonView regularly synchronizes. 
+	 * Your code defines what is being sent (content) and how your data is used by receiving clients.
+	 * OnPhotonSerializeView only gets called when it is assigned to a PhotonView as PhotonView.observed script.
+	 * It will be in "writing" mode" on the client that controls a PhotonView (PhotonStream.isWriting == true) 
+	 * and in "reading mode" on the remote clients that just receive that the controlling client sends.
+	 * 
+	 * For example. When our player moves, we want to send the characters position and rotation to the network (isWriting)
+	 * When someone else moves we want to recieve their position and rotation (isReading)
+	 */ 
 
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info){
 
