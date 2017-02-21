@@ -11,7 +11,7 @@ public class GrabAndDrop : MonoBehaviour {
 	void Start () {
 		
 	}
-
+	/*
 	GameObject GetMouseHoverObject(float range)
 	{
 		Vector3 position = this.gameObject.transform.position;
@@ -23,7 +23,7 @@ public class GrabAndDrop : MonoBehaviour {
 			
 		}
 		return null; 
-	}
+	}*/
 
 	void TryGrabObject(GameObject grabObject)
 		{
@@ -46,9 +46,19 @@ public class GrabAndDrop : MonoBehaviour {
 			grabbedObject = null;
 		}
 
+	void OnCollisionEnter (Collision col)
+	{
+		if(col.gameObject.name == "Torch")
+		{
+			TryGrabObject(col.gameObject);
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		//Debug.Log (GetMouseHoverObject (5)); 
+
+		/*
 		if (Input.GetMouseButtonDown(1))
 			{
 				if(grabbedObject == null)
@@ -61,6 +71,9 @@ public class GrabAndDrop : MonoBehaviour {
 					DropObject(); 
 				}	
 			}
+
+		*/
+
 		if (grabbedObject != null)
 			{
 			 Vector3 newPosition = gameObject.transform.position+Camera.main.transform.forward*grabbedObjectSize;
