@@ -2,31 +2,32 @@
 using System.Collections;
 
 
-
+//[RequireComponent(typeof(TeamMember))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class PlayerController : MonoBehaviour {
 
     public float speed = 10.0F;
     public float jumpSpeed = 15.0F;
+
+	// @TODO(Llewellin): remove these two.
     public WeaponController theWeapon;
     public bool useOldWeapon = false;
 
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
-
-
+	// private TeamMember teamMember;
         
     // NOTE: Use this for initialization
     void Start () {
         // Component references
         rigidbody = GetComponent<Rigidbody>();
-        collider = GetComponent<CapsuleCollider>();        
+        collider = GetComponent<CapsuleCollider>();
+		// teamMember = GetComponent<TeamMember> ();
         
         // Lock cursor to window (hides OS cursor graphic)
-        Cursor.lockState = CursorLockMode.Locked;        
+        Cursor.lockState = CursorLockMode.Locked;
     }
-
     
     // NOTE: Update is called once per frame
     void Update () {

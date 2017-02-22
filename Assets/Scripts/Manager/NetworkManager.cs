@@ -18,10 +18,14 @@ public class NetworkManager : MonoBehaviour {
 
 	public float respawnTimer = 0f;
 
+	bool hasPickedTeam = false;
+	int teamID = 0;
+
 	// Use this for initialization
 	void Start () {
 		spawnSpots = GameObject.FindObjectsOfType<SpawnSpot>();
 		PhotonNetwork.player.NickName = PlayerPrefs.GetString("Username", "Modern Snowfare");
+		PhotonNetwork.player.SetTeam (PunTeams.Team.none);
 		chatMessages = new List<string>();
 	}
 
@@ -104,16 +108,43 @@ public class NetworkManager : MonoBehaviour {
 
 		// send the chat label at the bottom left
 		if (PhotonNetwork.connected && !connecting) {
-			GUILayout.BeginArea (new Rect (0, 0, Screen.width, Screen.height));
-			GUILayout.BeginVertical ();
-			GUILayout.FlexibleSpace ();
 
-			foreach(string msg in chatMessages){
-				GUILayout.Label (msg);
+			if (hasPickedTeam) {
+				GUILayout.BeginArea (new Rect (0, 0, Screen.width, Screen.height));
+				GUILayout.BeginVertical ();
+				GUILayout.FlexibleSpace ();
+
+				foreach (string msg in chatMessages) {
+					GUILayout.Label (msg);
+				}
+
+				GUILayout.EndVertical ();
+				GUILayout.EndArea ();
+			} 
+			else {
+				// Player has not yet selected a team
+
+				GUILayout.BeginArea (new Rect (0, 0, Screen.width, Screen.height));
+				GUILayout.BeginHorizontal ();
+				GUILayout.FlexibleSpace ();
+				GUILayout.BeginVertical ();
+				GUILayout.FlexibleSpace ();
+
+				if(GUILayout.Button("Red Team")){
+					PhotonNetwork.player.SetTeam (PunTeams.Team.red);
+					SpawnMyPlayer ();
+				}
+				if(GUILayout.Button("Blue Team")){
+					PhotonNetwork.player.SetTeam (PunTeams.Team.blue);
+					SpawnMyPlayer ();
+				}
+				GUILayout.FlexibleSpace ();
+				GUILayout.EndVertical ();
+				GUILayout.FlexibleSpace ();
+				GUILayout.EndHorizontal ();
+				GUILayout.EndArea ();
+
 			}
-
-			GUILayout.EndVertical ();
-			GUILayout.EndArea ();
 		}
 	}
 
@@ -149,7 +180,7 @@ public class NetworkManager : MonoBehaviour {
 		Debug.Log ("OnJoinedRoom");
 
 		connecting = false;
-		SpawnMyPlayer();
+		// SpawnMyPlayer();
 	}
 
 	/* 
@@ -158,6 +189,7 @@ public class NetworkManager : MonoBehaviour {
 	 * get a spawn point and create a player at that point
 	 */
 	void SpawnMyPlayer() {
+		hasPickedTeam = true;
 
 		AddChatMessage ("Spawning player: " + PhotonNetwork.player.NickName);
 
@@ -166,13 +198,30 @@ public class NetworkManager : MonoBehaviour {
 			return;
 		}
 
-		// @TODO(Llewellin): change random spawn point to join a team
-		SpawnSpot mySpawnSpot = spawnSpots [Random.Range (0, spawnSpots.Length)];
+		SpawnSpot mySpawnSpot = null;
+
+		// sanity check
+		if (spawnSpots.Length != 2) {
+			Debug.LogError ("Incorrect amount of spawn points");
+			return;
+		}
+
+		// Set the spawn point based on the team you're on
+		if (spawnSpots [0].teamId == 1 && PhotonNetwork.player.GetTeam() == PunTeams.Team.red) {
+			mySpawnSpot = spawnSpots [0];
+		} else {
+			mySpawnSpot = spawnSpots [1];
+		}
+			
 		GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate (prefabName, mySpawnSpot.transform.position, mySpawnSpot.transform.rotation, 0);
 		standbyCamera.SetActive(false);
 
 		myPlayerGO.GetComponent<PlayerController> ().enabled = true;
 		((MonoBehaviour)myPlayerGO.GetComponent ("PlayerShooting")).enabled = true;
+
+		// Tell everyone on the network I'm joining this team
+		// myPlayerGO.GetComponent<PhotonView> ().RPC ("SetTeamID", PhotonTargets.AllBuffered, teamID);
+
 		myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
 	}
 
