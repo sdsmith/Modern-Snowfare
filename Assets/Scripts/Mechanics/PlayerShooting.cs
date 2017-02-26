@@ -60,23 +60,15 @@ public class PlayerShooting : MonoBehaviour {
 					Debug.Log ("PlayerShooting: PhotonView is null");
 				} else {
 
-					//this code fetches the PhotonPlayer system and assigns it to the variable "target"
+					//get the player that was hit
 					PhotonPlayer target = pv.owner;
-//					PhotonView rootView = hit.rigidbody.gameObject.transform.root.GetComponent<PhotonView>();
-//					int targetID = rootView.owner.ID;
-//					PhotonPlayer target = PhotonPlayer.Find(targetID);[/code2]
 
 					if (PhotonNetwork.player.GetTeam () != target.GetTeam ()) {
 						pv.RPC ("TakeDamage", PhotonTargets.AllBuffered, damage);
-						Debug.Log ("Teams don't match, take damage");
+						// Debug.Log ("Teams don't match, take damage");
 					} else {
-						Debug.Log ("FRIENDLY FIRE STAHP IT");
+						// Debug.Log ("FRIENDLY FIRE STAHP IT");
 					}
-
-					// If other doesn't have a team, or I don't have a team, or the teams are different, take damage
-//					if (tm == null || tm.teamID == 0 || myTM == null || myTM.teamID == 0 || tm.teamID != myTM.teamID) {
-//						pv.RPC ("TakeDamage", PhotonTargets.AllBuffered, damage);
-//					}
 				}
 			}
 
