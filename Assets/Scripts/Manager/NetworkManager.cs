@@ -19,7 +19,6 @@ public class NetworkManager : MonoBehaviour {
 	public float respawnTimer = 0f;
 
 	bool hasPickedTeam = false;
-	int teamID = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -48,7 +47,7 @@ public class NetworkManager : MonoBehaviour {
 	 * When a chatmessage is sent, everyone gets this message
 	 * 
 	 * ex. To call this function use:
-	 * GetComponent<PhotonView> ().RPC ("AddChatMessage_RPC", PhotonTargets.AllBuffered, <paramter>);
+	 * GetComponent<PhotonView> ().RPC ("AddChatMessage_RPC", PhotonTargets.AllBuffered, <parameter>);
 	 */
 
 	[PunRPC]
@@ -196,20 +195,17 @@ public class NetworkManager : MonoBehaviour {
 
 		AddChatMessage ("Spawning player: " + PhotonNetwork.player.NickName);
 
-		if (spawnSpots == null) {
-			Debug.Log ("SpawnMyPlayer: SpawnSpots == null");
-			return;
-		}
-
 		SpawnSpot mySpawnSpot = null;
 
 		// sanity check
-		if (spawnSpots.Length != 2) {
+		if (spawnSpots == null || spawnSpots.Length != 2) {
 			Debug.LogError ("Incorrect amount of spawn points");
 			return;
 		}
 
 		// Set the spawn point based on the team you're on
+		// @TODO(Llewellin) cleanup how we get spawnpoints.
+		// (If each team can have multiple spawn points take this into consideration)
 		if (spawnSpots [0].teamId == 1 && PhotonNetwork.player.GetTeam() == PunTeams.Team.red) {
 			mySpawnSpot = spawnSpots [0];
 		} else {
@@ -224,9 +220,6 @@ public class NetworkManager : MonoBehaviour {
 
 		int viewID = myPlayerGO.gameObject.GetPhotonView ().viewID;
 		GetComponent<PhotonView> ().RPC ("SetTeamIcon", PhotonTargets.AllBuffered, viewID);
-
-		// Tell everyone on the network I'm joining this team
-		// myPlayerGO.GetComponent<PhotonView> ().RPC ("SetTeamID", PhotonTargets.AllBuffered, teamID);
 
 		myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
 	}
@@ -256,7 +249,8 @@ public class NetworkManager : MonoBehaviour {
 
 		GameObject teamTag = playerObject.transform.FindChild ("TeamTag").gameObject;
 
-		if (PhotonNetwork.player.GetTeam () == PunTeams.Team.red) {
+
+		if (playerObject.GetPhotonView().owner.GetTeam() == PunTeams.Team.red) {
 			teamTag.GetComponent<MeshRenderer> ().material.color = Color.red;
 		} else {
 			teamTag.GetComponent<MeshRenderer> ().material.color = Color.blue;
