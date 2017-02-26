@@ -12,7 +12,7 @@ https://docs.google.com/document/d/1cmrM5BWBfYip_qLcnMGAChTiRMqcC9xrbsMQoVImvSQ/
 - Tabs should be converted to spaces with 4 spaces per tab (this can be done automatically in Visual Studios and many other editors)
 
 ## Comment conventions
-You should use the following keywords for your comments if they apply. They should all have the format of '@<KEYWORD>(<user_identifier>):'. This is so that they are easily searchable, and we know who commented what if we need futther explanation.
+You should use the following keywords for your comments if they apply. They should all have the format of '@\<KEYWORD\>(\<user_identifier\>):'. This is so that they are easily searchable, and we know who commented what if we need futther explanation.
 For example, '@TODO(sdsmith):', '@BUG(sdsmith):', etc.
 
 Keywords:
