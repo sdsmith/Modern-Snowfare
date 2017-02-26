@@ -46,6 +46,9 @@ public class NetworkManager : MonoBehaviour {
 	/*
 	 * NOTE: [PunRPC] means everyone connected to the network recieves this update
 	 * When a chatmessage is sent, everyone gets this message
+	 * 
+	 * ex. To call this function use:
+	 * GetComponent<PhotonView> ().RPC ("AddChatMessage_RPC", PhotonTargets.AllBuffered, <paramter>);
 	 */
 
 	[PunRPC]
@@ -219,6 +222,9 @@ public class NetworkManager : MonoBehaviour {
 		myPlayerGO.GetComponent<PlayerController> ().enabled = true;
 		((MonoBehaviour)myPlayerGO.GetComponent ("PlayerShooting")).enabled = true;
 
+		int viewID = myPlayerGO.gameObject.GetPhotonView ().viewID;
+		GetComponent<PhotonView> ().RPC ("SetTeamIcon", PhotonTargets.AllBuffered, viewID);
+
 		// Tell everyone on the network I'm joining this team
 		// myPlayerGO.GetComponent<PhotonView> ().RPC ("SetTeamID", PhotonTargets.AllBuffered, teamID);
 
@@ -234,6 +240,26 @@ public class NetworkManager : MonoBehaviour {
 			if (respawnTimer <= 0) {
 				SpawnMyPlayer ();
 			}
+		}
+	}
+
+	// Set the color of the icon on top of the player to match their team
+	// Can't pass the gameObject so pass the reference ID
+	[PunRPC]
+	void SetTeamIcon(int viewID){
+		GameObject playerObject = PhotonView.Find (viewID).gameObject;
+
+		if (playerObject == null) {
+			Debug.Log ("playerObject is null");
+			return;
+		}
+
+		GameObject teamTag = playerObject.transform.FindChild ("TeamTag").gameObject;
+
+		if (PhotonNetwork.player.GetTeam () == PunTeams.Team.red) {
+			teamTag.GetComponent<MeshRenderer> ().material.color = Color.red;
+		} else {
+			teamTag.GetComponent<MeshRenderer> ().material.color = Color.blue;
 		}
 	}
 }
