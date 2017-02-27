@@ -16,6 +16,5 @@ public class FXManager : MonoBehaviour {
 		// Debug.Log ("Snowball Fx");
 
 		Instantiate (SnowballPrefab, startPos, Quaternion.LookRotation( endPos - startPos ));
-		// Instantiate (SnowballPrefab, startPos, Quaternion.identity);
 	}
 }
