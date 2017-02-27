@@ -248,11 +248,17 @@ public class NetworkManager : MonoBehaviour {
 		}
 
 		GameObject teamTag = playerObject.transform.FindChild ("TeamTag").gameObject;
+		GameObject r = playerObject.transform.FindChild ("RadarPlayerPosition").gameObject;
+
 
 		if (playerObject.GetPhotonView().owner.GetTeam() == PunTeams.Team.red) {
 			teamTag.GetComponent<MeshRenderer> ().material.color = Color.red;
+			r.GetComponent<MeshRenderer> ().material.color = Color.red;
+
 		} else {
 			teamTag.GetComponent<MeshRenderer> ().material.color = Color.blue;
+			r.GetComponent<MeshRenderer> ().material.color = Color.red;
+
 		}
 	}
 }
