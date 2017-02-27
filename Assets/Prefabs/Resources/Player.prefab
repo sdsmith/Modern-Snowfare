@@ -400,8 +400,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensitivity: 5
   smoothing: 2
-  clampMin: -10
-  clampMax: 45
+  clampMin: -90
+  clampMax: 90
 --- !u!114 &114524900512548696
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -452,8 +452,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   jumpSpeed: 15
-  theWeapon: {fileID: 0}
-  useOldWeapon: 0
 --- !u!114 &114636431690006916
 MonoBehaviour:
   m_ObjectHideFlags: 1
