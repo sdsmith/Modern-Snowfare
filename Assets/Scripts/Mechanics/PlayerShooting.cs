@@ -34,7 +34,7 @@ public class PlayerShooting : MonoBehaviour {
 
         // Fire the snowball
         if (fxManager != null) {
-            Vector3 hitPoint = Camera.main.transform.position + (Camera.main.transform.forward * 100f);
+            Vector3 hitPoint = Camera.main.transform.position + (Camera.main.transform.forward * 2f);
 
 			/*
 			 * @TODO(Llewellin): change the startPos to be where the snowball launches.
@@ -44,7 +44,7 @@ public class PlayerShooting : MonoBehaviour {
 			 * i.e we collide with ourselves and take damage, then die
 			 */
 
-			Vector3 startPos = Camera.main.transform.position + (Camera.main.transform.forward * 5f);
+			Vector3 startPos = Camera.main.transform.position + (Camera.main.transform.forward * 1.1f);
 			fxManager.GetComponent<PhotonView>().RPC("SnowballFX", PhotonTargets.All, startPos, hitPoint);
         }
 
