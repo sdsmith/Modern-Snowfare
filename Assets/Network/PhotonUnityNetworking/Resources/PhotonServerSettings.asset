@@ -46,4 +46,5 @@ MonoBehaviour:
   - TakeDamage
   - AddChatMessage_RPC
   - SnowballFX
+  - SetTeamIcon
   DisableAutoOpenWizard: 1
