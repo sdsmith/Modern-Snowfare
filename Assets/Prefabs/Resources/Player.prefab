@@ -180,7 +180,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1267244563604322}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4820342518147622}
@@ -207,7 +207,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1762193193196448}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.02, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
   m_LocalScale: {x: 0.08, y: 0.08, z: 0}
   m_Children: []
   m_Father: {fileID: 4441746875826144}
@@ -233,7 +233,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 50
+  orthographic size: 60
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
@@ -521,8 +521,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 4
+  instantiationId: 4
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114262038500482166
@@ -586,8 +586,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114060855813594418}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 5
+  instantiationId: 5
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114589788639770402
@@ -601,7 +601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7449bebd92721482db650a241a98d09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 15
   jumpSpeed: 15
 --- !u!114 &114636431690006916
 MonoBehaviour:
