@@ -6,11 +6,12 @@ using UnityEngine;
 public class NetworkManager : MonoBehaviour {
 
 	public GameObject standbyCamera;
+    public bool debug = false;
 	SpawnSpot[] spawnSpots;
 
 	// This is the name of the prefab we are going to create into the game.
 	// This should be changed to match whichever character the player chooses to be
-	string prefabName = "Player";
+	string prefabName;
 
 	bool connecting = false;
 	List<string> chatMessages;
@@ -22,6 +23,13 @@ public class NetworkManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        // Set the player prefab
+        if (debug) {
+            prefabName = "PlayerDebug";
+        } else {
+            prefabName = "Player";
+        }
+
 		spawnSpots = GameObject.FindObjectsOfType<SpawnSpot>();
 		PhotonNetwork.player.NickName = PlayerPrefs.GetString("Username", "Modern Snowfare");
 		PhotonNetwork.player.SetTeam (PunTeams.Team.none);
