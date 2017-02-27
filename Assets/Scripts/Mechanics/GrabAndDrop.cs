@@ -6,10 +6,10 @@ public class GrabAndDrop : MonoBehaviour {
 
 	GameObject grabbedObject;
 	float grabbedObjectSize;
-
+	public GameObject BlueTorchSpawn;
 	// Use this for initialization
 	void Start () {
-		
+		BlueTorchSpawn = GameObject.Find ("BlueTorchSpawn");
 	}
 	/*
 	GameObject GetMouseHoverObject(float range)
@@ -48,9 +48,12 @@ public class GrabAndDrop : MonoBehaviour {
 
 	void OnCollisionEnter (Collision col)
 	{
-		if(col.gameObject.name == "Torch")
-		{
-			TryGrabObject(col.gameObject);
+		if (col.gameObject.name == "Torch") {
+			TryGrabObject (col.gameObject);
+		} else if (col.gameObject.name == "RedTorchSpawn") {
+			grabbedObject.transform.position = BlueTorchSpawn.transform.position;
+			DropObject ();
+
 		}
 	}
 
