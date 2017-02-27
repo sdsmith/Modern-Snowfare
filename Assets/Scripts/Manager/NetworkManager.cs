@@ -24,6 +24,7 @@ public class NetworkManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         // Set the player prefab
+        // @DEBUG(sdsmith):
         if (debug) {
             prefabName = "PlayerDebug";
         } else {

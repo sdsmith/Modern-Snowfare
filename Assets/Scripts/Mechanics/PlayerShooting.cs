@@ -9,6 +9,8 @@ public class PlayerShooting : MonoBehaviour {
     public float damage = 25f;
     FXManager fxManager;
 
+
+
     void Start() {
         fxManager = GameObject.FindObjectOfType<FXManager>();
 
@@ -17,7 +19,7 @@ public class PlayerShooting : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
+
     void Update() {
 
         coolDown -= Time.deltaTime;
@@ -27,6 +29,7 @@ public class PlayerShooting : MonoBehaviour {
         }
     }
 
+
     void Fire() {
         if (coolDown > 0) {
             return;
@@ -34,21 +37,20 @@ public class PlayerShooting : MonoBehaviour {
 
         // Fire the snowball
         if (fxManager != null) {
-            Vector3 hitPoint = Camera.main.transform.position + (Camera.main.transform.forward * 2f);
-
-			/*
+            /*
 			 * @TODO(Llewellin): change the startPos to be where the snowball launches.
 			 * @NOTE(Llewellin): startPos is set forward slightly so the snowball doesn't come from the camera.
 			 * The camera is inside the player, which causes the snowball to hit us and causes complications in 
 			 * SnowballController:onCollisionEnter().
-			 * i.e we collide with ourselves and take damage, then die
+			 * i.e. we collide with ourselves and take damage, then die
 			 */
 
+            // @TODO(sdsmith): Set offset of the snowball spawn location to be relative to the size of the player's 
+            // collider plus the width of the snowball collider and some error margin to make it change proof.
 			Vector3 startPos = Camera.main.transform.position + (Camera.main.transform.forward * 1.1f);
-			fxManager.GetComponent<PhotonView>().RPC("SnowballFX", PhotonTargets.All, startPos, hitPoint);
+			fxManager.GetComponent<PhotonView>().RPC("SnowballFX", PhotonTargets.All, startPos, Camera.main.transform.rotation);
         }
 
         coolDown = fireRate;
-
     }
 }
