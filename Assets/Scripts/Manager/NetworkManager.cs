@@ -257,7 +257,7 @@ public class NetworkManager : MonoBehaviour {
 
 		} else {
 			teamTag.GetComponent<MeshRenderer> ().material.color = Color.blue;
-			r.GetComponent<MeshRenderer> ().material.color = Color.red;
+			r.GetComponent<MeshRenderer> ().material.color = Color.blue;
 
 		}
 	}

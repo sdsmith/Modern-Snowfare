@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 223991348221725450}
   - component: {fileID: 114229669466787514}
   - component: {fileID: 114730568016809454}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 224237193623846156}
   - component: {fileID: 222807183131822982}
   - component: {fileID: 114269611911320638}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: RadarImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
