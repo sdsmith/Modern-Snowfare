@@ -427,6 +427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   standbyCamera: {fileID: 237905793}
+  debug: 1
   respawnTimer: 0
 --- !u!4 &292221897
 Transform:
