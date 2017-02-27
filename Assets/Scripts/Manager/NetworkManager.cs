@@ -231,6 +231,7 @@ public class NetworkManager : MonoBehaviour {
 		GetComponent<PhotonView> ().RPC ("SetTeamIcon", PhotonTargets.AllBuffered, viewID);
 
 		myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
+		myPlayerGO.transform.FindChild("RadarCamera").gameObject.SetActive(true);
 	}
 
 	// NOTE: Update is called once per frame
