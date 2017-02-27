@@ -1,21 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+
+[RequireComponent(typeof(Rigidbody))]
 public class SnowballController : MonoBehaviour {
 
-	public float speed = 10f;
+	public float speed = 150f;// m/s(?)
 
 	// @TODO(Llewellin): Determine how much damage should be taken from a snowball
 	public float damage = 25f;
 
 	// Use this for initialization
 	void Start () {
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        // Apply initial forward velocity to the snowball at creation and let 
+        // the physics engine do its work.
+        rb.AddRelativeForce(Vector3.forward * speed, ForceMode.VelocityChange);
+    }
 	
-	}
-	
-	// Update is called once per frame
 	void Update () {
-		transform.Translate (Vector3.forward * speed * Time.deltaTime);
 	}
 	
 
