@@ -8,8 +8,8 @@ public class CameraController : MonoBehaviour {
 	public float sensitivity = 5.0f;
 	public float smoothing = 2.0f;
 
-	public float clampMin = -45f;
-	public float clampMax = 45f;
+	public float clampMin = -90f;
+	public float clampMax = 90f;
 
 	GameObject character;
 
