@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-//[RequireComponent(typeof(TeamMember))]
+
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class PlayerController : MonoBehaviour {
@@ -10,26 +10,22 @@ public class PlayerController : MonoBehaviour {
     public float speed = 10.0F;
     public float jumpSpeed = 15.0F;
 
-	// @TODO(Llewellin): remove these two.
-    public WeaponController theWeapon;
-    public bool useOldWeapon = false;
-
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
-	// private TeamMember teamMember;
+
         
-    // NOTE: Use this for initialization
+
     void Start () {
         // Component references
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
-		// teamMember = GetComponent<TeamMember> ();
         
+        // @TODO(sdsmith): Move this out of here. Has nothing to do with the player.
         // Lock cursor to window (hides OS cursor graphic)
         Cursor.lockState = CursorLockMode.Locked;
     }
     
-    // NOTE: Update is called once per frame
+
     void Update () {
         // Character movement 
         Vector3 moveDirection = Vector3.zero;
@@ -56,23 +52,13 @@ public class PlayerController : MonoBehaviour {
         
             // Move
             rigidbody.velocity = moveDirection;
-        }                
-        
+        }
 
-        // TODO(sdsmith): Refactor non-character specific input out of here.
-        if (Input.GetKeyDown("escape")) 
-            Cursor.lockState = CursorLockMode.None;		
-        
-        // Character Input handling
-		if (useOldWeapon) {
-			// NOTE: 0 left click
-			if (Input.GetMouseButtonDown (0)) {
-				theWeapon.isFiring = true;
-			}
-			if (Input.GetMouseButtonUp (0)) {
-				theWeapon.isFiring = false;
-			}
-		}
+
+        // @TODO(sdsmith): Refactor non-character specific input out of here.
+        if (Input.GetKeyDown("escape")) {
+            Cursor.lockState = CursorLockMode.None;
+        }
 	}
 
 
@@ -81,12 +67,12 @@ public class PlayerController : MonoBehaviour {
      */
     private bool IsGrounded() {
         /*
-         * NOTE(sdsmith): There was issues with steep slopes when one ray was
+         * @NOTE(sdsmith): There was issues with steep slopes when one ray was
          * shot downward from the center. The fix is shooting one ray every 90
          * degrees of the circumference of the collider. 
          *                                                         - 2017-02-13
          * 
-         * @Performance(sdsmith): Do we want to unroll this, short circuit it, 
+         * @PERFORMANCE(sdsmith): Do we want to unroll this, short circuit it, 
          * keep it the same? I perfer consistent timing for an operation this 
          * common rather than fluctuating performance. However, it could be
          * argued that the general case is being on mostly level ground, which 
@@ -106,7 +92,6 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        //return Physics.Raycast(transform.position, -Vector3.up, collider.bounds.extents.y + errorMargin);
         return hit;
     }
 }
