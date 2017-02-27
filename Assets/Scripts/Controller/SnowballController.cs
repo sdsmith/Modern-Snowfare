@@ -24,14 +24,12 @@ public class SnowballController : MonoBehaviour {
 		if (collision.gameObject.name == "Mountain") {
 			Destroy (this.gameObject);
 		}
-
-		// Transform hitTransform = FindClosestHitObject(ray, out hitPoint);
-			
+				
 		Transform hitTransform = collision.transform;
 
 		// If we hit something, lets resolve the hit
 		if (hitTransform != null) {
-			Debug.Log ("HIT: " + collision.gameObject.name);
+			// Debug.Log ("HIT: " + collision.gameObject.name);
 			Health h = hitTransform.GetComponent<Health> ();
 
 			// check if the things parent has a Health object
@@ -43,9 +41,6 @@ public class SnowballController : MonoBehaviour {
 			// The thing we hit has a health component
 			// Tell the thing we hit to take damage
 			if (h != null) {
-				// TODO h.resolve(damage);
-				// h.TakeDamage (damage);
-				// next line equivalent of calling h.takeDamage except over network
 				PhotonView pv = h.GetComponent<PhotonView> ();
 				if (pv == null) {
 					Debug.Log ("PlayerShooting: PhotonView is null");
@@ -53,10 +48,6 @@ public class SnowballController : MonoBehaviour {
 				else {
 
 					//get the thing that was hit
-//					int targetID = pv.owner.ID;
-//					PhotonPlayer target = PhotonPlayer.Find (targetID);
-
-					// get the object that was hit
 					PhotonPlayer target = pv.owner;
 
 					// Get teams
@@ -77,32 +68,12 @@ public class SnowballController : MonoBehaviour {
 						// Debug.Log ("Teams don't match, take damage");
 					} else {
 						// Targeting same team
-						Debug.Log ("FRIENDLY FIRE STAHP IT");
+						// Debug.Log ("FRIENDLY FIRE STAHP IT");
 					}
 				}
 			}
+			Destroy (this.gameObject);
 		} 
-	}
-
-	Transform FindClosestHitObject(Ray ray, out Vector3 hitPoint) {
-
-		RaycastHit[] hits = Physics.RaycastAll(ray);
-
-		Transform closestHit = null;
-		float distance = 0;
-		hitPoint = Vector3.zero;
-
-		foreach (RaycastHit hit in hits) {
-			// if we don't hit ourselves & its the closest thing to us
-			if (hit.transform != this.transform && (closestHit == null || hit.distance < distance)) {
-				closestHit = hit.transform;
-				distance = hit.distance;
-				hitPoint = hit.point;
-			}
-		}
-
-		//return the closest hit object or null if nothing was hit
-		return closestHit;
 	}
 }
 
