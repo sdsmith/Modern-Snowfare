@@ -464,7 +464,7 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294967039
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 70138c495f67d476690e00efee4cfa8d, type: 2}
   m_TargetDisplay: 0
@@ -868,6 +868,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BlueTorchSpawn: {fileID: 0}
+  RedTorchSpawn: {fileID: 0}
+  PlayerTracker: {fileID: 0}
+  ourTeam: 0
 --- !u!114 &114296407109394368
 MonoBehaviour:
   m_ObjectHideFlags: 1
