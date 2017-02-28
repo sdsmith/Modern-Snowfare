@@ -7,9 +7,14 @@ public class GrabAndDrop : MonoBehaviour {
 	GameObject grabbedObject;
 	float grabbedObjectSize;
 	public GameObject BlueTorchSpawn;
+	public GameObject RedTorchSpawn;
+	public GameObject PlayerTracker;
+	public PunTeams.Team ourTeam;
 	// Use this for initialization
 	void Start () {
 		BlueTorchSpawn = GameObject.Find ("BlueTorchSpawn");
+		RedTorchSpawn = GameObject.Find ("RedTorchSpawn");
+		ourTeam = PhotonNetwork.player.GetTeam();
 	}
 	/*
 	GameObject GetMouseHoverObject(float range)
@@ -48,13 +53,23 @@ public class GrabAndDrop : MonoBehaviour {
 
 	void OnCollisionEnter (Collision col)
 	{
-		if (col.gameObject.name == "Torch") {
+		if ((col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.blue) || 
+			(col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.red))  {
 			TryGrabObject (col.gameObject);
-		} else if (col.gameObject.name == "RedTorchSpawn") {
+		} 
+
+		else if (col.gameObject.name == "RedTorchSpawn" && ourTeam == PunTeams.Team.red) 
+			{
 			grabbedObject.transform.position = BlueTorchSpawn.transform.position;
 			DropObject ();
 
 		}
+		else if (col.gameObject.name == "BlueTorchSpawn" && ourTeam == PunTeams.Team.blue)
+		{
+			grabbedObject.transform.position = RedTorchSpawn.transform.position;
+			DropObject ();
+			}
+
 	}
 
 	// Update is called once per frame
