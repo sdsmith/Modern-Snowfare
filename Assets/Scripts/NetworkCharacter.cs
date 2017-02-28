@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class NetworkCharacter : Photon.MonoBehaviour {
 
-	Vector3 realPosition = Vector3.zero;
-	Quaternion realRotation = Quaternion.identity;
+	Vector3 realPosition;
+	Quaternion realRotation;
 
 	bool gotFirstUpdate = false;
 
 	// Use this for initialization
 	void Start () {
-		
+		realPosition = transform.position;
+		realRotation = transform.rotation;
 	}
 
 	// Update is called once per frame
