@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
 public class NetworkManager : MonoBehaviour {
 
 	public GameObject standbyCamera;
@@ -197,7 +198,9 @@ public class NetworkManager : MonoBehaviour {
 	/* 
 	 * We have joined a room so lets create a player.
 	 * Add a chatmessage saying the player nickname has joined
-	 * get a spawn point and create a player at that point
+	 * get a spawn point and create a player at that point.
+     * @NOTE(sdsmith): This includes both your local client's player and
+     * network client players.
 	 */
 	void SpawnMyPlayer() {
 		hasPickedTeam = true;

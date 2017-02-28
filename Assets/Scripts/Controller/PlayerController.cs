@@ -3,6 +3,7 @@ using System.Collections;
 
 
 
+[RequireComponent(typeof(Health))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class PlayerController : MonoBehaviour {
@@ -13,13 +14,13 @@ public class PlayerController : MonoBehaviour {
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
 
-        
+
 
     void Start () {
         // Component references
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
-        
+
         // @TODO(sdsmith): Move this out of here. Has nothing to do with the player.
         // Lock cursor to window (hides OS cursor graphic)
         Cursor.lockState = CursorLockMode.Locked;
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKeyDown("escape")) {
             Cursor.lockState = CursorLockMode.None;
         }
-	}
+    }
 
 
     /**

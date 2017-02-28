@@ -10,15 +10,26 @@ public class Health : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		currentPoints = hitPoints;
-	}
+
+        // @DEBUG(sdsmith): Add entry to debug overlay
+        DebugOverlay.AddAttr("health", currentPoints.ToString());
+    }
 	
 
 	[PunRPC] // can be called indirectly
 	// all players recieve notification of something taking damage
-	public void TakeDamage (float amt)  {
-		currentPoints -= amt;
+	public void TakeDamage (float amt) {
+        currentPoints -= amt;
 
-		if (currentPoints <= 0) {
+        // @DEBUG(sdsmith): Update debug stats
+        // @TODO(sdsmith): @PERFORMANCE(sdsmith): Should have these calls 
+        // wrapped under a debug flag to reduce performance impact of the 
+        // calls when the overlay is not enabled.
+        //if (this.gameObject.GetComponent<PhotonView>().isMine) {
+            DebugOverlay.AddAttr("health", currentPoints.ToString());
+        //}
+
+        if (currentPoints <= 0) {
 			Die ();
 		}
 	}

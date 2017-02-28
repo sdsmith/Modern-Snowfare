@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class PlayerShooting : MonoBehaviour {
 
     public float fireRate = 0.5f;
     float coolDown = 0;
     public float damage = 25f;
     FXManager fxManager;
+    private static ulong firedSnowballsCount = 0;
 
 
 
@@ -37,6 +40,9 @@ public class PlayerShooting : MonoBehaviour {
 
         // Fire the snowball
         if (fxManager != null) {
+            // @DEBUG(sdsmith): Update debug stats
+            DebugOverlay.AddAttr("snowballs fired count", (++firedSnowballsCount).ToString());
+
             /*
 			 * @TODO(Llewellin): change the startPos to be where the snowball launches.
 			 * @NOTE(Llewellin): startPos is set forward slightly so the snowball doesn't come from the camera.

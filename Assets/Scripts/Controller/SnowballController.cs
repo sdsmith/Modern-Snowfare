@@ -6,7 +6,10 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody))]
 public class SnowballController : MonoBehaviour {
 
-	public float speed = 150f;// m/s(?)
+	public float speed;// m/s(?)
+    /** @DEBUG(sdsmith): For collision stats. */
+    private static ulong nonTerrainCollisionCount = 0;
+
 
 	// @TODO(Llewellin): Determine how much damage should be taken from a snowball
 	public float damage = 25f;
@@ -20,65 +23,76 @@ public class SnowballController : MonoBehaviour {
         rb.AddRelativeForce(Vector3.forward * speed, ForceMode.VelocityChange);
     }
 	
+
 	void Update () {
 	}
-	
 
-	void OnCollisionEnter (Collision collision)
-	{
-		if (collision.gameObject.name == "Mountain") {
-			Destroy (this.gameObject);
-		}
-				
-		Transform hitTransform = collision.transform;
 
-		// If we hit something, lets resolve the hit
-		if (hitTransform != null) {
-			// Debug.Log ("HIT: " + collision.gameObject.name);
-			Health h = hitTransform.GetComponent<Health> ();
+    void OnCollisionEnter(Collision collision) {
 
-			// check if the things parent has a Health object
-			while (h == null && hitTransform.parent) {
-				hitTransform = hitTransform.parent;
-				h = hitTransform.GetComponent<Health> ();
-			}
+        if (collision.gameObject.name == "Mountain") {
+            // @NOTE(sdsmith): @PERFORMANCE(sdsmith): Note that 'Destroy' 
+            // delayed at least until the end of the frame update cycle. If we
+            // hit the terrain, we know we don't need to do any additional 
+            // collision calculations.
+            //
+            // @TODO(sdsmith): This breaks Network manager when we take the advice 
+            // of the above comment and end the function here. Who knows.
+            //                                                        - 2017-02-27
+            Destroy(this.gameObject);
+        }
 
-			// The thing we hit has a health component
-			// Tell the thing we hit to take damage
-			if (h != null) {
-				PhotonView pv = h.GetComponent<PhotonView> ();
-				if (pv == null) {
-					Debug.Log ("PlayerShooting: PhotonView is null");
-				} 
-				else {
+        // @DEBUG(sdsmith): Update debug overlay
+        DebugOverlay.AddAttr("snowball collision count", (++nonTerrainCollisionCount).ToString());
 
-					//get the thing that was hit
-					PhotonPlayer target = pv.owner;
+        Transform hitTransform = collision.transform;
 
-					// Get teams
-					PunTeams.Team ourTeam = PhotonNetwork.player.GetTeam();
-					PunTeams.Team theirTeam = PunTeams.Team.none; // default objects to no team
+        // If we hit something, lets resolve the hit
+        if (hitTransform != null) {
+            // Debug.Log ("HIT: " + collision.gameObject.name);
+            Health h = hitTransform.GetComponent<Health>();
 
-					// Check if the target object has an owner
-					// @NOTE(sdsmith): PhotonView.owner is null for scene objects
-					// https://doc-api.photonengine.com/en/pun/current/class_photon_view.html#ad696cb93fb9835d633b9def970650edc
-					if (target != null) {
-						// Target has an owner (not a scene object), set its team
-						theirTeam = target.GetTeam();
-					}
+            // check if the things parent has a Health object
+            while (h == null && hitTransform.parent) {
+                hitTransform = hitTransform.parent;
+                h = hitTransform.GetComponent<Health>();
+            }
 
-					if (ourTeam != theirTeam) {
-						// Not targeting same team
-						pv.RPC("TakeDamage", PhotonTargets.AllBuffered, damage);
-						// Debug.Log ("Teams don't match, take damage");
-					} else {
-						// Targeting same team
-						// Debug.Log ("FRIENDLY FIRE STAHP IT");
-					}
-				}
-			}
-			Destroy (this.gameObject);
-		} 
-	}
+            // The thing we hit has a health component
+            // Tell the thing we hit to take damage
+            if (h != null) {
+                PhotonView pv = h.GetComponent<PhotonView>();
+                if (pv == null) {
+                    Debug.Log("PlayerShooting: PhotonView is null");
+                } else {
+
+                    //get the thing that was hit
+                    PhotonPlayer target = pv.owner;
+
+                    // Get teams
+                    PunTeams.Team ourTeam = PhotonNetwork.player.GetTeam();
+                    PunTeams.Team theirTeam = PunTeams.Team.none; // default objects to no team
+
+                    // Check if the target object has an owner
+                    // @NOTE(sdsmith): PhotonView.owner is null for scene objects
+                    // https://doc-api.photonengine.com/en/pun/current/class_photon_view.html#ad696cb93fb9835d633b9def970650edc
+                    if (target != null) {
+                        // Target has an owner (not a scene object), set its team
+                        theirTeam = target.GetTeam();
+                    }
+
+                    if (ourTeam != theirTeam) {
+                        // Not targeting same team
+                        pv.RPC("TakeDamage", PhotonTargets.AllBuffered, damage);
+                        // Debug.Log ("Teams don't match, take damage");
+                    } else {
+                        // Targeting same team
+                        // Debug.Log ("FRIENDLY FIRE STAHP IT");
+                    }
+                }
+            }
+            Destroy(this.gameObject);
+        }
+    }
 }
 

@@ -15,4 +15,13 @@ public class FXManager : MonoBehaviour {
 	void SnowballFX(Vector3 startPos, Quaternion rotation){
         Instantiate(SnowballPrefab, startPos, rotation);
 	}
+
+    /**
+     * Displays the status bars of all players oriented toward the camera of
+     * the local player.
+     */
+    void DisplayPlayerStatusBars() {
+        // @TODO(sdsmith): see .LookAt(Transform) and the TextMesh component of
+        // each Player.
+    }
 }
