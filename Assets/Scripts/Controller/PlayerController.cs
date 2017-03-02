@@ -26,41 +26,45 @@ public class PlayerController : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
     }
     
-
-    void Update () {
+    
+    void FixedUpdate () {
         // Character movement 
-        Vector3 moveDirection = Vector3.zero;
-        // @NOTE(sdsmith): Movement force should keep the existing vertical
-        // velocity.
-        Vector3 moveVelocity;
-        
-        
-        if (IsGrounded()) {
+        {
+            Vector3 moveDirection, moveVelocity;
             float forwardMove = Input.GetAxis("Vertical");
             float sideMove = Input.GetAxis("Horizontal");
-
+            bool isGrounded = IsGrounded();
+            
             moveDirection = new Vector3(sideMove, 0, forwardMove);
-
-            // Add speed to each direction in preportion to what direction we are moving.
+            
+            // Add speed to each direction in proportion to what direction we are moving.
             // @NOTE(sdsmith): This ensures that speed is always the same.
-            moveDirection.Normalize();            
-            moveVelocity = moveDirection * speed;
+            moveDirection.Normalize();
+
+
+            /* TODO(sdsmith): Need to apply a force to the character when they are in the air, and an instantanous velocity when they are on the ground. This gets rid of the unexpected 'jolt' when you release a key in the air. */
+            // Calculate the velocity
+            moveVelocity = (isGrounded ?
+                            moveDirection * speed :      // Ground speed is full
+                            moveDirection * speed / 3f); // Air speed is 1/3 regluar speed
+            
+            // Transform move direction from Local to World space
+            moveVelocity = transform.TransformDirection(moveVelocity);
+            
+            // Add vertical velocity
+            // NOTE(sdsmith): Rigidbody records velocity in world space, and
+            // does not need to be transformed.
+            moveVelocity.y = rigidbody.velocity.y;
             
             // Jump
-            if (Input.GetButtonDown("Jump")) {
+            if (isGrounded && Input.GetButtonDown("Jump")) {
                 // Add upward velocity (jump!)
-                moveVelocity.y = jumpSpeed;
-            } else {
-                moveVelocity.y = rigidbody.velocity.y;
+                moveVelocity.y += jumpSpeed;
             }
-
-            // Transform from Local to World space
-            moveVelocity = transform.TransformDirection(moveVelocity);
         
             // Move
             rigidbody.velocity = moveVelocity;
         }
-
 
         // @TODO(sdsmith): Refactor non-character specific input out of here.
         if (Input.GetKeyDown("escape")) {
