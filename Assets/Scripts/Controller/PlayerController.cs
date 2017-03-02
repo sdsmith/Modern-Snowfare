@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour {
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
 
-
+    
 
     void Start () {
         // Component references
@@ -30,29 +30,35 @@ public class PlayerController : MonoBehaviour {
     void Update () {
         // Character movement 
         Vector3 moveDirection = Vector3.zero;
-
+        // @NOTE(sdsmith): Movement force should keep the existing vertical
+        // velocity.
+        Vector3 moveVelocity;
+        
+        
         if (IsGrounded()) {
             float forwardMove = Input.GetAxis("Vertical");
             float sideMove = Input.GetAxis("Horizontal");
 
             moveDirection = new Vector3(sideMove, 0, forwardMove);
-            moveDirection *= speed;
 
+            // Add speed to each direction in preportion to what direction we are moving.
+            // @NOTE(sdsmith): This ensures that speed is always the same.
+            moveDirection.Normalize();            
+            moveVelocity = moveDirection * speed;
             
             // Jump
             if (Input.GetButtonDown("Jump")) {
                 // Add upward velocity (jump!)
-                moveDirection.y = jumpSpeed;            
+                moveVelocity.y = jumpSpeed;
             } else {
-                // Continue with existing velocity
-                moveDirection.y = rigidbody.velocity.y;
+                moveVelocity.y = rigidbody.velocity.y;
             }
 
             // Transform from Local to World space
-            moveDirection = transform.TransformDirection(moveDirection);
+            moveVelocity = transform.TransformDirection(moveVelocity);
         
             // Move
-            rigidbody.velocity = moveDirection;
+            rigidbody.velocity = moveVelocity;
         }
 
 
