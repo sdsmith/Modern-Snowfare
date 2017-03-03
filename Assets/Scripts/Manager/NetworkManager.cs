@@ -29,7 +29,7 @@ public class NetworkManager : MonoBehaviour {
         if (debug) {
             prefabName = "PlayerDebug";
         } else {
-            prefabName = "Player";
+            prefabName = "PlayerCapsule";
         }
 
 		spawnSpots = GameObject.FindObjectsOfType<SpawnSpot>();
@@ -99,6 +99,11 @@ public class NetworkManager : MonoBehaviour {
 			GUILayout.BeginHorizontal ();
 			GUILayout.Label ("Username: ");
 			PhotonNetwork.player.NickName = GUILayout.TextField (PhotonNetwork.player.NickName);
+			GUILayout.EndHorizontal ();
+
+			GUILayout.BeginHorizontal ();
+			GUILayout.Label ("Character: ");
+			prefabName = GUILayout.TextField (prefabName);
 			GUILayout.EndHorizontal ();
 
 			// Joins a game locally for offline testing.
@@ -223,18 +228,29 @@ public class NetworkManager : MonoBehaviour {
 		} else {
 			mySpawnSpot = spawnSpots [1];
 		}
+
+		//@TODO(Llewellin): Error handling incase something was mispelled.
+		// This can be removed once we have character selection and typing in
+		// prefab names at the menu is removed.
+		if (!prefabName.Equals ("Flash") &&
+		   !prefabName.Equals ("Healer") &&
+		   !prefabName.Equals ("Juggernaut") &&
+		   !prefabName.Equals ("LeChamp") &&
+		   !prefabName.Equals ("Sniper") &&
+		   !prefabName.Equals ("PlayerCapsule") &&
+		   !prefabName.Equals ("PlayerDebug")) 
+		{
+			prefabName = "PlayerCapsule";
+		}
 			
 		GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate (prefabName, mySpawnSpot.transform.position, mySpawnSpot.transform.rotation, 0);
 		standbyCamera.SetActive(false);
 
-		myPlayerGO.GetComponent<PlayerController> ().enabled = true;
-		((MonoBehaviour)myPlayerGO.GetComponent ("PlayerShooting")).enabled = true;
+		// Enable player scripts
+		ToggleComponents (myPlayerGO);
 
 		int viewID = myPlayerGO.gameObject.GetPhotonView ().viewID;
 		GetComponent<PhotonView> ().RPC ("SetTeamIcon", PhotonTargets.AllBuffered, viewID);
-
-		myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
-		myPlayerGO.transform.FindChild("RadarCamera").gameObject.SetActive(true);
 	}
 
 	// NOTE: Update is called once per frame
@@ -273,5 +289,27 @@ public class NetworkManager : MonoBehaviour {
 			r.GetComponent<MeshRenderer> ().material.color = Color.blue;
 
 		}
+	}
+
+	// Enable the player controller scripts that were disabled initially
+	void ToggleComponents(GameObject myPlayerGO){
+
+		if (myPlayerGO == null) {
+			Debug.LogError ("Player object is null");
+			return;
+		}
+
+		myPlayerGO.GetComponent<PlayerController> ().enabled = true;
+
+		//PlayerCapsule doesn't have a BotControlScript, so check if its not null
+		if (myPlayerGO.GetComponent<BotControlScript> () != null) {
+			myPlayerGO.GetComponent<BotControlScript> ().enabled = true;
+		}
+
+		myPlayerGO.GetComponent<GrabAndDrop> ().enabled = true;
+		myPlayerGO.GetComponent<PlayerShooting> ().enabled = true;
+
+		myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
+		myPlayerGO.transform.FindChild("RadarCamera").gameObject.SetActive(true);
 	}
 }
