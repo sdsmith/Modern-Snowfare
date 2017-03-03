@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 114800069453470820}
   - component: {fileID: 114938101583289704}
   - component: {fileID: 114369931685355776}
+  - component: {fileID: 95094524915967116}
   m_Layer: 0
   m_Name: PlayerDebug
   m_TagString: Player
@@ -822,6 +823,23 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1618671382683428}
   m_Enabled: 1
+--- !u!95 &95094524915967116
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1508739498740726}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!102 &102943818237436512
 TextMesh:
   serializedVersion: 3
@@ -862,7 +880,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1508739498740726}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b0aa6a7560944dd6b4647401439abe2, type: 3}
   m_Name: 

@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-public class NetworkCharacter : Photon.MonoBehaviour {
+public class NetworkFlag : Photon.MonoBehaviour {
 
 	Vector3 realPosition;
 	Quaternion realRotation;
-
-	Animator anim;
 
 	bool gotFirstUpdate = false;
 
@@ -16,12 +13,6 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 	void Start () {
 		realPosition = transform.position;
 		realRotation = transform.rotation;
-
-		anim = GetComponent<Animator> ();
-		if (anim == null) {
-			// PlayerCapsule doesn't have an animator
-			// Debug.LogError ("Animator is null");
-		}
 	}
 
 	// Update is called once per frame
@@ -59,22 +50,12 @@ public class NetworkCharacter : Photon.MonoBehaviour {
 
 			stream.SendNext (transform.position);
 			stream.SendNext (transform.rotation);
-			if (anim) {
-				stream.SendNext (anim.GetFloat ("Speed"));
-				stream.SendNext (anim.GetFloat ("Direction"));
-				stream.SendNext (anim.GetBool ("Jump"));
-			}
-
-		} else {
+		} 
+		else {
 			// This is someone else's player. Recieve their position (as of a few 
 			// milliseconds ago, and update our version of that player.
 			realPosition = (Vector3) stream.ReceiveNext ();
 			realRotation = (Quaternion)stream.ReceiveNext ();
-			if (anim) {
-				anim.SetFloat ("Speed", (float)stream.ReceiveNext ());
-				anim.SetFloat ("Direction", (float)stream.ReceiveNext ());
-				anim.SetBool ("Jump", (bool)stream.ReceiveNext ());
-			}
 
 			// If we've never gotten an update, avoid the slide from (0,0,0) to real position
 			// Instantly teleport to correct position
