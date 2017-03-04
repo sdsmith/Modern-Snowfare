@@ -754,11 +754,11 @@ GameObject:
   - component: {fileID: 114887075991114942}
   - component: {fileID: 114639961334941970}
   - component: {fileID: 114805992484783882}
-  - component: {fileID: 114223785410019832}
   - component: {fileID: 114405174732265464}
   - component: {fileID: 114404937946684548}
   - component: {fileID: 114849104386374006}
   - component: {fileID: 114088477582409988}
+  - component: {fileID: 114419818416701106}
   m_Layer: 0
   m_Name: Juggernaut
   m_TagString: Player
@@ -2070,19 +2070,6 @@ MonoBehaviour:
   RedTorchSpawn: {fileID: 0}
   PlayerTracker: {fileID: 0}
   ourTeam: 0
---- !u!114 &114223785410019832
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1884094641428122}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7449bebd92721482db650a241a98d09f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  jumpSpeed: 15
 --- !u!114 &114374546442485086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2135,6 +2122,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireRate: 0.5
   damage: 25
+--- !u!114 &114419818416701106
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1884094641428122}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a3d38625a8244d0982ca0ee055d7126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  jumpSpeed: 15
 --- !u!114 &114426772075674296
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2208,7 +2208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7af82c54f4dc44168d2e3a7d63c5108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 25
 --- !u!114 &114849104386374006
 MonoBehaviour:
   m_ObjectHideFlags: 1

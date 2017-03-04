@@ -8,15 +8,15 @@ using System.Collections;
 [RequireComponent(typeof(CapsuleCollider))]
 public class PlayerController : MonoBehaviour {
 
-    public float speed = 10.0F;
     public float jumpSpeed = 15.0F;
+
+    protected float hitPoints;
+    protected float speed;
 
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
 
-    
-
-    void Start () {
+    protected void Start () {
         // Component references
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
@@ -24,8 +24,10 @@ public class PlayerController : MonoBehaviour {
         // @TODO(sdsmith): Move this out of here. Has nothing to do with the player.
         // Lock cursor to window (hides OS cursor graphic)
         Cursor.lockState = CursorLockMode.Locked;
+
+        hitPoints = 1.0f;
+        speed = 10.0f;
     }
-    
     
     void FixedUpdate () {
         // Character movement 
@@ -104,5 +106,13 @@ public class PlayerController : MonoBehaviour {
         }
 
         return hit;
+    }
+
+    public float GetHealth() {
+        return hitPoints;
+    }
+
+    public float GetSpeed(){
+        return speed;
     }
 }
