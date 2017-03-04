@@ -13,17 +13,12 @@ public class PlayerController : MonoBehaviour {
 
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
-
     
 
     void Start () {
         // Component references
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
-
-        // @TODO(sdsmith): Move this out of here. Has nothing to do with the player.
-        // Lock cursor to window (hides OS cursor graphic)
-        Cursor.lockState = CursorLockMode.Locked;
     }
     
     
@@ -31,10 +26,17 @@ public class PlayerController : MonoBehaviour {
         // Character movement 
         {
             Vector3 moveDirection, moveVelocity;
-            float forwardMove = Input.GetAxis("Vertical");
-            float sideMove = Input.GetAxis("Horizontal");
+            float forwardMove = 0;
+            float sideMove = 0;
             bool isGrounded = IsGrounded();
-            
+            bool cursorLocked = Cursor.lockState == CursorLockMode.Locked;
+
+            // Only influence movement if cursor is locked in the window.
+            if (cursorLocked) {
+                forwardMove = Input.GetAxis("Vertical");
+                sideMove = Input.GetAxis("Horizontal");
+            }
+
             moveDirection = new Vector3(sideMove, 0, forwardMove);
             
             // Add speed to each direction in proportion to what direction we are moving.
@@ -56,19 +58,14 @@ public class PlayerController : MonoBehaviour {
             // does not need to be transformed.
             moveVelocity.y = rigidbody.velocity.y;
             
-            // Jump
-            if (isGrounded && Input.GetButtonDown("Jump")) {
+            // Jump (only influence movement is cursor is locked in the window)
+            if (cursorLocked && isGrounded && Input.GetButtonDown("Jump")) {
                 // Add upward velocity (jump!)
                 moveVelocity.y += jumpSpeed;
             }
         
             // Move
             rigidbody.velocity = moveVelocity;
-        }
-
-        // @TODO(sdsmith): Refactor non-character specific input out of here.
-        if (Input.GetKeyDown("escape")) {
-            Cursor.lockState = CursorLockMode.None;
         }
     }
 
