@@ -11,8 +11,8 @@ public class FXManager : MonoBehaviour {
     //public AudioClip snowballFXAudio; 
 
     struct InGameOverlay {
-        /** @PERFORMANCE(sdsmith): Allocate fixed sized buffer for speed. (see Physics2D.OverlapCircleNonAlloc) */
-        public Collider2D[] collidersNearReticle;
+        /** @PERFORMANCE(sdsmith): Allocate fixed sized buffer for speed. (see Physics.SphereCastNonAlloc) */
+        public RaycastHit[] hitsNearReticle;
         /** Radius of the circle that is considered 'near' the center reticle point. */
         public float nearReticleRadius;
     };
@@ -24,24 +24,31 @@ public class FXManager : MonoBehaviour {
         inGameOverlay.nearReticleRadius = 1000f;
     }
 
-    void Update() {
+    void OnGUI() {
         CreateInGameOverlay();
     }
 
     void CreateInGameOverlay() {
-
+        /*
+         * @TODO(sdsmith): Doesn't seem to work right, plus the Physics.SphereCastAll destroys the framerate when you look up.
+         * 
         // Check if the player has spawned
         // @TODO(sdsmith): Is this the right check? There must be a more future proof way.
         if (Camera.main != null) {
-            Vector2 reticleScreenPoint = Camera.main.WorldToScreenPoint(Camera.main.transform.forward); // @TODO(sdsmith): Should it be the camera forward, or some point in front of it?
-                                                                                                        // @PERFORMANCE(sdsmith): Additional parameters can tweak the collision zone and what layers are considered
-            inGameOverlay.collidersNearReticle = Physics2D.OverlapCircleAll(reticleScreenPoint, inGameOverlay.nearReticleRadius);
+            //Vector2 reticleScreenPoint = Camera.main.WorldToScreenPoint(Camera.main.transform.forward); // @TODO(sdsmith): Should it be the camera forward, or some point in front of it?
+            //                                                                                            // @PERFORMANCE(sdsmith): Additional parameters can tweak the collision zone and what layers are considered
+            //inGameOverlay.collidersNearReticle = Physics2D.OverlapCircleAll(reticleScreenPoint, inGameOverlay.nearReticleRadius);
+
+            //Vector3 terrainSize = Terrain.activeTerrain.terrainData.size;
+            //float diagonalTerrainSpan = Vector2.Distance(new Vector2(0, 0), terrainSize);
+
+            inGameOverlay.hitsNearReticle = Physics.SphereCastAll(Camera.main.transform.position, inGameOverlay.nearReticleRadius, Camera.main.transform.forward, 10f);
 
 
-            foreach (Collider2D collider in inGameOverlay.collidersNearReticle) {
-                GameObject go = collider.gameObject;
+            foreach (RaycastHit hit in inGameOverlay.hitsNearReticle) {
+                GameObject go = hit.collider.gameObject;
 
-                if (go.tag == "Player") {
+                if (go.tag == "Player" && go.GetComponent<PhotonView>().isMine) { // @TODO(sdsmith): Confirm isMine gets us our player on the local client
                     // Draw overlay over the player's head
                     // @TODO(sdsmith): Make it's opacity dependent on how close it is to the center of the reticle. Account for Z distance, and object size.
 
@@ -52,36 +59,37 @@ public class FXManager : MonoBehaviour {
                     // Get that position on the screen
                     Vector3 overheadScreenPoint = Camera.main.WorldToScreenPoint(overheadPoint);
 
-                    // Add offset above the character's heads
-                    const float overheadOffset = 5;//px
-                    overheadScreenPoint.y += overheadOffset;
-
+                    //// Add offset above the character's heads
+                    //const float overheadOffset = 5;//px
+                    //overheadScreenPoint.y += overheadOffset;
+                    
                     // Set box size
                     // @PERFORMANCE(sdsmith): Do this in setup
-                    Vector2 boxSize = new Vector2(50, 10); // @STUDY(sdsmith): Do these values need to be relative? (ie. Are they in pixels?)
+                    Vector2 boxSize = new Vector2(500, 50); // @STUDY(sdsmith): Do these values need to be relative? (ie. Are they in pixels?)
                     Vector2 boxPosition = overheadScreenPoint;
-                    boxPosition.x -= (int)(boxSize.x / 2); // offset left
-                    boxPosition.y += (int)(boxSize.y / 2); // offset up
+                    //boxPosition.x -= (int)(boxSize.x / 2); // offset left
+                    //boxPosition.y += (int)(boxSize.y / 2); // offset up
 
                     // Setup texture to be drawn
                     // @PERFORMANCE(sdsmith): Do this in setup
                     Texture2D overlayTexture = new Texture2D((int)boxSize.x, (int)boxSize.y);
-                    overlayTexture.SetPixel(0, 0, Color.black);
+                    overlayTexture.SetPixel(0, 0, Color.red);
                     overlayTexture.Apply();
 
                     // Draw the health bar
                     Rect healthBarRect = new Rect(overheadScreenPoint, boxSize);
-                    Texture2D oldBoxTex = GUI.skin.box.normal.background;
+                    //Texture2D oldBoxTex = GUI.skin.box.normal.background;
                     GUI.skin.box.normal.background = overlayTexture;
                     GUI.Box(healthBarRect, GUIContent.none);
 
                     // Reset the box texture to the old texture
                     // @PERFORMANCE(sdsmith): I do this only because I don't know if we have plans to use this later.
                     // With a better understand of our GUI design, this may not be necessary.
-                    GUI.skin.box.normal.background = oldBoxTex;
+                    //GUI.skin.box.normal.background = oldBoxTex;
                 }
             }
         }
+        */
     }
 
 	//SniperBulletFx
@@ -89,13 +97,4 @@ public class FXManager : MonoBehaviour {
 	void SnowballFX(Vector3 startPos, Quaternion rotation){
         Instantiate(SnowballPrefab, startPos, rotation);
 	}
-
-    /**
-     * Displays the status bars of all players oriented toward the camera of
-     * the local player.
-     */
-    void DisplayPlayerStatusBars() {
-        // @TODO(sdsmith): see .LookAt(Transform) and the TextMesh component of
-        // each Player.
-    }
 }
