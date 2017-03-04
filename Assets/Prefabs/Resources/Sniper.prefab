@@ -252,11 +252,11 @@ GameObject:
   - component: {fileID: 11400002}
   - component: {fileID: 11400000}
   - component: {fileID: 114598349345144434}
-  - component: {fileID: 114071772116387226}
   - component: {fileID: 114625991033866376}
   - component: {fileID: 114804811551361486}
   - component: {fileID: 114725162323855592}
   - component: {fileID: 114944863591247958}
+  - component: {fileID: 114269391799622588}
   m_Layer: 0
   m_Name: Sniper
   m_TagString: Player
@@ -5388,19 +5388,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
---- !u!114 &114071772116387226
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100030}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7449bebd92721482db650a241a98d09f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  jumpSpeed: 15
 --- !u!114 &114086788095346494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5416,6 +5403,18 @@ MonoBehaviour:
   smoothing: 2
   clampMin: -90
   clampMax: 90
+--- !u!114 &114269391799622588
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100030}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0d68e7bb742b49388b50fe6d038be9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpSpeed: 15
 --- !u!114 &114598349345144434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5427,7 +5426,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7af82c54f4dc44168d2e3a7d63c5108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 25
 --- !u!114 &114625991033866376
 MonoBehaviour:
   m_ObjectHideFlags: 1
