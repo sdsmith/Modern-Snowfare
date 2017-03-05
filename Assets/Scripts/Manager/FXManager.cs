@@ -29,6 +29,18 @@ public class FXManager : MonoBehaviour {
     }
 
     void CreateInGameOverlay() {
+        
+
+
+
+
+
+
+
+
+
+
+
         /*
          * @TODO(sdsmith): Doesn't seem to work right, plus the Physics.SphereCastAll destroys the framerate when you look up.
          * 

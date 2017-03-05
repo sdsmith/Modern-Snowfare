@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour {
 
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
-    
+
+    private GUITexture healthBarGUITexture;
 
     void Start () {
         // Component references
