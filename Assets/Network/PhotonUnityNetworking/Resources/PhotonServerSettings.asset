@@ -47,4 +47,5 @@ MonoBehaviour:
   - AddChatMessage_RPC
   - SnowballFX
   - SetTeamIcon
+  - DeathAnimation
   DisableAutoOpenWizard: 1
