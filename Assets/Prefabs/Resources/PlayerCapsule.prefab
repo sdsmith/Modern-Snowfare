@@ -194,7 +194,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1534044437981416}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -293, y: -1.9, z: -79.6}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4608314432900860}
@@ -613,7 +613,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRate: 0.5
-  damage: 25
 --- !u!114 &114328355171584340
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -625,7 +624,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7449bebd92721482db650a241a98d09f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
   jumpSpeed: 15
 --- !u!114 &114409732359374150
 MonoBehaviour:
@@ -701,7 +699,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7af82c54f4dc44168d2e3a7d63c5108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 100
 --- !u!124 &124535603291511994
 Behaviour:
   m_ObjectHideFlags: 1
