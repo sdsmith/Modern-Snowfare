@@ -8,6 +8,8 @@ using UnityEngine;
 [RequireComponent(typeof(GUITexture))]
 public class PlayerInGameOverlay : MonoBehaviour {
 
+    /** True if the overlay is enabled, false o/w. */
+    private bool overlayEnabled;
     /** The transform of the game object to be tracked. */
     private Transform target;
     /** Name of the attached player. */
@@ -21,9 +23,12 @@ public class PlayerInGameOverlay : MonoBehaviour {
 
 
 	void Start () {
-        // Get components
+        overlayEnabled = false;
+
+        // Get and enable components
         guiTextComponent = GetComponent<GUIText>();
         guiTextureComponent = GetComponent<GUITexture>();
+
 
         // Get the player's health component
         playerHealth = gameObject.GetComponentInParent<Health>();
@@ -49,16 +54,38 @@ public class PlayerInGameOverlay : MonoBehaviour {
 
         guiTextureComponent.texture = overlayTexture;
 	}
-	
 
-	void Update () {
-        // Move overlay to target
-        // @NOTE(sdsmith): GUIText (and GUITexture) use viewport space, ie. values in 
-        // range [0,1] for position.
-        Vector3 targetViewportPos = Camera.main.WorldToViewportPoint(target.position);
-        DebugOverlay.AddAttr("player overlay pos (world)", target.position.ToString());
-        DebugOverlay.AddAttr("player overlay pos (viewport)", targetViewportPos.ToString());
-        transform.position = targetViewportPos;
-        //transform.position = target.position;
+    /**
+     * Displays the overlay for this frame.
+     */
+    void Update() {
+        if (overlayEnabled) {
+            // Move overlay to target
+            // @NOTE(sdsmith): GUIText (and GUITexture) use viewport space, ie. values in 
+            // range [0,1] for position.
+            Vector3 targetViewportPos = Camera.main.WorldToViewportPoint(target.position);
+            DebugOverlay.AddAttr("player overlay pos (world)", target.position.ToString());
+            DebugOverlay.AddAttr("player overlay pos (viewport)", targetViewportPos.ToString());
+            transform.position = targetViewportPos;
+        }
+    }
+
+
+    public void Enable() {
+        guiTextComponent.enabled = true;
+        guiTextureComponent.enabled = true;
+        overlayEnabled = true;
+    }
+
+
+    public void Disable() {
+        guiTextComponent.enabled = false;
+        guiTextureComponent.enabled = false;
+        overlayEnabled = false;
+    }
+
+
+    public Transform GetTarget() {
+        return target;
     }
 }

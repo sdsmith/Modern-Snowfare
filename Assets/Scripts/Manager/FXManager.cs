@@ -11,8 +11,6 @@ public class FXManager : MonoBehaviour {
     //public AudioClip snowballFXAudio; 
 
     struct InGameOverlay {
-        /** @PERFORMANCE(sdsmith): Allocate fixed sized buffer for speed. (see Physics.SphereCastNonAlloc) */
-        public RaycastHit[] hitsNearReticle;
         /** Radius of the circle that is considered 'near' the center reticle point. */
         public float nearReticleRadius;
     };
@@ -21,21 +19,42 @@ public class FXManager : MonoBehaviour {
 
     void Start() {
         inGameOverlay = new InGameOverlay();
-        inGameOverlay.nearReticleRadius = 1000f;
+        inGameOverlay.nearReticleRadius = 1000f; // @TODO(sdsmith): Adjust value
     }
 
     void OnGUI() {
-        CreateInGameOverlay();
+        // @TODO(sdsmith): Change this to 'when the player is spawned'
+        if (Camera.main) {
+            DisplayInGameOverlay();
+        }
     }
 
-    void CreateInGameOverlay() {
-        
+    void DisplayInGameOverlay() {
+        // Enable overlays with proximity
+        foreach (GameObject goOverlay in GameObject.FindGameObjectsWithTag("PlayerInGameOverlay")) {
+            // Don't display our own overlay
+            // @TODO(sdsmith): Fix
+            if (false) {
+                continue;
+            }
 
+            PlayerInGameOverlay overlay = goOverlay.GetComponent<PlayerInGameOverlay>();
+    
+            // Vector from camera to player
+            Vector3 toPlayer = overlay.GetTarget().position - Camera.main.transform.position;
 
+            // Calculate distance to reticle
+            Vector3 forward = Camera.main.transform.forward * toPlayer.magnitude;
+            float projectOntoForward = toPlayer.magnitude * Mathf.Cos(Vector3.Angle(forward, toPlayer));
+            float distanceToReticle = Mathf.Sqrt(Mathf.Pow(toPlayer.magnitude, 2) - Mathf.Pow(projectOntoForward, 2));
 
-
-
-
+            // Enable overlay iff close to reticle
+            if (distanceToReticle <= inGameOverlay.nearReticleRadius) {
+                overlay.Enable();
+            } else {
+                overlay.Disable();
+            }
+        }
 
 
 

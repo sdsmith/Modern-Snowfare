@@ -872,8 +872,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114676519022720044}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 5
+  instantiationId: 5
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114575904397653988
@@ -898,8 +898,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 4
+  instantiationId: 4
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!114 &114636393003143142
@@ -993,7 +993,7 @@ GUITexture:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1218919157008558}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Texture: {fileID: 0}
   m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   m_PixelInset:
@@ -1012,7 +1012,7 @@ GUIText:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1218919157008558}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Text: 
   m_Anchor: 0
