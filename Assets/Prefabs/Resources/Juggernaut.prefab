@@ -254,6 +254,7 @@ GameObject:
   - component: {fileID: 124064175373863342}
   - component: {fileID: 81021409595449386}
   - component: {fileID: 114426772075674296}
+  - component: {fileID: 114584533439148010}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -754,11 +755,11 @@ GameObject:
   - component: {fileID: 114887075991114942}
   - component: {fileID: 114639961334941970}
   - component: {fileID: 114805992484783882}
-  - component: {fileID: 114223785410019832}
   - component: {fileID: 114405174732265464}
   - component: {fileID: 114404937946684548}
   - component: {fileID: 114849104386374006}
   - component: {fileID: 114088477582409988}
+  - component: {fileID: 114419818416701106}
   m_Layer: 0
   m_Name: Juggernaut
   m_TagString: Player
@@ -2070,19 +2071,6 @@ MonoBehaviour:
   RedTorchSpawn: {fileID: 0}
   PlayerTracker: {fileID: 0}
   ourTeam: 0
---- !u!114 &114223785410019832
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1884094641428122}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7449bebd92721482db650a241a98d09f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  jumpSpeed: 15
 --- !u!114 &114374546442485086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2134,7 +2122,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireRate: 0.5
-  damage: 25
+--- !u!114 &114419818416701106
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1884094641428122}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a3d38625a8244d0982ca0ee055d7126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpSpeed: 15
 --- !u!114 &114426772075674296
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2176,6 +2175,25 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114584533439148010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1309980198710994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 043b34557188f834b9bf5c1beaa1548f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SystemCamera: {fileID: 0}
+  OnScreenDisplayPrefab: {fileID: 100004, guid: d3c437231f3a4ab4a8f71565d6da1d0e,
+    type: 2}
+  OffScreenDisplayPrefab: {fileID: 100006, guid: 61fc561d9ae8f7042b0101b522770fc7,
+    type: 2}
+  Display_Minimap: 0
+  Minimap_Prefab: {fileID: 0}
+  Minimap_GameObject: {fileID: 0}
 --- !u!114 &114639961334941970
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2208,7 +2226,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7af82c54f4dc44168d2e3a7d63c5108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 25
 --- !u!114 &114849104386374006
 MonoBehaviour:
   m_ObjectHideFlags: 1

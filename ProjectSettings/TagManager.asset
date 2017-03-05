@@ -4,7 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Terrain
+  - BlueSpawn
+  - RedSpawn
   layers:
   - Default
   - TransparentFX
@@ -14,10 +15,10 @@ TagManager:
   - UI
   - 
   - 
-  - FlagIndicators
-  - Radar
-  - TeamIdentifiers
-  - InGameOverlay
+  - Flag
+  - 
+  - 
+  - 
   - 
   - 
   - 

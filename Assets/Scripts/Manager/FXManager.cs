@@ -125,7 +125,8 @@ public class FXManager : MonoBehaviour {
 
 	//SniperBulletFx
 	[PunRPC]
-	void SnowballFX(Vector3 startPos, Quaternion rotation){
+	void SnowballFX(Vector3 startPos, Quaternion rotation, float damage){
+		SnowballPrefab.GetComponent<SnowballController> ().SetSnowballDamage (damage);
         Instantiate(SnowballPrefab, startPos, rotation);
 	}
 }

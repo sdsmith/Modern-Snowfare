@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class NetworkManager : MonoBehaviour {
 
 	public GameObject standbyCamera;
     public bool debug = false;
-	SpawnSpot[] spawnSpots;
 
 	// This is the name of the prefab we are going to create into the game.
 	// This should be changed to match whichever character the player chooses to be
@@ -31,8 +28,7 @@ public class NetworkManager : MonoBehaviour {
         } else {
             prefabName = "PlayerCapsule";
         }
-
-		spawnSpots = GameObject.FindObjectsOfType<SpawnSpot>();
+			
 		PhotonNetwork.player.NickName = PlayerPrefs.GetString("Username", "Modern Snowfare");
 		PhotonNetwork.player.SetTeam (PunTeams.Team.none);
 		chatMessages = new List<string>();
@@ -212,23 +208,13 @@ public class NetworkManager : MonoBehaviour {
 
 		AddChatMessage ("Spawning player: " + PhotonNetwork.player.NickName);
 
-		SpawnSpot mySpawnSpot = null;
-
-		// sanity check
-		if (spawnSpots == null || spawnSpots.Length != 2) {
-			Debug.LogError ("Incorrect amount of spawn points");
-			return;
-		}
-
 		// Set the spawn point based on the team you're on
-		// @TODO(Llewellin) cleanup how we get spawnpoints.
-		// (If each team can have multiple spawn points take this into consideration)
-		if (spawnSpots [0].teamId == 1 && PhotonNetwork.player.GetTeam() == PunTeams.Team.red) {
-			mySpawnSpot = spawnSpots [0];
-		} else {
-			mySpawnSpot = spawnSpots [1];
-		}
+		GameObject spawnPoint = Util.GetSpawnPoint(PhotonNetwork.player.GetTeam());
 
+		if (spawnPoint == null) {
+			Debug.LogError ("Spawn point is null");
+		}
+	
 		//@TODO(Llewellin): Error handling incase something was mispelled.
 		// This can be removed once we have character selection and typing in
 		// prefab names at the menu is removed.
@@ -242,8 +228,8 @@ public class NetworkManager : MonoBehaviour {
 		{
 			prefabName = "PlayerCapsule";
 		}
-			
-		GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate (prefabName, mySpawnSpot.transform.position, mySpawnSpot.transform.rotation, 0);
+
+		GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate (prefabName, spawnPoint.transform.position, spawnPoint.transform.rotation, 0);
 		standbyCamera.SetActive(false);
 
 		// Enable player scripts
