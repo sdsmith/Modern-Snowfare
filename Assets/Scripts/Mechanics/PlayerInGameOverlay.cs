@@ -39,11 +39,11 @@ public class PlayerInGameOverlay : MonoBehaviour {
         target = gameObject.transform.root;
 
         // Set the overlay to show that player's name
-        guiTextComponent.text = "HELLO WORLD THIS IS A LONG THING";
+        guiTextComponent.text = playerName;
 
 
         // Setup texture to be drawn
-        Texture2D overlayTexture = new Texture2D(500, 50);
+        Texture2D overlayTexture = new Texture2D(5,1);
         overlayTexture.SetPixel(0, 0, Color.red);
         overlayTexture.Apply();
 
@@ -53,12 +53,12 @@ public class PlayerInGameOverlay : MonoBehaviour {
 
 	void Update () {
         // Move overlay to target
-        //
-        // @NOTE(sdsmith): @STUDY(sdsmith): Could we lock ourselves to the target? 
-        // Would this be a better option?
-        Vector3 targetScreenPos = Camera.main.WorldToScreenPoint(target.position);
+        // @NOTE(sdsmith): GUIText (and GUITexture) use viewport space, ie. values in 
+        // range [0,1] for position.
+        Vector3 targetViewportPos = Camera.main.WorldToViewportPoint(target.position);
         DebugOverlay.AddAttr("player overlay pos (world)", target.position.ToString());
-        DebugOverlay.AddAttr("player overlay pos (screen)", targetScreenPos.ToString());
-        transform.position = targetScreenPos;
+        DebugOverlay.AddAttr("player overlay pos (viewport)", targetViewportPos.ToString());
+        transform.position = targetViewportPos;
+        //transform.position = target.position;
     }
 }
