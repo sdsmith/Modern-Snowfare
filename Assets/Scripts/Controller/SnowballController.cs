@@ -10,7 +10,9 @@ public class SnowballController : MonoBehaviour {
     /** @DEBUG(sdsmith): For collision stats. */
     private static ulong nonTerrainCollisionCount = 0;
 
-	float damage;
+	//@BUG:(Llewellin): Removing the public status from this variable causes
+	// the players to take 0 damage...why?
+	public float damage;
 
 	// Use this for initialization
 	void Start () {
