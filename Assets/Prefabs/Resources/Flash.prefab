@@ -255,8 +255,8 @@ GameObject:
   - component: {fileID: 114784086052386058}
   - component: {fileID: 114070613530841716}
   - component: {fileID: 114814840979654810}
-  - component: {fileID: 114468161550415422}
   - component: {fileID: 114572010685227954}
+  - component: {fileID: 114718130193316472}
   m_Layer: 0
   m_Name: Flash
   m_TagString: Player
@@ -5454,19 +5454,6 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114468161550415422
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100030}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7449bebd92721482db650a241a98d09f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  jumpSpeed: 15
 --- !u!114 &114572010685227954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5482,6 +5469,18 @@ MonoBehaviour:
   RedTorchSpawn: {fileID: 0}
   PlayerTracker: {fileID: 0}
   ourTeam: 0
+--- !u!114 &114718130193316472
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100030}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c37aded37df294adfa8d6628b1c8467d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpSpeed: 15
 --- !u!114 &114784086052386058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5504,7 +5503,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7af82c54f4dc44168d2e3a7d63c5108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 25
 --- !u!114 &114893049135149226
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -2,17 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerController))]
 public class Health : MonoBehaviour {
 
-	public float hitPoints = 25f;
+	float hitPoints;
 	float currentPoints;
+
+	private PlayerController pc;
 
 	// Use this for initialization
 	void Start () {
-		currentPoints = hitPoints;
+
+        pc = GetComponent<PlayerController> ();
+        if (pc == null) {
+            Debug.LogError ("Player Controller is null");
+        }
+
+        hitPoints = pc.GetHealth ();
+        currentPoints = hitPoints;
 
         // @DEBUG(sdsmith): Add entry to debug overlay
-        DebugOverlay.AddAttr("health", currentPoints.ToString());
+        DebugOverlay.AddAttr("Max health", hitPoints.ToString());
+        DebugOverlay.AddAttr("Current health", currentPoints.ToString());
     }
 	
 
@@ -26,7 +37,7 @@ public class Health : MonoBehaviour {
         // wrapped under a debug flag to reduce performance impact of the 
         // calls when the overlay is not enabled.
         //if (this.gameObject.GetComponent<PhotonView>().isMine) {
-            DebugOverlay.AddAttr("health", currentPoints.ToString());
+        DebugOverlay.AddAttr("Current health", currentPoints.ToString());
         //}
 
         if (currentPoints <= 0) {

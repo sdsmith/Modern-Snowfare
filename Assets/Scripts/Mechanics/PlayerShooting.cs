@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
+[RequireComponent(typeof(PlayerController))]
 public class PlayerShooting : MonoBehaviour {
 
     public float fireRate = 0.5f;
     float coolDown = 0;
-    public float damage = 25f;
     FXManager fxManager;
     private static ulong firedSnowballsCount = 0;
 
-
+	PlayerController pc;
+	float snowballDamage;
 
     void Start() {
         fxManager = GameObject.FindObjectOfType<FXManager>();
@@ -20,6 +20,13 @@ public class PlayerShooting : MonoBehaviour {
         if (fxManager == null) {
             Debug.LogError("No fxManager");
         }
+
+		pc = GetComponent<PlayerController> ();
+		if (pc == null) {
+			Debug.LogError ("Player Controller is null");
+		}
+
+		snowballDamage = pc.GetDamage();
     }
 
 
@@ -54,7 +61,7 @@ public class PlayerShooting : MonoBehaviour {
             // @TODO(sdsmith): Set offset of the snowball spawn location to be relative to the size of the player's 
             // collider plus the width of the snowball collider and some error margin to make it change proof.
 			Vector3 startPos = Camera.main.transform.position + (Camera.main.transform.forward * 1.1f);
-			fxManager.GetComponent<PhotonView>().RPC("SnowballFX", PhotonTargets.All, startPos, Camera.main.transform.rotation);
+			fxManager.GetComponent<PhotonView>().RPC("SnowballFX", PhotonTargets.All, startPos, Camera.main.transform.rotation, snowballDamage);
         }
 
         coolDown = fireRate;
