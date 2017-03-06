@@ -10,6 +10,7 @@ public class Health : MonoBehaviour {
 
 	private PlayerController pc;
 
+
 	// Use this for initialization
 	void Start () {
 
@@ -46,6 +47,8 @@ public class Health : MonoBehaviour {
 	}
 
 	void Die(){
+		GameObject Indicator = GameObject.Find("IndicatorLogic");
+		Indicator.SetActive(false);
 
 		// game objects created locally (crate)
 		if (GetComponent<PhotonView> ().instantiationId == 0) {

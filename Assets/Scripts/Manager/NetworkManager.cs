@@ -6,9 +6,7 @@ public class NetworkManager : MonoBehaviour {
 
 	public GameObject standbyCamera;
     public bool debug = false;
-	public GameObject temp;
-
-
+	public GameObject Indicator;
 	// This is the name of the prefab we are going to create into the game.
 	// This should be changed to match whichever character the player chooses to be
 	string prefabName;
@@ -233,6 +231,8 @@ public class NetworkManager : MonoBehaviour {
 
 		GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate (prefabName, spawnPoint.transform.position, spawnPoint.transform.rotation, 0);
 		standbyCamera.SetActive(false);
+		Indicator.SetActive(true);
+
 
 		// Enable player scripts
 		ToggleComponents (myPlayerGO);
@@ -296,9 +296,11 @@ public class NetworkManager : MonoBehaviour {
 
 		myPlayerGO.GetComponent<GrabAndDrop> ().enabled = true;
 		myPlayerGO.GetComponent<PlayerShooting> ().enabled = true;
-
 		myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
 		myPlayerGO.transform.FindChild("RadarCamera").gameObject.SetActive(true);
-		temp.SetActive(true);
+		//myPlayerGO.transform.FindChild ("IndicatorLogic").gameObject.SetActive(true);
+		//OffScreenIndicator temp = myPlayerGO.transform.FindChild("IndicatorLogic").GetComponent<OffScreenIndicator>();
+		Indicator.SetActive(true);
+
 	}
 }
