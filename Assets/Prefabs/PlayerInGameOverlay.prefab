@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 132777694211188838}
   - component: {fileID: 131934793905699458}
   - component: {fileID: 114841419959943966}
-  m_Layer: 11
+  m_Layer: 9
   m_Name: PlayerInGameOverlay
-  m_TagString: Untagged
+  m_TagString: PlayerInGameOverlay
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1099553082497096}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 28.578514, y: 91.957504, z: -36.24846}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -59,7 +59,7 @@ GUITexture:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1099553082497096}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Texture: {fileID: 0}
   m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   m_PixelInset:
@@ -78,7 +78,7 @@ GUIText:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1099553082497096}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Text: 
   m_Anchor: 0

@@ -7,6 +7,10 @@ public class Util : MonoBehaviour {
 	static GameObject[] redSpawns;
 	static GameObject[] blueSpawns;
 
+    /** Contains reference to the local player, or null if it doesn't exist. */
+    public static GameObject localPlayer = null;
+
+
 	void Start() {
 		redSpawns = GameObject.FindGameObjectsWithTag ("RedSpawn");
 		blueSpawns = GameObject.FindGameObjectsWithTag ("BlueSpawn");

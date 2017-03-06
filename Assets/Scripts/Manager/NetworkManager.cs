@@ -232,8 +232,14 @@ public class NetworkManager : MonoBehaviour {
 		GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate (prefabName, spawnPoint.transform.position, spawnPoint.transform.rotation, 0);
 		standbyCamera.SetActive(false);
 
-		// Enable player scripts
-		ToggleComponents (myPlayerGO);
+        // Set referance to the local player
+        // @TODO(sdsmith): Confirm that this always spawns out local player
+        if (myPlayerGO.GetComponent<PhotonView>().owner.IsLocal) {
+            Util.localPlayer = myPlayerGO;
+        }
+
+        // Enable player scripts
+        ToggleComponents (myPlayerGO);
 
 		int viewID = myPlayerGO.gameObject.GetPhotonView ().viewID;
 		GetComponent<PhotonView> ().RPC ("SetTeamIcon", PhotonTargets.AllBuffered, viewID);

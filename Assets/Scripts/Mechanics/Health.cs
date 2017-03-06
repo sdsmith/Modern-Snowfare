@@ -67,6 +67,9 @@ public class Health : MonoBehaviour {
 					nm.respawnTimer = 2f;
 				}
 				PhotonNetwork.Destroy (gameObject);
+
+                // Update utilities
+                Util.localPlayer = null;
 			}
 		}
 	}

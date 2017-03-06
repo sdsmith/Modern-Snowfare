@@ -23,8 +23,7 @@ public class FXManager : MonoBehaviour {
     }
 
     void OnGUI() {
-        // @TODO(sdsmith): Change this to 'when the player is spawned'
-        if (Camera.main) {
+        if (Util.localPlayer) {
             DisplayInGameOverlay();
         }
     }
@@ -32,13 +31,13 @@ public class FXManager : MonoBehaviour {
     void DisplayInGameOverlay() {
         // Enable overlays with proximity
         foreach (GameObject goOverlay in GameObject.FindGameObjectsWithTag("PlayerInGameOverlay")) {
+            PlayerInGameOverlay overlay = goOverlay.GetComponent<PlayerInGameOverlay>();
+
             // Don't display our own overlay
-            // @TODO(sdsmith): Fix
-            if (false) {
+            Debug.Assert(Util.localPlayer.GetComponentInChildren<PlayerInGameOverlay>() != null, "Could not find PlayerInGameOverlay in child components");
+            if (Util.localPlayer.GetComponentInChildren<PlayerInGameOverlay>() == overlay) {
                 continue;
             }
-
-            PlayerInGameOverlay overlay = goOverlay.GetComponent<PlayerInGameOverlay>();
     
             // Vector from camera to player
             Vector3 toPlayer = overlay.GetTarget().position - Camera.main.transform.position;
