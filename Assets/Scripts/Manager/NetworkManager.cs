@@ -6,6 +6,8 @@ public class NetworkManager : MonoBehaviour {
 
 	public GameObject standbyCamera;
     public bool debug = false;
+	public GameObject temp;
+
 
 	// This is the name of the prefab we are going to create into the game.
 	// This should be changed to match whichever character the player chooses to be
@@ -297,5 +299,6 @@ public class NetworkManager : MonoBehaviour {
 
 		myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
 		myPlayerGO.transform.FindChild("RadarCamera").gameObject.SetActive(true);
+		temp.SetActive(true);
 	}
 }
