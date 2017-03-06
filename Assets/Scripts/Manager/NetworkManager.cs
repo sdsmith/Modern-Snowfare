@@ -234,7 +234,7 @@ public class NetworkManager : MonoBehaviour {
 
         // Set referance to the local player
         // @TODO(sdsmith): Confirm that this always spawns out local player
-        if (myPlayerGO.GetComponent<PhotonView>().owner.IsLocal) {
+        if (myPlayerGO.GetComponent<PhotonView>().owner.IsMine) {
             Util.localPlayer = myPlayerGO;
         }
 
