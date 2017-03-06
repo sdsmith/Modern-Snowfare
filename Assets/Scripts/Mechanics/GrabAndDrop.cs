@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +10,7 @@ public class GrabAndDrop : MonoBehaviour {
 	public GameObject RedTorchSpawn;
 	public GameObject PlayerTracker;
 	public PunTeams.Team ourTeam;
+	public Vector3 offset = new Vector3(0,0,0);
 	// Use this for initialization
 	void Start () {
 		BlueTorchSpawn = GameObject.Find ("BlueTorchSpawn");
@@ -30,6 +31,7 @@ public class GrabAndDrop : MonoBehaviour {
 		return null; 
 	}*/
 
+
 	void TryGrabObject(GameObject grabObject)
 		{
 			if(grabObject == null)
@@ -37,38 +39,93 @@ public class GrabAndDrop : MonoBehaviour {
 				return;
 			}
 
-			grabbedObject = grabObject;
-			grabbedObjectSize = grabObject.GetComponent<Renderer>().bounds.size.magnitude;
-
+//			grabbedObject = grabObject;
+//			grabbedObjectSize = grabObject.GetComponent<Renderer>().bounds.size.magnitude;
+			int objViewID = grabObject.GetComponent<PhotonView>().viewID;
+			Debug.Log ("TryGrabObject");
+			GetComponent<PhotonView>().RPC("GrabbingObject", PhotonTargets.AllBuffered, objViewID);
 		}
 
-	void DropObject()
+	[PunRPC]
+	public void GrabbingObject(int viewID) {
+		//Vector3 offset = Quaternion.AngleAxis(-45, gameObject.transform.right) * gameObject.transform.forward * 2;
+		//grabbedObject.transform.position = gameObject.transform.position + offset;
+
+		grabbedObject = PhotonView.Find (viewID).gameObject;
+		grabbedObjectSize = grabbedObject.GetComponent<Renderer>().bounds.size.magnitude;
+
+		grabbedObject.GetComponent<CapsuleCollider> ().enabled = false;
+		grabbedObject.transform.SetParent (gameObject.transform, true);
+		Vector3 offset = Quaternion.AngleAxis(-45, gameObject.transform.right) * gameObject.transform.forward * 2;
+		grabbedObject.transform.position = gameObject.transform.position + offset;
+		Debug.Log ("Object Dropped");
+	}
+
+	public void DropObject()
 		{
-			if (grabbedObject == null)
-			{
-				return;
-			}
-			grabbedObject = null;
+			GetComponent<PhotonView>().RPC("DroppingObject", PhotonTargets.AllBuffered);
 		}
+
+	[PunRPC]
+	public void DroppingObject(){
+		if (grabbedObject == null)
+		{
+			return;
+		}
+		grabbedObject.transform.SetParent (null, false);
+		grabbedObject.GetComponent<CapsuleCollider> ().enabled = true;
+		// grabbedObject.transform.position = gameObject.transform.position;
+		grabbedObject = null;
+	}
+
+	[PunRPC]
+	public void ResetFlag(PunTeams.Team team) {
+		Debug.Log ("reset flag");
+		if (team == PunTeams.Team.red) {
+			GameObject.Find ("Torch_Red").transform.position = RedTorchSpawn.transform.position;
+		} else {
+			GameObject.Find ("Torch_Blue").transform.position = BlueTorchSpawn.transform.position;
+		}
+	}
 
 	void OnCollisionEnter (Collision col)
 	{
-		if ((col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.blue) || 
-			(col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.red))  {
+		if ((col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.blue) ||
+		    (col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.red)) {
 			TryGrabObject (col.gameObject);
-		} 
-
-		else if (col.gameObject.name == "RedTorchSpawn" && ourTeam == PunTeams.Team.red) 
-			{
-			grabbedObject.transform.position = BlueTorchSpawn.transform.position;
-			DropObject ();
-
+			Debug.Log ("trying to grb flag");
+		} else if ((col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.red) ||
+		        (col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.blue)) {
+			// col.gameObject.transform.position = RedTorchSpawn.transform.position;
+			GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
+			// Debug.Log ("Red reclaiming red torch");
 		}
-		else if (col.gameObject.name == "BlueTorchSpawn" && ourTeam == PunTeams.Team.blue)
-		{
-			grabbedObject.transform.position = RedTorchSpawn.transform.position;
-			DropObject ();
+
+//		else if(col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.blue)
+//		{
+//			col.gameObject.transform.position = BlueTorchSpawn.transform.position;
+//			Debug.Log ("Blue reclaiming blue torch");
+//		}
+
+
+		else if (col.gameObject.name == "RedTorchSpawn" && ourTeam == PunTeams.Team.red) {
+			if (grabbedObject != null) {
+				// score() 
+				ResetFlag (PunTeams.Team.blue);
+				//grabbedObject.transform.position = BlueTorchSpawn.transform.position;
+				DropObject ();
 			}
+
+		} else if (col.gameObject.name == "BlueTorchSpawn" && ourTeam == PunTeams.Team.blue) {
+//			grabbedObject.transform.position = RedTorchSpawn.transform.position;
+//			DropObject ();
+			if (grabbedObject != null) {
+				// score() 
+				ResetFlag (PunTeams.Team.red);
+				//grabbedObject.transform.position = BlueTorchSpawn.transform.position;
+				DropObject ();
+			}
+		}
 
 	}
 
@@ -94,8 +151,18 @@ public class GrabAndDrop : MonoBehaviour {
 
 		if (grabbedObject != null)
 			{
-			 Vector3 newPosition = gameObject.transform.position+Camera.main.transform.forward*grabbedObjectSize;
-			 grabbedObject.transform.position = newPosition;
+			
+			 //Vector3 newPosition = gameObject.transform.position+Camera.main.transform.forward*grabbedObjectSize;
+			//Vector3 newPosition = gameObject.transform.position;
+
+			//Vector3 offset = Quaternion.AngleAxis(-45, gameObject.transform.right) * gameObject.transform.forward * 2;
+			//grabbedObject.transform.position = gameObject.transform.position + offset;
+
+				
+			//grabbedObject.GetComponent<CapsuleCollider> ().enabled = false;
+			//grabbedObject.transform.SetParent (gameObject.transform, false);
+			//Debug.Log ("Grabbed Object");
+			//grabbedObject.transform.position = newPosition;
 			}
 	}
 }

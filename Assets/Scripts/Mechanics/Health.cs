@@ -64,6 +64,9 @@ public class Health : MonoBehaviour {
 				// Note: make sure character prefab has the tag set to player
 				if (gameObject.tag == "Player") {
 					// show the standby camera. Optional for now
+					if (GetComponent <GrabAndDrop> () != null) {
+						GetComponent<GrabAndDrop> ().DropObject ();
+					}
 
 					NetworkManager nm = GameObject.FindObjectOfType<NetworkManager> ();
 					nm.standbyCamera.SetActive (true);
