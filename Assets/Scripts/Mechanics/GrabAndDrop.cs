@@ -113,9 +113,7 @@ public class GrabAndDrop : MonoBehaviour {
 			if (grabbedObject != null) {
 				DropObject ();
 				// score() 
-				ResetFlag (PunTeams.Team.blue);
-				//grabbedObject.transform.position = BlueTorchSpawn.transform.position;
-
+				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, PunTeams.Team.blue);
 			}
 
 		} else if (col.gameObject.name == "BlueTorchSpawn" && ourTeam == PunTeams.Team.blue) {
@@ -124,9 +122,7 @@ public class GrabAndDrop : MonoBehaviour {
 			if (grabbedObject != null) {
 				DropObject ();
 				// score() 
-				ResetFlag (PunTeams.Team.red);
-				//grabbedObject.transform.position = BlueTorchSpawn.transform.position;
-
+				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, PunTeams.Team.red);
 			}
 		}
 
