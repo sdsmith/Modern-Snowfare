@@ -73,7 +73,7 @@ public class Health : MonoBehaviour {
 					nm.respawnTimer = 2f;
 				}
 				GetComponent<PhotonView> ().RPC ("DeathAnimation", PhotonTargets.All);
-				transform.DetachChildren();
+				//transform.DetachChildren();
 				// DeathAnimation ();
 				PhotonNetwork.Destroy (gameObject);
 			}
