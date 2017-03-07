@@ -264,16 +264,16 @@ public class NetworkManager : MonoBehaviour {
 			return;
 		}
 
-		GameObject teamTag = playerObject.transform.FindChild ("TeamTag").gameObject;
+		GameObject teamTag = playerObject.transform.FindChild ("TeamIndicator").gameObject;
 		GameObject r = playerObject.transform.FindChild ("RadarPlayerPosition").gameObject;
 
 
 		if (playerObject.GetPhotonView().owner.GetTeam() == PunTeams.Team.red) {
-			teamTag.GetComponent<MeshRenderer> ().material.color = Color.red;
+			teamTag.GetComponent<SpriteRenderer> ().material.color = Color.red;
 			r.GetComponent<MeshRenderer> ().material.color = Color.red;
 
 		} else {
-			teamTag.GetComponent<MeshRenderer> ().material.color = Color.blue;
+			teamTag.GetComponent<SpriteRenderer> ().material.color = Color.blue;
 			r.GetComponent<MeshRenderer> ().material.color = Color.blue;
 
 		}
@@ -298,8 +298,7 @@ public class NetworkManager : MonoBehaviour {
 		myPlayerGO.GetComponent<PlayerShooting> ().enabled = true;
 		myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
 		myPlayerGO.transform.FindChild("RadarCamera").gameObject.SetActive(true);
-		//myPlayerGO.transform.FindChild ("IndicatorLogic").gameObject.SetActive(true);
-		//OffScreenIndicator temp = myPlayerGO.transform.FindChild("IndicatorLogic").GetComponent<OffScreenIndicator>();
+
 		Indicator.SetActive(true);
 
 	}
