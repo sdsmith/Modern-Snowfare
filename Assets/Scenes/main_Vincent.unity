@@ -1504,7 +1504,17 @@ Prefab:
         type: 2}
       propertyPath: ObservedComponents.Array.data[0]
       value: 
-      objectReference: {fileID: 1981718806}
+      objectReference: {fileID: 0}
+    - target: {fileID: 114295413181523950, guid: 42f50a929339840119b8b43a9b5b2555,
+        type: 2}
+      propertyPath: synchronization
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114874477198529500, guid: 42f50a929339840119b8b43a9b5b2555,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114880694048140244, guid: 42f50a929339840119b8b43a9b5b2555, type: 2}
     - {fileID: 114888354727980910, guid: 42f50a929339840119b8b43a9b5b2555, type: 2}
@@ -1564,7 +1574,17 @@ Prefab:
         type: 2}
       propertyPath: ObservedComponents.Array.data[0]
       value: 
-      objectReference: {fileID: 2131024640}
+      objectReference: {fileID: 0}
+    - target: {fileID: 114750728547979980, guid: f179660e9d4cd4085b9713e94ae09bf9,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114681235444953918, guid: f179660e9d4cd4085b9713e94ae09bf9,
+        type: 2}
+      propertyPath: synchronization
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114331110538314764, guid: f179660e9d4cd4085b9713e94ae09bf9, type: 2}
     - {fileID: 114014116194333938, guid: f179660e9d4cd4085b9713e94ae09bf9, type: 2}
@@ -1659,12 +1679,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1981718806 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114874477198529500, guid: 42f50a929339840119b8b43a9b5b2555,
-    type: 2}
-  m_PrefabInternal: {fileID: 1874633615}
-  m_Script: {fileID: 11500000, guid: 9a8724b2606084410aac7bff8431d31e, type: 3}
 --- !u!1 &2056877663
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,12 +1885,6 @@ Transform:
   m_Father: {fileID: 1936314850}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2131024640 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114750728547979980, guid: f179660e9d4cd4085b9713e94ae09bf9,
-    type: 2}
-  m_PrefabInternal: {fileID: 1876168246}
-  m_Script: {fileID: 11500000, guid: 9a8724b2606084410aac7bff8431d31e, type: 3}
 --- !u!1001 &2146500782
 Prefab:
   m_ObjectHideFlags: 0

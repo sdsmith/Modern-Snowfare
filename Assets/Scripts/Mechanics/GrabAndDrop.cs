@@ -75,7 +75,7 @@ public class GrabAndDrop : MonoBehaviour {
 		//grabbedObject.transform.SetParent (null, false);
 		grabbedObject.transform.parent = null;
 		grabbedObject.GetComponent<CapsuleCollider> ().enabled = true;
-		// grabbedObject.transform.position = gameObject.transform.position;
+		grabbedObject.transform.position = gameObject.transform.position;
 		grabbedObject = null;
 	}
 
