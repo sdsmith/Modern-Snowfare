@@ -6,11 +6,10 @@ public class NetworkManager : MonoBehaviour {
 
 	public GameObject standbyCamera;
     public bool debug = false;
-	public GameObject Indicator;
 	// This is the name of the prefab we are going to create into the game.
 	// This should be changed to match whichever character the player chooses to be
 	string prefabName;
-
+	public GameObject Indicator;
 	bool connecting = false;
 	List<string> chatMessages;
 	int maxChatMessages = 5;
@@ -231,7 +230,6 @@ public class NetworkManager : MonoBehaviour {
 
 		GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate (prefabName, spawnPoint.transform.position, spawnPoint.transform.rotation, 0);
 		standbyCamera.SetActive(false);
-		Indicator.SetActive(true);
 
 
 		// Enable player scripts
@@ -239,6 +237,7 @@ public class NetworkManager : MonoBehaviour {
 
 		int viewID = myPlayerGO.gameObject.GetPhotonView ().viewID;
 		GetComponent<PhotonView> ().RPC ("SetTeamIcon", PhotonTargets.AllBuffered, viewID);
+
 	}
 
 	// NOTE: Update is called once per frame
@@ -249,6 +248,7 @@ public class NetworkManager : MonoBehaviour {
 			// When enough time has passed, respawn the player
 			if (respawnTimer <= 0) {
 				SpawnMyPlayer ();
+
 			}
 		}
 	}
@@ -263,9 +263,14 @@ public class NetworkManager : MonoBehaviour {
 			Debug.Log ("playerObject is null");
 			return;
 		}
+		//set an indicator object to the prefab
+		//GameObject temp = Instantiate (Indicator);
 
 		GameObject teamTag = playerObject.transform.FindChild ("TeamIndicator").gameObject;
 		GameObject r = playerObject.transform.FindChild ("RadarPlayerPosition").gameObject;
+		//adding indicatorteam as child
+		//temp.transform.parent = playerObject.transform;
+		//playerObject.transform.FindChild("IndicatorLogic(Clone)").gameObject.SetActive(true);
 
 
 		if (playerObject.GetPhotonView().owner.GetTeam() == PunTeams.Team.red) {
@@ -299,7 +304,12 @@ public class NetworkManager : MonoBehaviour {
 		myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
 		myPlayerGO.transform.FindChild("RadarCamera").gameObject.SetActive(true);
 
-		Indicator.SetActive(true);
+		//activates indicators
+		GameObject temp = Instantiate (Indicator);
+		temp.transform.parent = myPlayerGO.transform;
+		myPlayerGO.transform.FindChild("IndicatorLogic(Clone)").gameObject.SetActive(true);
+
+
 
 	}
 }

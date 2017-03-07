@@ -47,9 +47,6 @@ public class Health : MonoBehaviour {
 	}
 
 	void Die(){
-		GameObject Indicator = GameObject.Find("IndicatorLogic");
-		Indicator.SetActive(false);
-
 		// game objects created locally (crate)
 		if (GetComponent<PhotonView> ().instantiationId == 0) {
 			Destroy (gameObject);
@@ -59,7 +56,7 @@ public class Health : MonoBehaviour {
 		else {
 			// Only the owner of the object destroys the game object
 			if (GetComponent<PhotonView> ().isMine) {
-
+				//GetComponent<PhotonView> ().transform.FindChild("IndicatorLogic(Clone)").gameObject.SetActive(false);
 				// Check to see if this is MY player object. If it's mine, respawn my character
 				// Note: make sure character prefab has the tag set to player
 				if (gameObject.tag == "Player") {
