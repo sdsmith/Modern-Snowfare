@@ -72,7 +72,8 @@ public class GrabAndDrop : MonoBehaviour {
 		{
 			return;
 		}
-		grabbedObject.transform.SetParent (null, false);
+		//grabbedObject.transform.SetParent (null, false);
+		grabbedObject.transform.parent = null;
 		grabbedObject.GetComponent<CapsuleCollider> ().enabled = true;
 		// grabbedObject.transform.position = gameObject.transform.position;
 		grabbedObject = null;
@@ -110,20 +111,22 @@ public class GrabAndDrop : MonoBehaviour {
 
 		else if (col.gameObject.name == "RedTorchSpawn" && ourTeam == PunTeams.Team.red) {
 			if (grabbedObject != null) {
+				DropObject ();
 				// score() 
 				ResetFlag (PunTeams.Team.blue);
 				//grabbedObject.transform.position = BlueTorchSpawn.transform.position;
-				DropObject ();
+
 			}
 
 		} else if (col.gameObject.name == "BlueTorchSpawn" && ourTeam == PunTeams.Team.blue) {
 //			grabbedObject.transform.position = RedTorchSpawn.transform.position;
 //			DropObject ();
 			if (grabbedObject != null) {
+				DropObject ();
 				// score() 
 				ResetFlag (PunTeams.Team.red);
 				//grabbedObject.transform.position = BlueTorchSpawn.transform.position;
-				DropObject ();
+
 			}
 		}
 
