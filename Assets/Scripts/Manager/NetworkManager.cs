@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class NetworkManager : MonoBehaviour {
 
 	public GameObject standbyCamera;
     public bool debug = false;
-	SpawnSpot[] spawnSpots;
-
 	// This is the name of the prefab we are going to create into the game.
 	// This should be changed to match whichever character the player chooses to be
 	string prefabName;
-
+	public GameObject Indicator;
 	bool connecting = false;
 	List<string> chatMessages;
 	int maxChatMessages = 5;
@@ -31,8 +27,7 @@ public class NetworkManager : MonoBehaviour {
         } else {
             prefabName = "PlayerCapsule";
         }
-
-		spawnSpots = GameObject.FindObjectsOfType<SpawnSpot>();
+			
 		PhotonNetwork.player.NickName = PlayerPrefs.GetString("Username", "Modern Snowfare");
 		PhotonNetwork.player.SetTeam (PunTeams.Team.none);
 		chatMessages = new List<string>();
@@ -212,23 +207,13 @@ public class NetworkManager : MonoBehaviour {
 
 		AddChatMessage ("Spawning player: " + PhotonNetwork.player.NickName);
 
-		SpawnSpot mySpawnSpot = null;
-
-		// sanity check
-		if (spawnSpots == null || spawnSpots.Length != 2) {
-			Debug.LogError ("Incorrect amount of spawn points");
-			return;
-		}
-
 		// Set the spawn point based on the team you're on
-		// @TODO(Llewellin) cleanup how we get spawnpoints.
-		// (If each team can have multiple spawn points take this into consideration)
-		if (spawnSpots [0].teamId == 1 && PhotonNetwork.player.GetTeam() == PunTeams.Team.red) {
-			mySpawnSpot = spawnSpots [0];
-		} else {
-			mySpawnSpot = spawnSpots [1];
-		}
+		GameObject spawnPoint = Util.GetSpawnPoint(PhotonNetwork.player.GetTeam());
 
+		if (spawnPoint == null) {
+			Debug.LogError ("Spawn point is null");
+		}
+	
 		//@TODO(Llewellin): Error handling incase something was mispelled.
 		// This can be removed once we have character selection and typing in
 		// prefab names at the menu is removed.
@@ -242,15 +227,17 @@ public class NetworkManager : MonoBehaviour {
 		{
 			prefabName = "PlayerCapsule";
 		}
-			
-		GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate (prefabName, mySpawnSpot.transform.position, mySpawnSpot.transform.rotation, 0);
+
+		GameObject myPlayerGO = (GameObject)PhotonNetwork.Instantiate (prefabName, spawnPoint.transform.position, spawnPoint.transform.rotation, 0);
 		standbyCamera.SetActive(false);
+
 
 		// Enable player scripts
 		ToggleComponents (myPlayerGO);
 
 		int viewID = myPlayerGO.gameObject.GetPhotonView ().viewID;
 		GetComponent<PhotonView> ().RPC ("SetTeamIcon", PhotonTargets.AllBuffered, viewID);
+
 	}
 
 	// NOTE: Update is called once per frame
@@ -261,6 +248,7 @@ public class NetworkManager : MonoBehaviour {
 			// When enough time has passed, respawn the player
 			if (respawnTimer <= 0) {
 				SpawnMyPlayer ();
+
 			}
 		}
 	}
@@ -275,17 +263,22 @@ public class NetworkManager : MonoBehaviour {
 			Debug.Log ("playerObject is null");
 			return;
 		}
+		//set an indicator object to the prefab
+		//GameObject temp = Instantiate (Indicator);
 
-		GameObject teamTag = playerObject.transform.FindChild ("TeamTag").gameObject;
+		GameObject teamTag = playerObject.transform.FindChild ("TeamIndicator").gameObject;
 		GameObject r = playerObject.transform.FindChild ("RadarPlayerPosition").gameObject;
+		//adding indicatorteam as child
+		//temp.transform.parent = playerObject.transform;
+		//playerObject.transform.FindChild("IndicatorLogic(Clone)").gameObject.SetActive(true);
 
 
 		if (playerObject.GetPhotonView().owner.GetTeam() == PunTeams.Team.red) {
-			teamTag.GetComponent<MeshRenderer> ().material.color = Color.red;
+			teamTag.GetComponent<SpriteRenderer> ().material.color = Color.red;
 			r.GetComponent<MeshRenderer> ().material.color = Color.red;
 
 		} else {
-			teamTag.GetComponent<MeshRenderer> ().material.color = Color.blue;
+			teamTag.GetComponent<SpriteRenderer> ().material.color = Color.blue;
 			r.GetComponent<MeshRenderer> ().material.color = Color.blue;
 
 		}
@@ -308,8 +301,15 @@ public class NetworkManager : MonoBehaviour {
 
 		myPlayerGO.GetComponent<GrabAndDrop> ().enabled = true;
 		myPlayerGO.GetComponent<PlayerShooting> ().enabled = true;
-
 		myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
 		myPlayerGO.transform.FindChild("RadarCamera").gameObject.SetActive(true);
+
+		//activates indicators
+		GameObject temp = Instantiate (Indicator);
+		temp.transform.parent = myPlayerGO.transform;
+		myPlayerGO.transform.FindChild("IndicatorLogic(Clone)").gameObject.SetActive(true);
+
+
+
 	}
 }

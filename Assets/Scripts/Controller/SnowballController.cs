@@ -10,9 +10,9 @@ public class SnowballController : MonoBehaviour {
     /** @DEBUG(sdsmith): For collision stats. */
     private static ulong nonTerrainCollisionCount = 0;
 
-
-	// @TODO(Llewellin): Determine how much damage should be taken from a snowball
-	public float damage = 25f;
+	//@BUG:(Llewellin): Removing the public status from this variable causes
+	// the players to take 0 damage...why?
+	public float damage;
 
 	// Use this for initialization
 	void Start () {
@@ -84,15 +84,17 @@ public class SnowballController : MonoBehaviour {
                     if (ourTeam != theirTeam) {
                         // Not targeting same team
                         pv.RPC("TakeDamage", PhotonTargets.AllBuffered, damage);
-                        // Debug.Log ("Teams don't match, take damage");
                     } else {
                         // Targeting same team
-                        // Debug.Log ("FRIENDLY FIRE STAHP IT");
                     }
                 }
             }
             Destroy(this.gameObject);
         }
     }
+
+	public void SetSnowballDamage(float damage) {
+		this.damage = damage;
+	}
 }
 
