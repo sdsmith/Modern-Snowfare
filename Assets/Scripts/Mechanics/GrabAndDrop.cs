@@ -136,6 +136,9 @@ public class GrabAndDrop : MonoBehaviour {
 
 	}
 
+
+
+
 	// Update is called once per frame
 	void Update () {
 		//Debug.Log (GetMouseHoverObject (5)); 
@@ -172,4 +175,24 @@ public class GrabAndDrop : MonoBehaviour {
 			//grabbedObject.transform.position = newPosition;
 			}
 	}
+
+	public string getGrabbedObjectName()
+	{
+		return grabbedObject.name;
+	}
+
+	public void captureFlag()
+	{
+		if (grabbedObject != null) {
+			DropObject ();
+			// score() 
+			if (ourTeam == PunTeams.Team.red) {
+				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, PunTeams.Team.blue);
+			} else {
+				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, PunTeams.Team.red);
+			}
+
+		}
+	}
+
 }
