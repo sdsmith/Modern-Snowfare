@@ -6,15 +6,23 @@ public class GrabAndDrop : MonoBehaviour {
 
 	GameObject grabbedObject;
 	float grabbedObjectSize;
-	public GameObject BlueTorchSpawn;
-	public GameObject RedTorchSpawn;
-	public GameObject PlayerTracker;
+	// public GameObject BlueTorchSpawn;
+	// public GameObject RedTorchSpawn;
 	public PunTeams.Team ourTeam;
 	public Vector3 offset = new Vector3(0,0,0);
 	// Use this for initialization
 	void Start () {
-		BlueTorchSpawn = GameObject.Find ("BlueTorchSpawn");
-		RedTorchSpawn = GameObject.Find ("RedTorchSpawn");
+		Debug.Log ("STARTING GRAB AND DROP");
+		// BlueTorchSpawn = GameObject.Find ("BlueTorchSpawn");;
+		if (Util.blueTorchSpawn == null) {
+			Debug.LogError ("BlueTorchSpawn is null");
+		}
+
+		// RedTorchSpawn = GameObject.Find ("RedTorchSpawn");
+		// RedTorchSpawn = Util.redTorchSpawn;
+		if (Util.redTorchSpawn == null) {
+			Debug.LogError ("RedTorchSpawn is null");
+		}
 		ourTeam = PhotonNetwork.player.GetTeam();
 	}
 	/*
@@ -58,7 +66,7 @@ public class GrabAndDrop : MonoBehaviour {
 		grabbedObject.transform.SetParent (gameObject.transform, true);
 		Vector3 offset = Quaternion.AngleAxis(-45, gameObject.transform.right) * gameObject.transform.forward * 2;
 		grabbedObject.transform.position = gameObject.transform.position + offset;
-		Debug.Log ("Object Dropped");
+		Debug.Log ("Grabbing Object");
 	}
 
 	public void DropObject()
@@ -83,9 +91,9 @@ public class GrabAndDrop : MonoBehaviour {
 	public void ResetFlag(PunTeams.Team team) {
 		Debug.Log ("reset flag");
 		if (team == PunTeams.Team.red) {
-			GameObject.Find ("Torch_Red").transform.position = RedTorchSpawn.transform.position;
+			GameObject.Find ("Torch_Red").transform.position = Util.redTorchSpawn.transform.position;
 		} else {
-			GameObject.Find ("Torch_Blue").transform.position = BlueTorchSpawn.transform.position;
+			GameObject.Find ("Torch_Blue").transform.position = Util.blueTorchSpawn.transform.position;
 		}
 	}
 
