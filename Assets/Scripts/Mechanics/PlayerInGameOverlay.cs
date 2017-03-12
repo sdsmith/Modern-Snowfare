@@ -4,31 +4,33 @@ using UnityEngine;
 
 
 
-[RequireComponent(typeof(GUIText))]
-[RequireComponent(typeof(GUITexture))]
+[RequireComponent(typeof(Canvas))]
 public class PlayerInGameOverlay : MonoBehaviour {
 
     /** True if the overlay is enabled, false o/w. */
     private bool overlayEnabled;
     /** The transform of the game object to be tracked. */
     private Transform target;
+    /** Offset from the target (local delta). */
+    private Vector3 localOffset;
+    /** Set the offset of the canvas on the screen (ie. shift from (0,0) screen space). */
+    private Vector3 screenOffset;
+
     /** Name of the attached player. */
     private string playerName;
     /** Health component of the attached player. */
     private Health playerHealth;
 
-    private GUIText guiTextComponent;
-    private GUITexture guiTextureComponent;
-
+    private Canvas overlayCanvas;
 
 
 	void Start () {
         overlayEnabled = false;
+        screenOffset = new Vector3(0, 0, 0);
+        localOffset = new Vector3(0, 0, 0);
 
-        // Get and enable components
-        guiTextComponent = GetComponent<GUIText>();
-        guiTextureComponent = GetComponent<GUITexture>();
-
+        // Get the overlay canvas
+        overlayCanvas = GetComponent<Canvas>();
 
         // Get the player's health component
         playerHealth = gameObject.GetComponentInParent<Health>();
@@ -43,45 +45,47 @@ public class PlayerInGameOverlay : MonoBehaviour {
         // Set our target to the player's transform
         target = gameObject.transform.root;
 
-        // Set the overlay to show that player's name
-        guiTextComponent.text = playerName;
+        // Set the overlay to show the player's name
+        Util.AddTextToCanvas(playerName, overlayCanvas.gameObject);
 
-
-        // Setup texture to be drawn
-        Texture2D overlayTexture = new Texture2D(5,1);
-        overlayTexture.SetPixel(0, 0, Color.red);
-        overlayTexture.Apply();
-
-        guiTextureComponent.texture = overlayTexture;
+        // @TODO(sdsmith): Add health info to the overlay
 	}
 
+
     /**
-     * Displays the overlay for this frame.
+     * Display the overlay for this frame.
      */
-    void Update() {
+    void LateUpdate() {
         if (overlayEnabled) {
-            // Move overlay to target
-            // @NOTE(sdsmith): GUIText (and GUITexture) use viewport space, ie. values in 
-            // range [0,1] for position.
-            Vector3 targetViewportPos = Camera.main.WorldToScreenPoint(target.position);// Camera.main.WorldToViewportPoint(target.position);
-            Debug.Log(targetViewportPos);
-            DebugOverlay.AddAttr("player overlay pos (world)", target.position.ToString());
-            DebugOverlay.AddAttr("player overlay pos (viewport)", targetViewportPos.ToString());
-            transform.position = targetViewportPos;
+            // Shift overlay anchor position (world space)
+            Vector3 worldPoint = target.TransformPoint(localOffset);
+
+            // Translate world position to viewport space.
+            Vector3 viewportPoint = Camera.main.WorldToViewportPoint(worldPoint);
+
+            // Canvas local coords are relative to center, offset by one half.
+            viewportPoint -= 0.5f * Vector3.one;
+            // Discard depth
+            viewportPoint.z = 0.0f;
+
+            // Scale position by the canvas size to line up regardless of resolution and canvas scaling.
+            Rect rect = overlayCanvas.GetComponent<RectTransform>().rect;
+            viewportPoint.x *= rect.width;
+            viewportPoint.y *= rect.height;
+
+            transform.localPosition = viewportPoint + screenOffset;
         }
     }
 
 
     public void Enable() {
-        guiTextComponent.enabled = true;
-        guiTextureComponent.enabled = true;
+        overlayCanvas.enabled = true;
         overlayEnabled = true;
     }
 
 
     public void Disable() {
-        guiTextComponent.enabled = false;
-        guiTextureComponent.enabled = false;
+        overlayCanvas.enabled = false;
         overlayEnabled = false;
     }
 
