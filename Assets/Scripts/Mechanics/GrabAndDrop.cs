@@ -105,11 +105,14 @@ public class GrabAndDrop : MonoBehaviour {
 			TryGrabObject (col.gameObject);
 			Debug.Log ("trying to grb flag");
 		} else if (col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.red) {
-			
-			GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
+			if (col.gameObject.transform.position != Util.defaultRedFlag) {
+				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
+			}
 
 		} else if(col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.blue) {
-			GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
+			if (col.gameObject.transform.position != Util.defaultBlueFlag) {
+				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
+			}
 		}
 
 //		else if(col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.blue)
