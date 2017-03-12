@@ -7,15 +7,21 @@ public class Util : MonoBehaviour {
 	static GameObject[] redSpawns;
 	static GameObject[] blueSpawns;
 
-	public static GameObject redTorchSpawn;
-	public static GameObject blueTorchSpawn;
+	static GameObject redTorchSpawn;
+	static GameObject blueTorchSpawn;
+
+	public static Vector3 defaultRedFlag;
+	public static Vector3 defaultBlueFlag;
 
 	void Start() {
 		redSpawns = GameObject.FindGameObjectsWithTag ("RedSpawn");
 		blueSpawns = GameObject.FindGameObjectsWithTag ("BlueSpawn");
 
-		redTorchSpawn = GameObject.Find ("RedTorchSpawn");
-		blueTorchSpawn = GameObject.Find ("BlueTorchSpawn");
+		redTorchSpawn = GameObject.Find ("Torch_Red");
+		blueTorchSpawn = GameObject.Find ("Torch_Blue");
+
+		defaultRedFlag = redTorchSpawn.transform.position;
+		defaultBlueFlag = blueTorchSpawn.transform.position;
 	}
 
 	// Get spawn point based on your team

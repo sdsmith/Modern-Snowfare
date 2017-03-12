@@ -51,4 +51,12 @@ MonoBehaviour:
   - DroppingObject
   - GrabbingObject
   - ResetFlag
+  - OnCapture
+  - OnDrop
+  - OnHeal
+  - OnPickup
+  - OnProjectileHit
+  - OnRespawn
+  - OnReturn
+  - OnShoot
   DisableAutoOpenWizard: 1
