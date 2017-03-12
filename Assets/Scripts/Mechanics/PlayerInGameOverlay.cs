@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Canvas))]
 public class PlayerInGameOverlay : MonoBehaviour {
@@ -15,6 +14,8 @@ public class PlayerInGameOverlay : MonoBehaviour {
     private Vector3 localOffset;
     /** Set the offset of the canvas on the screen (ie. shift from (0,0) screen space). */
     private Vector3 screenOffset;
+    /** Reference to the player's name text in the overlay. */
+    private Text overlayPlayerNameText;
 
     /** Name of the attached player. */
     private string playerName;
@@ -46,10 +47,13 @@ public class PlayerInGameOverlay : MonoBehaviour {
         target = gameObject.transform.root;
 
         // Set the overlay to show the player's name
-        Util.AddTextToCanvas(playerName, overlayCanvas.gameObject);
+        overlayPlayerNameText = Util.AddTextToCanvas(playerName, overlayCanvas.gameObject);
+        overlayPlayerNameText.alignment = TextAnchor.MiddleCenter;
+        overlayPlayerNameText.fontSize = 14;
+        //Util.AddTextToCanvas("HELLO WORLD", overlayCanvas.gameObject);
 
         // @TODO(sdsmith): Add health info to the overlay
-	}
+    }
 
 
     /**
@@ -57,23 +61,32 @@ public class PlayerInGameOverlay : MonoBehaviour {
      */
     void LateUpdate() {
         if (overlayEnabled) {
-            // Shift overlay anchor position (world space)
-            Vector3 worldPoint = target.TransformPoint(localOffset);
 
-            // Translate world position to viewport space.
-            Vector3 viewportPoint = Camera.main.WorldToViewportPoint(worldPoint);
+            // Force the canvas to face the player
+            Vector3 v = Camera.main.transform.position - transform.position;
+            v.x = v.z = 0.0f;
+            overlayCanvas.transform.LookAt(Camera.main.transform.position - v);
+            overlayCanvas.transform.Rotate(0, 180, 0);
 
-            // Canvas local coords are relative to center, offset by one half.
-            viewportPoint -= 0.5f * Vector3.one;
-            // Discard depth
-            viewportPoint.z = 0.0f;
+            Debug.Log(overlayCanvas.transform.position);
 
-            // Scale position by the canvas size to line up regardless of resolution and canvas scaling.
-            Rect rect = overlayCanvas.GetComponent<RectTransform>().rect;
-            viewportPoint.x *= rect.width;
-            viewportPoint.y *= rect.height;
+            //// Shift overlay anchor position (world space)
+            //Vector3 worldPoint = target.TransformPoint(localOffset);
 
-            transform.localPosition = viewportPoint + screenOffset;
+            //// Translate world position to viewport space.
+            //Vector3 viewportPoint = Camera.main.WorldToViewportPoint(worldPoint);
+
+            //// Canvas local coords are relative to center, offset by one half.
+            //viewportPoint -= 0.5f * Vector3.one;
+            //// Discard depth
+            //viewportPoint.z = 0.0f;
+
+            //// Scale position by the canvas size to line up regardless of resolution and canvas scaling.
+            //Rect rect = overlayCanvas.GetComponent<RectTransform>().rect;
+            //viewportPoint.x *= rect.width;
+            //viewportPoint.y *= rect.height;
+
+            //transform.localPosition = viewportPoint + screenOffset;
         }
     }
 
