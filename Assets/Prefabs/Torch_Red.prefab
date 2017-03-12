@@ -56,12 +56,8 @@ GameObject:
   - component: {fileID: 114579074253804626}
   - component: {fileID: 114681235444953918}
   - component: {fileID: 136796149957355048}
-  - component: {fileID: 114750728547979980}
-  - component: {fileID: 114474265861826742}
   - component: {fileID: 33547927208418320}
   - component: {fileID: 23579155621025010}
-  - component: {fileID: 114014116194333938}
-  - component: {fileID: 114331110538314764}
   m_Layer: 0
   m_Name: Torch_Red
   m_TagString: Untagged
@@ -343,68 +339,6 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114014116194333938
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1439286969151214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a8724b2606084410aac7bff8431d31e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114331110538314764
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1439286969151214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6fe65ef9dfc0d34d990203dc33b0d9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DisplayIcon: {fileID: 2800000, guid: c03c0ff9fdb67b2498ba742ec762f942, type: 3}
-  IconColour: {r: 0.97794116, g: 0.050335195, b: 0.06952689, a: 1}
-  Display_1_Type: 0
-  Distance_1_Units: 
-  Display_1_Timer: 0
-  Display_1_Text: 
-  Text_1_Colour: {r: 1, g: 1, b: 1, a: 1}
-  Display_2_Type: 0
-  Distance_2_Units: 
-  Display_2_Timer: 0
-  Display_2_Text: 
-  Text_2_Colour: {r: 1, g: 1, b: 1, a: 1}
-  PointerArrowIcon: {fileID: 0}
-  PointerColour: {r: 1, g: 1, b: 1, a: 1}
-  DisplayStyle: 0
-  PulsingAnimation: 0
-  PulsingSpeed: 0
-  FadeOverDistance: 0
-  MaxFadeDistance: 0
-  FadeDistances:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  DisplayOnScreen: 1
-  DisplayOffScreen: 1
-  Minimap_Display_Icon: {fileID: 0}
-  LastTimerUpdate: 0
---- !u!114 &114474265861826742
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1439286969151214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a8724b2606084410aac7bff8431d31e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114579074253804626
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -443,23 +377,12 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114014116194333938}
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114750728547979980
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1439286969151214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a8724b2606084410aac7bff8431d31e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &136796149957355048
 CapsuleCollider:
   m_ObjectHideFlags: 1
