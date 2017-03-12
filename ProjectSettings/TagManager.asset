@@ -4,8 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - BlueSpawn
-  - RedSpawn
+  - Projectile
+  - Obstacle
+  - Ship
+  - Crosshair
   layers:
   - Default
   - TransparentFX
@@ -15,8 +17,8 @@ TagManager:
   - UI
   - 
   - 
+  - Ship
   - 
-  - Radar
   - 
   - 
   - 
