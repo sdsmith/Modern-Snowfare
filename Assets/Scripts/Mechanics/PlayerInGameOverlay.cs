@@ -67,26 +67,6 @@ public class PlayerInGameOverlay : MonoBehaviour {
             v.x = v.z = 0.0f;
             overlayCanvas.transform.LookAt(Camera.main.transform.position - v);
             overlayCanvas.transform.Rotate(0, 180, 0);
-
-            Debug.Log(overlayCanvas.transform.position);
-
-            //// Shift overlay anchor position (world space)
-            //Vector3 worldPoint = target.TransformPoint(localOffset);
-
-            //// Translate world position to viewport space.
-            //Vector3 viewportPoint = Camera.main.WorldToViewportPoint(worldPoint);
-
-            //// Canvas local coords are relative to center, offset by one half.
-            //viewportPoint -= 0.5f * Vector3.one;
-            //// Discard depth
-            //viewportPoint.z = 0.0f;
-
-            //// Scale position by the canvas size to line up regardless of resolution and canvas scaling.
-            //Rect rect = overlayCanvas.GetComponent<RectTransform>().rect;
-            //viewportPoint.x *= rect.width;
-            //viewportPoint.y *= rect.height;
-
-            //transform.localPosition = viewportPoint + screenOffset;
         }
     }
 
