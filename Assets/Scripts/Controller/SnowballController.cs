@@ -83,12 +83,9 @@ public class SnowballController : MonoBehaviour {
 
                     if (ourTeam != theirTeam) {
                         // Not targeting same team
-						Debug.Log("Damage dealt: " + damage.ToString());
                         pv.RPC("TakeDamage", PhotonTargets.AllBuffered, damage);
-                        // Debug.Log ("Teams don't match, take damage");
                     } else {
                         // Targeting same team
-                        // Debug.Log ("FRIENDLY FIRE STAHP IT");
                     }
                 }
             }

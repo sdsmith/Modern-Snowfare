@@ -47,4 +47,16 @@ MonoBehaviour:
   - AddChatMessage_RPC
   - SnowballFX
   - SetTeamIcon
+  - DeathAnimation
+  - DroppingObject
+  - GrabbingObject
+  - ResetFlag
+  - OnCapture
+  - OnDrop
+  - OnHeal
+  - OnPickup
+  - OnProjectileHit
+  - OnRespawn
+  - OnReturn
+  - OnShoot
   DisableAutoOpenWizard: 1

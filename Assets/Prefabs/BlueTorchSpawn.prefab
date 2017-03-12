@@ -22,12 +22,13 @@ GameObject:
   - component: {fileID: 33907701379759708}
   - component: {fileID: 135806277426557634}
   - component: {fileID: 23986799447284164}
+  - component: {fileID: 114605975789944444}
   m_Layer: 0
   m_Name: BlueTorchSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1332030128498162
 GameObject:
@@ -46,7 +47,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4110299131214462
 Transform:
   m_ObjectHideFlags: 1
@@ -68,7 +69,7 @@ Transform:
   m_GameObject: {fileID: 1161827050492046}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 190, y: 4, z: 100}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 2, z: 4}
   m_Children:
   - {fileID: 4110299131214462}
   m_Father: {fileID: 0}
@@ -150,6 +151,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1161827050492046}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114605975789944444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1161827050492046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5806e5ba2efd64952bb1159cdd8f7782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135624412384635910
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -169,8 +181,8 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1161827050492046}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}

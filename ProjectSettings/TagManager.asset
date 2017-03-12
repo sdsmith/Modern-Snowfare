@@ -6,8 +6,6 @@ TagManager:
   tags:
   - BlueSpawn
   - RedSpawn
-  - Waypoint
-  - Terrain
   - PlayerInGameOverlay
   layers:
   - Default
@@ -18,7 +16,7 @@ TagManager:
   - UI
   - 
   - 
-  - Flag
+  - 
   - Radar
   - PlayerInGameOverlay
   - 
