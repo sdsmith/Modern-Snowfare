@@ -53,6 +53,10 @@ public class FXManager : MonoBehaviour {
             } else {
                 overlay.Disable();
             }
+
+
+            // DEBUG(sdsmith):
+            overlay.Enable();
         }
 
 

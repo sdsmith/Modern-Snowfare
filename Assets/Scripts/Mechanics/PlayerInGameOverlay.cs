@@ -63,7 +63,8 @@ public class PlayerInGameOverlay : MonoBehaviour {
             // Move overlay to target
             // @NOTE(sdsmith): GUIText (and GUITexture) use viewport space, ie. values in 
             // range [0,1] for position.
-            Vector3 targetViewportPos = Camera.main.WorldToViewportPoint(target.position);
+            Vector3 targetViewportPos = Camera.main.WorldToScreenPoint(target.position);// Camera.main.WorldToViewportPoint(target.position);
+            Debug.Log(targetViewportPos);
             DebugOverlay.AddAttr("player overlay pos (world)", target.position.ToString());
             DebugOverlay.AddAttr("player overlay pos (viewport)", targetViewportPos.ToString());
             transform.position = targetViewportPos;

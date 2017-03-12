@@ -71,7 +71,7 @@ public class NetworkManager : MonoBehaviour {
 	 * This string must be the same for everyone to join the same instance of the game
 	 */
 	void Connect() {
-		PhotonNetwork.ConnectUsingSettings ("MultiFPS v001");
+		PhotonNetwork.ConnectUsingSettings ("MultiFPS v001_dev_build");
 	}
 
 	void OnGUI() {
@@ -234,7 +234,7 @@ public class NetworkManager : MonoBehaviour {
 
         // Set referance to the local player
         // @TODO(sdsmith): Confirm that this always spawns out local player
-        if (myPlayerGO.GetComponent<PhotonView>().owner.IsMine) {
+        if (myPlayerGO.GetComponent<PhotonView>().owner.IsLocal) {
             Util.localPlayer = myPlayerGO;
         }
 
