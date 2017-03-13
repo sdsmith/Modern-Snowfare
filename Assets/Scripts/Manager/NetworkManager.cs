@@ -309,7 +309,14 @@ public class NetworkManager : MonoBehaviour {
 		temp.transform.parent = myPlayerGO.transform;
 		myPlayerGO.transform.FindChild("IndicatorLogic(Clone)").gameObject.SetActive(true);
 
-
-
+		// Allow a player to walk into their teams base
+		CapsuleCollider playerCC = myPlayerGO.GetComponent<CapsuleCollider> ();
+		if (PhotonNetwork.player.GetTeam () == PunTeams.Team.red) {
+			BoxCollider fortBC = Util.redFortEntrance.GetComponent<BoxCollider> ();
+			Physics.IgnoreCollision (playerCC, fortBC);
+		} else {
+			BoxCollider fortBC = Util.blueFortEntrance.GetComponent<BoxCollider> ();
+			Physics.IgnoreCollision (playerCC, fortBC);
+		}
 	}
 }
