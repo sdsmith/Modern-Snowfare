@@ -14,7 +14,11 @@ public class NetworkManager : MonoBehaviour {
 	List<string> chatMessages;
 	int maxChatMessages = 5;
 
-	public float respawnTimer = 0f;
+    GUIStyle m_PickButtonStyle;
+    public Font ButtonFont;
+    public Texture2D ButtonBackground;
+
+    public float respawnTimer = 0f;
 
 	bool hasPickedTeam = false;
 
@@ -134,40 +138,52 @@ public class NetworkManager : MonoBehaviour {
 				GUILayout.EndArea ();
 			} 
 			else {
-				// Player has not yet selected a team
+                // Player has not yet selected a team
 
-				GUILayout.BeginArea (new Rect (0, 0, Screen.width, Screen.height));
-				GUILayout.BeginHorizontal ();
-				GUILayout.FlexibleSpace ();
-				GUILayout.BeginVertical ();
-				GUILayout.FlexibleSpace ();
+                LoadStyles();
+                GUILayout.BeginArea(new Rect(10, 10, Screen.width - 20, Screen.height - 20));
+                {
+                    GUILayout.BeginHorizontal();
+                    {
+                        if (GUILayout.Button("blue", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 140)))
+                        {
+                            PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
+                            GetComponent<NetworkManager>().SpawnMyPlayer();
+                        }
 
-				if(GUILayout.Button("Red Team")){
-					PhotonNetwork.player.SetTeam (PunTeams.Team.red);
-					SpawnMyPlayer ();
-				}
-				if(GUILayout.Button("Blue Team")){
-					PhotonNetwork.player.SetTeam (PunTeams.Team.blue);
-					SpawnMyPlayer ();
-				}
-				GUILayout.FlexibleSpace ();
-				GUILayout.EndVertical ();
-				GUILayout.FlexibleSpace ();
-				GUILayout.EndHorizontal ();
-				GUILayout.EndArea ();
+                        GUILayout.FlexibleSpace();
 
-			}
+                        if (GUILayout.Button("red", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 140)))
+                        {
+                            PhotonNetwork.player.SetTeam(PunTeams.Team.red);
+                            GetComponent<NetworkManager>().SpawnMyPlayer();
+                        }
+                    }
+                    GUILayout.EndHorizontal();
+                }
+                GUILayout.EndArea();
+
+            }
 		}
 	}
 
-	/*
+    void LoadStyles()
+    {
+        if (m_PickButtonStyle == null)
+        {
+            m_PickButtonStyle = new GUIStyle(Styles.Button);
+            m_PickButtonStyle.fontSize = 60;
+        }
+    }
+
+    /*
 	 * When the network connects, Photon calls OnJoinedLobby().
 	 * Here we try to join a random room. Currently we only have 
 	 * one room. So if we're the first player to join, no room 
 	 * has been created yet. This will call OnPhotonRandomJoinFailed().
 	 * Otherwise, OnJoinedRoom() is called.
 	 */
-	void OnJoinedLobby() {
+    void OnJoinedLobby() {
 		Debug.Log ("OnJoinedLobby");
 		PhotonNetwork.JoinRandomRoom();
 	}

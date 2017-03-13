@@ -418,6 +418,8 @@ MonoBehaviour:
   standbyCamera: {fileID: 237905793}
   debug: 0
   Indicator: {fileID: 218725471}
+  ButtonFont: {fileID: 12800000, guid: 4daba60e302c7f54d8d4badee164583d, type: 3}
+  ButtonBackground: {fileID: 2800000, guid: 2460ef3b360f57c46a94b335c8e23633, type: 3}
   respawnTimer: 0
 --- !u!4 &292221897
 Transform:
