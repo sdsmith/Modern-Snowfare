@@ -12,14 +12,14 @@ public class FXManager : MonoBehaviour {
 
     struct InGameOverlay {
         /** Radius of the circle that is considered 'near' the center reticle point. */
-        public float nearReticleRadius;
+        public float nearReticleAngle;
     };
     InGameOverlay inGameOverlay;
 
 
     void Start() {
         inGameOverlay = new InGameOverlay();
-        inGameOverlay.nearReticleRadius = 1000f; // @TODO(sdsmith): Adjust value
+        inGameOverlay.nearReticleAngle = 15f;//degrees
     }
 
     void OnGUI() {
@@ -38,17 +38,14 @@ public class FXManager : MonoBehaviour {
             if (Util.localPlayer.GetComponentInChildren<PlayerInGameOverlay>() == overlay) {
                 continue;
             }
-    
-            // Vector from camera to player
-            Vector3 toPlayer = overlay.GetTarget().position - Camera.main.transform.position;
 
-            // Calculate distance to reticle
-            Vector3 forward = Camera.main.transform.forward * toPlayer.magnitude;
-            float projectOntoForward = toPlayer.magnitude * Mathf.Cos(Vector3.Angle(forward, toPlayer));
-            float distanceToReticle = Mathf.Sqrt(Mathf.Pow(toPlayer.magnitude, 2) - Mathf.Pow(projectOntoForward, 2));
+            Transform playerTransform = overlay.GetTarget();
 
+            // Calculate the distance from the player to the reticle
+            Vector3 vecCamToPlayer = playerTransform.position - Camera.main.transform.position;
+            
             // Enable overlay iff close to reticle
-            if (distanceToReticle <= inGameOverlay.nearReticleRadius) {
+            if (Vector3.Angle(vecCamToPlayer, Camera.main.transform.forward) <= inGameOverlay.nearReticleAngle) {
                 overlay.Enable();
             } else {
                 overlay.Disable();
