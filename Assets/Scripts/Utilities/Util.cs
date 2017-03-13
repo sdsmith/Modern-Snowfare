@@ -24,6 +24,7 @@ public class Util : MonoBehaviour {
 		defaultBlueFlag = GameObject.Find ("Torch_Blue").transform.position;
 	}
 
+
 	// Get spawn point based on your team
 	public static GameObject GetSpawnPoint(PunTeams.Team team) {
 		if (team == PunTeams.Team.red) {
@@ -33,6 +34,7 @@ public class Util : MonoBehaviour {
 			return blueSpawns [Random.Range (0, blueSpawns.Length)];
 		}
 	}
+
 
     /**
      * Add UnityEngine.UI.Text component to the given Canvas game object with the given text.
@@ -47,5 +49,38 @@ public class Util : MonoBehaviour {
         t.material = ArialFont.material;
 
         return t;
+    }
+
+
+    /**
+     * Return the team associated with the given game object.
+     */
+    public static PunTeams.Team GetTeam(GameObject go) {
+        PunTeams.Team team = PunTeams.Team.none;
+
+        // Check the game object first
+        PhotonView pv = go.GetComponent<PhotonView>();
+        
+        // If the PhotonView was not found, try checking the parent
+        if (pv == null) {
+            pv = go.GetComponentInParent<PhotonView>();
+        }
+
+        if (pv != null) {
+            PhotonPlayer pplayer = pv.owner;
+            if (pplayer != null) {
+                team = pplayer.GetTeam();
+            }
+        }
+
+        return team;
+    }
+
+
+    /**
+     * Return true if the two given game objects are on the same team.
+     */
+    public static bool IsSameTeam(GameObject go1, GameObject go2) {
+        return GetTeam(go1) == GetTeam(go2);
     }
 }

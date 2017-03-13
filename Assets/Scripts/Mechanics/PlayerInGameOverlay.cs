@@ -50,7 +50,20 @@ public class PlayerInGameOverlay : MonoBehaviour {
         overlayPlayerNameText = Util.AddTextToCanvas(playerName, overlayCanvas.gameObject);
         overlayPlayerNameText.alignment = TextAnchor.MiddleCenter;
         overlayPlayerNameText.fontSize = 14;
-        //Util.AddTextToCanvas("HELLO WORLD", overlayCanvas.gameObject);
+        switch (Util.GetTeam(gameObject)) {
+            case PunTeams.Team.none:
+                overlayPlayerNameText.color = Color.gray;
+                break;
+            case PunTeams.Team.red:
+                overlayPlayerNameText.color = Color.red;
+                break;
+            case PunTeams.Team.blue:
+                overlayPlayerNameText.color = Color.blue;
+                break;
+            default:
+                Debug.Assert(false, "Panic: an object does not have a valid team type");
+                break;
+        }
 
         // @TODO(sdsmith): Add health info to the overlay
     }
