@@ -71,8 +71,6 @@ public class PlayerInGameOverlay : MonoBehaviour {
         // @NOTE(sdsmith): Can only have one graphic component per game object. Therefore, each 
         // graphic element of the overlay must be its own game object.
 
-        // TODO(sdsmith): Add the image and text GOs and components to the overlay prefab. For some reason the inspector is overloading the defaults :/
-
         // Get the background image component
         Transform overlayBackgroundTransform = canvasGameObject.transform.Find("Background");
         Debug.Assert(overlayBackgroundTransform != null, "PlayerInGameOverlay must have a child 'Background' game object");
@@ -83,15 +81,18 @@ public class PlayerInGameOverlay : MonoBehaviour {
         Transform overlayPlayerNameTransform = canvasGameObject.transform.Find("PlayerName");
         Debug.Assert(overlayPlayerNameTransform != null, "PlayerInGameOverlay must have a child 'PlayerName' game object");
         overlayPlayerNameText = overlayPlayerNameTransform.gameObject.GetComponent<Text>();
-        Debug.Assert(overlayPlayerNameText != null, "Background game object must have a 'Text' component");
+        Debug.Assert(overlayPlayerNameText != null, "PlayerName game object must have a 'Text' component");
+
+        // Get the health bar game obeject and slider component
+        Transform overlayHealthBarTransform = canvasGameObject.transform.Find("HealthBar");
+        Debug.Assert(overlayHealthBarTransform != null, "PlayerInGameOverlay must have a child 'HealthBar' game object");
+        Slider overlayHealthBarSlider = overlayHealthBarTransform.gameObject.GetComponent<Slider>();
+        Debug.Assert(overlayHealthBarSlider != null, "HealthBar game object must have a 'Slider' component");
 
         // Add a background colour to the overlay
-        //overlayBackgroundImage.rectTransform.position = Vector3.zero;
         overlayBackgroundImage.color = new Color(teamColor.r / 3, teamColor.g, teamColor.b, 0.3f);
 
         // Add the player's name to the overlay
-        // TODO: create seperate GO; add content ContentSizeFitter component
-        //overlayPlayerNameText.rectTransform.position = Vector3.zero;
         overlayPlayerNameText.text = playerName;
         Font arialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
         overlayPlayerNameText.font = arialFont;
@@ -102,7 +103,8 @@ public class PlayerInGameOverlay : MonoBehaviour {
         overlayPlayerNameText.color = teamColor;
 
         // Add health info to the overlay
-        // TODO
+        
+
 
         // Adjust background size to fit overlay content
         const float backgroundPadding = 5f;
