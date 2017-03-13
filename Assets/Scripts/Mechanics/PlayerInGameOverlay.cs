@@ -19,6 +19,7 @@ public class PlayerInGameOverlay : MonoBehaviour {
     /** Reference to the overlay background image. */
     private Image overlayBackgroundImage;
 
+    private int maxPlayerNameDisplayLength = 8;
     private Color teamColor;
 
     /** Name of the attached player. */
@@ -62,6 +63,10 @@ public class PlayerInGameOverlay : MonoBehaviour {
         Debug.Assert(targetPhotonView != null, "Parent game object must have a PhotonView");
         Debug.Assert(targetPhotonView.owner != null, "Parent game object must be owner by a user, not the scene");
         playerName = targetPhotonView.owner.NickName;
+        // Adjust the player name to max display length
+        if (playerName.Length > maxPlayerNameDisplayLength) {
+            playerName = playerName.Substring(0, maxPlayerNameDisplayLength - 1) + "~";
+        }
 
         // Set our target to the player's transform
         target = gameObject.transform.root;
@@ -77,38 +82,48 @@ public class PlayerInGameOverlay : MonoBehaviour {
         overlayBackgroundImage = canvasGameObject.transform.Find("Background").gameObject.GetComponent<Image>();
         Debug.Assert(overlayBackgroundImage != null, "Background game object must have an 'Image' component");
 
+        // Get the health bar game obeject and slider component
+        Transform overlayHealthBarTransform = canvasGameObject.transform.Find("HealthBar");
+        Debug.Assert(overlayHealthBarTransform != null, "PlayerInGameOverlay must have a child 'HealthBar' game object");
+        Slider overlayHealthBarSlider = overlayHealthBarTransform.gameObject.GetComponent<Slider>();
+        Debug.Assert(overlayHealthBarSlider != null, "HealthBar game object must have a 'Slider' component");
+        RectTransform healthBarRectTransform = overlayHealthBarTransform.gameObject.GetComponent<RectTransform>();
+
         // Get the player name text component
         Transform overlayPlayerNameTransform = canvasGameObject.transform.Find("PlayerName");
         Debug.Assert(overlayPlayerNameTransform != null, "PlayerInGameOverlay must have a child 'PlayerName' game object");
         overlayPlayerNameText = overlayPlayerNameTransform.gameObject.GetComponent<Text>();
         Debug.Assert(overlayPlayerNameText != null, "PlayerName game object must have a 'Text' component");
 
-        // Get the health bar game obeject and slider component
-        Transform overlayHealthBarTransform = canvasGameObject.transform.Find("HealthBar");
-        Debug.Assert(overlayHealthBarTransform != null, "PlayerInGameOverlay must have a child 'HealthBar' game object");
-        Slider overlayHealthBarSlider = overlayHealthBarTransform.gameObject.GetComponent<Slider>();
-        Debug.Assert(overlayHealthBarSlider != null, "HealthBar game object must have a 'Slider' component");
-
-        // Add a background colour to the overlay
-        overlayBackgroundImage.color = new Color(teamColor.r / 3, teamColor.g, teamColor.b, 0.3f);
+        float playerNameHeight;
+        float healthBarHeight = healthBarRectTransform.sizeDelta.y;
 
         // Add the player's name to the overlay
         overlayPlayerNameText.text = playerName;
-        Font arialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
-        overlayPlayerNameText.font = arialFont;
-        overlayPlayerNameText.material = arialFont.material;
-        overlayPlayerNameText.alignment = TextAnchor.MiddleCenter;
-        overlayPlayerNameText.fontSize = 14;
-        overlayPlayerNameText.horizontalOverflow = HorizontalWrapMode.Overflow;
+        //Font arialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
+        //overlayPlayerNameText.font = arialFont;
+        //overlayPlayerNameText.material = arialFont.material;
+        //overlayPlayerNameText.alignment = TextAnchor.MiddleCenter;
+        //overlayPlayerNameText.fontSize = 14;
+        //overlayPlayerNameText.horizontalOverflow = HorizontalWrapMode.Overflow;
         overlayPlayerNameText.color = teamColor;
+        playerNameHeight = overlayPlayerNameText.preferredHeight;
+        overlayPlayerNameText.transform.position += new Vector3(0, (playerNameHeight / 4.0f) / 10f, 0); // Shift up in overlay
 
-        // Add health info to the overlay
-        
-
-
+        // Add a background to the overlay
+        overlayBackgroundImage.color = new Color(teamColor.r / 3, teamColor.g, teamColor.b, 0.3f);
         // Adjust background size to fit overlay content
-        const float backgroundPadding = 5f;
-        overlayBackgroundImage.rectTransform.sizeDelta = new Vector2(overlayPlayerNameText.preferredWidth + backgroundPadding, overlayPlayerNameText.preferredHeight);
+        const float padding = 2f;
+        float overlayWidth = overlayPlayerNameText.fontSize * maxPlayerNameDisplayLength + padding * 2.0f;
+        float overlayHeight = playerNameHeight + healthBarHeight + padding;
+        overlayBackgroundImage.rectTransform.sizeDelta = new Vector2(overlayWidth, overlayHeight);
+
+        // Add health bar to the overlay
+        overlayHealthBarSlider.minValue = 0;
+        overlayHealthBarSlider.maxValue = playerHealth.GetMaxHitPoints();
+        overlayHealthBarSlider.value = playerHealth.GetCurrentHitPoints();
+        healthBarRectTransform.sizeDelta = new Vector2(overlayWidth - padding * 2.0f, healthBarRectTransform.sizeDelta.y);
+        overlayHealthBarSlider.transform.position -= new Vector3(0, (healthBarHeight / 4.0f) / 10f, 0);
 
         // Turn off the overlay by default
         Disable();

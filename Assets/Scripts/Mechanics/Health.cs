@@ -27,6 +27,14 @@ public class Health : MonoBehaviour {
         DebugOverlay.AddAttr("Current health", currentPoints.ToString());
     }
 	
+    public float GetMaxHitPoints() {
+        return hitPoints;
+    }
+
+    public float GetCurrentHitPoints() {
+        return currentPoints;
+    }
+
 
 	[PunRPC] // can be called indirectly
 	// all players recieve notification of something taking damage
