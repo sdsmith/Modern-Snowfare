@@ -13,6 +13,7 @@ public class NetworkManager : MonoBehaviour {
 	bool connecting = false;
 	List<string> chatMessages;
 	int maxChatMessages = 5;
+    bool hasPickedChar = false;
 
     GUIStyle m_PickButtonStyle;
     public Font ButtonFont;
@@ -124,8 +125,34 @@ public class NetworkManager : MonoBehaviour {
 
 		// send the chat label at the bottom left
 		if (PhotonNetwork.connected && !connecting) {
+            if (!hasPickedChar)
+            {
+                LoadStyles();
+                GUILayout.BeginArea(new Rect(10, 10, Screen.width - 20, Screen.height - 20));
+                {
+                    GUILayout.BeginHorizontal();
+                    {
+                        if (GUILayout.Button("healer", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 140)))
+                        {
+                            prefabName = "Healer";
+                            hasPickedChar = true;
+                        }
 
-			if (hasPickedTeam) {
+                        GUILayout.FlexibleSpace();
+
+                        if (GUILayout.Button("flash", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 140)))
+                        {
+                            prefabName = "Flash";
+                            hasPickedChar = true;
+                        }
+                    }
+                    GUILayout.EndHorizontal();
+                }
+                GUILayout.EndArea();
+
+            }
+
+			else if (hasPickedTeam) {
 				GUILayout.BeginArea (new Rect (0, 0, Screen.width, Screen.height));
 				GUILayout.BeginVertical ();
 				GUILayout.FlexibleSpace ();
@@ -137,9 +164,8 @@ public class NetworkManager : MonoBehaviour {
 				GUILayout.EndVertical ();
 				GUILayout.EndArea ();
 			} 
-			else {
+			else{
                 // Player has not yet selected a team
-
                 LoadStyles();
                 GUILayout.BeginArea(new Rect(10, 10, Screen.width - 20, Screen.height - 20));
                 {
@@ -148,7 +174,7 @@ public class NetworkManager : MonoBehaviour {
                         if (GUILayout.Button("blue", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 140)))
                         {
                             PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
-                            GetComponent<NetworkManager>().SpawnMyPlayer();
+                            SpawnMyPlayer();
                         }
 
                         GUILayout.FlexibleSpace();
@@ -156,7 +182,7 @@ public class NetworkManager : MonoBehaviour {
                         if (GUILayout.Button("red", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 140)))
                         {
                             PhotonNetwork.player.SetTeam(PunTeams.Team.red);
-                            GetComponent<NetworkManager>().SpawnMyPlayer();
+                            SpawnMyPlayer();
                         }
                     }
                     GUILayout.EndHorizontal();
@@ -164,6 +190,8 @@ public class NetworkManager : MonoBehaviour {
                 GUILayout.EndArea();
 
             }
+
+
 		}
 	}
 
