@@ -202,11 +202,11 @@ public class RoomMenuRoomBrowser : RoomMenuBase
 		x += RoomNameWidth + 10;
 		DrawRoomListHeaderButton( x, RoomPlayerWidth, "Players", SortRoomList.PlayersAsc, SortRoomList.PlayersDesc );
 
-		x += RoomPlayerWidth + 10;
-		DrawRoomListHeaderButton( x, RoomModeWidth, "Gamemode", SortRoomList.ModeAsc, SortRoomList.ModeDesc );
+		//x += RoomPlayerWidth + 10;
+		//DrawRoomListHeaderButton( x, RoomModeWidth, "Gamemode", SortRoomList.ModeAsc, SortRoomList.ModeDesc );
 
-		x += RoomModeWidth + 10;
-		DrawRoomListHeaderButton( x, RoomMapWidth + 10, "Map", SortRoomList.MapAsc, SortRoomList.MapDesc );
+		//x += RoomModeWidth + 10;
+		//DrawRoomListHeaderButton( x, RoomMapWidth + 10, "Map", SortRoomList.MapAsc, SortRoomList.MapDesc );
 	}
 
 	/// <summary>

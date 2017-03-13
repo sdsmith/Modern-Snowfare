@@ -83,27 +83,27 @@ public class RoomMenuMatchmaking : RoomMenuBase
 
 	void DrawMatchmakingTypeSelection()
 	{
-		GUILayout.Label( "Matchmaking Type", Styles.Header );
+		GUILayout.Label( "Join a Room", Styles.Header );
 
 		GUILayout.BeginHorizontal();
 		{
-			if( GUILayout.Button( "Random",
-								  Styles.GetSelectableDarkButtonStyle( Matchmaking.SelectedMatchmakingType == MatchmakingType.Random ),
-								  GUILayout.Height( 40 ) ) )
-			{
-				Matchmaking.SelectedMatchmakingType = MatchmakingType.Random;
-			}
+			//if( GUILayout.Button( "Random",
+			//					  Styles.GetSelectableDarkButtonStyle( Matchmaking.SelectedMatchmakingType == MatchmakingType.Random ),
+			//					  GUILayout.Height( 40 ) ) )
+			//{
+			//	Matchmaking.SelectedMatchmakingType = MatchmakingType.Random;
+			//}
 
 			GUILayout.Space( 10 );
 
-			if( GUILayout.Button( "Room Properties Based",
-								  Styles.GetSelectableDarkButtonStyle( Matchmaking.SelectedMatchmakingType == MatchmakingType.RoomProperties ),
-								  GUILayout.Height( 40 ) ) )
-			{
-				Matchmaking.SelectedMatchmakingType = MatchmakingType.RoomProperties;
-			}
+			//if( GUILayout.Button( "Room Properties Based",
+			//					  Styles.GetSelectableDarkButtonStyle( Matchmaking.SelectedMatchmakingType == MatchmakingType.RoomProperties ),
+			//					  GUILayout.Height( 40 ) ) )
+			//{
+			//	Matchmaking.SelectedMatchmakingType = MatchmakingType.RoomProperties;
+			//}
 
-			GUILayout.Space( 10 );
+			//GUILayout.Space( 10 );
 
 //			if( GUILayout.Button( "SQL Based",
 //								  Styles.GetSelectableDarkButtonStyle( Matchmaking.SelectedMatchmakingType == MatchmakingType.Sql ),
@@ -121,15 +121,15 @@ public class RoomMenuMatchmaking : RoomMenuBase
 	{
 		switch( Matchmaking.SelectedMatchmakingType )
 		{
-		case MatchmakingType.RoomProperties:
-			DrawRoomPropertiesMatchmakingOptions();
-			break;
+		//case MatchmakingType.RoomProperties:
+		//	DrawRoomPropertiesMatchmakingOptions();
+		//	break;
 //		case MatchmakingType.Sql:
 //			DrawSqlMatchmakingOptions();
 //			break;
-		case MatchmakingType.Random:
-			DrawRandomMatchmakingOptions();
-			break;
+		//case MatchmakingType.Random:
+		//	DrawRandomMatchmakingOptions();
+		//	break;
 		}
 	}
 
@@ -246,7 +246,8 @@ public class RoomMenuMatchmaking : RoomMenuBase
 	{
 		if( GUILayout.Button( "Start Matchmaking", Styles.DarkButton, GUILayout.Height( 90 ) ) == true )
 		{
-			Matchmaking.StartMatchmaking();
+            Matchmaking.SelectedMatchmakingType = MatchmakingType.Random;
+            Matchmaking.StartMatchmaking();
 		}
 	}
 }

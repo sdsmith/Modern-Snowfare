@@ -25,7 +25,7 @@ public class MultiplayerConnector : MonoBehaviour
 			if( m_Lobby == null )
 			{
 				
-				m_Lobby = new TypedLobby( "SkyArenaLobby", LobbyType.SqlLobby );
+				m_Lobby = new TypedLobby( "ModernSnowfareLobby", LobbyType.SqlLobby );
 			}
 
 			return m_Lobby;

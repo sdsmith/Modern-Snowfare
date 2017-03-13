@@ -180,7 +180,7 @@ public class Matchmaking : MonoBehaviour
 			expectedProperties.Add( RoomProperty.Map, searchForMap.Name );
 			expectedProperties.Add( RoomProperty.Mode, searchForMap.Mode );
 
-			PhotonNetwork.JoinRandomRoom( expectedProperties, 0 );
+			PhotonNetwork.JoinRandomRoom( expectedProperties, 8 );
 			 
 			m_JoinAttempt++;
 		}
