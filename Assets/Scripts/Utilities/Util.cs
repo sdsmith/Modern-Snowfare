@@ -39,6 +39,8 @@ public class Util : MonoBehaviour {
     /**
      * Add UnityEngine.UI.Text component to the given Canvas game object with the given text.
      * Returns a reference to the added Text component.
+     * 
+     * @deprecated
      */
     public static Text AddTextToCanvas(string text, GameObject canvasGameObject) {
         Text t = canvasGameObject.AddComponent<Text>();
