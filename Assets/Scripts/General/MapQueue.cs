@@ -173,6 +173,8 @@ public class MapQueue
 		}
 
 		string mapQueueString = (string)PhotonNetwork.room.customProperties[ RoomProperty.MapQueue ];
+		Debug.Log ("ITS HEREEEEEE");
+		Debug.Log (mapQueueString);
 		int mapIndex = (int)PhotonNetwork.room.customProperties[ RoomProperty.MapIndex ] + mapIndexOffset;
 
 		return MapQueue.GetSingleEntryInMapQueue( mapQueueString, mapIndex );

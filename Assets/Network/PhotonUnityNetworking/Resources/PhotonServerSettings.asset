@@ -21,7 +21,7 @@ MonoBehaviour:
   ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
-  JoinLobby: 1
+  JoinLobby: 0
   EnableLobbyStatistics: 0
   PunLogging: 0
   NetworkLogging: 0
@@ -51,4 +51,12 @@ MonoBehaviour:
   - DroppingObject
   - GrabbingObject
   - ResetFlag
+  - OnCapture
+  - OnDrop
+  - OnHeal
+  - OnPickup
+  - OnProjectileHit
+  - OnRespawn
+  - OnReturn
+  - OnShoot
   DisableAutoOpenWizard: 1

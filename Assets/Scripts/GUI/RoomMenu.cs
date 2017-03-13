@@ -7,19 +7,19 @@ public class RoomMenu : MonoBehaviour
 	{
 		Matchmaking,
 		RoomBrowser,
-		CreateRoom,
+		// CreateRoom,
 	}
 
-	TabCategories m_ActiveTab = TabCategories.CreateRoom;
+	TabCategories m_ActiveTab = TabCategories.RoomBrowser;
 
-	RoomMenuCreateRoom m_CreateRoomMenu;
-	RoomMenuCreateRoom CreateRoomMenu
-	{
-		get
-		{
-			return Helper.GetCachedComponent<RoomMenuCreateRoom>( gameObject, ref m_CreateRoomMenu );
-		}
-	}
+	//RoomMenuCreateRoom m_CreateRoomMenu;
+//	RoomMenuCreateRoom CreateRoomMenu
+//	{
+//		get
+//		{
+//			return Helper.GetCachedComponent<RoomMenuCreateRoom>( gameObject, ref m_CreateRoomMenu );
+//		}
+//	}
 
 	RoomMenuMatchmaking m_MatchmakingMenu;
 	RoomMenuMatchmaking MatchmakingMenu
@@ -105,9 +105,9 @@ public class RoomMenu : MonoBehaviour
 		case TabCategories.RoomBrowser:
 			RoomBrowserMenu.Draw();
 			break;
-		case TabCategories.CreateRoom:
-			CreateRoomMenu.Draw();
-			break;
+//		case TabCategories.CreateRoom:
+//			CreateRoomMenu.Draw();
+//			break;
 		}
 	}
 
@@ -127,14 +127,14 @@ public class RoomMenu : MonoBehaviour
 			m_ActiveTab = TabCategories.RoomBrowser;
 		}
 
-		if( GUI.Button( new Rect( 490, 20, 215, 55 ), 
-						"Create Room", 
-						Styles.GetSelectableButtonStyle( m_ActiveTab == TabCategories.CreateRoom ) ) )
-		{
-			m_ActiveTab = TabCategories.CreateRoom;
-		}
+//		if( GUI.Button( new Rect( 490, 20, 215, 55 ), 
+//						"Create Room", 
+//						Styles.GetSelectableButtonStyle( m_ActiveTab == TabCategories.CreateRoom ) ) )
+//		{
+//			m_ActiveTab = TabCategories.CreateRoom;
+//		}
 
-		if( GUI.Button( new Rect( 725, 20, 215, 55 ), 
+		if( GUI.Button( new Rect( 490, 20, 215, 55 ), 
 						"Logout", 
 						Styles.Button ) )
 		{

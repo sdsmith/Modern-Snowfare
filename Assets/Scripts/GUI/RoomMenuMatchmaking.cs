@@ -105,12 +105,12 @@ public class RoomMenuMatchmaking : RoomMenuBase
 
 			GUILayout.Space( 10 );
 
-			if( GUILayout.Button( "SQL Based",
-								  Styles.GetSelectableDarkButtonStyle( Matchmaking.SelectedMatchmakingType == MatchmakingType.Sql ),
-								  GUILayout.Height( 40 ) ) )
-			{
-				Matchmaking.SelectedMatchmakingType = MatchmakingType.Sql;
-			}
+//			if( GUILayout.Button( "SQL Based",
+//								  Styles.GetSelectableDarkButtonStyle( Matchmaking.SelectedMatchmakingType == MatchmakingType.Sql ),
+//								  GUILayout.Height( 40 ) ) )
+//			{
+//				Matchmaking.SelectedMatchmakingType = MatchmakingType.Sql;
+//			}
 		}
 		GUILayout.EndHorizontal();
 
@@ -124,9 +124,9 @@ public class RoomMenuMatchmaking : RoomMenuBase
 		case MatchmakingType.RoomProperties:
 			DrawRoomPropertiesMatchmakingOptions();
 			break;
-		case MatchmakingType.Sql:
-			DrawSqlMatchmakingOptions();
-			break;
+//		case MatchmakingType.Sql:
+//			DrawSqlMatchmakingOptions();
+//			break;
 		case MatchmakingType.Random:
 			DrawRandomMatchmakingOptions();
 			break;
@@ -163,32 +163,32 @@ public class RoomMenuMatchmaking : RoomMenuBase
 		GUILayout.FlexibleSpace();
 	}
 
-	void DrawSqlMatchmakingOptions()
-	{
-		GUILayout.Label( "Matchmaking Options", Styles.Header );
-
-		GUILayout.BeginHorizontal();
-		{
-			GUILayout.BeginVertical( Styles.DarkBox, GUILayout.Width( 430 ) );
-			{
-				DrawMapOptions();
-			}
-			GUILayout.EndVertical();
-
-			GUILayout.Space( 10 );
-
-			GUILayout.BeginVertical( Styles.DarkBox, GUILayout.Width( 430 ) );
-			{
-				DrawModeOptions();
-			}
-			GUILayout.EndVertical();
-		}
-		GUILayout.EndHorizontal();
-
-		DrawPlayerSkillOptions();
-
-		GUILayout.FlexibleSpace();
-	}
+//	void DrawSqlMatchmakingOptions()
+//	{
+//		GUILayout.Label( "Matchmaking Options", Styles.Header );
+//
+//		GUILayout.BeginHorizontal();
+//		{
+//			GUILayout.BeginVertical( Styles.DarkBox, GUILayout.Width( 430 ) );
+//			{
+//				DrawMapOptions();
+//			}
+//			GUILayout.EndVertical();
+//
+//			GUILayout.Space( 10 );
+//
+//			GUILayout.BeginVertical( Styles.DarkBox, GUILayout.Width( 430 ) );
+//			{
+//				DrawModeOptions();
+//			}
+//			GUILayout.EndVertical();
+//		}
+//		GUILayout.EndHorizontal();
+//
+//		DrawPlayerSkillOptions();
+//
+//		GUILayout.FlexibleSpace();
+//	}
 
 	void DrawPlayerSkillOptions()
 	{
@@ -213,7 +213,7 @@ public class RoomMenuMatchmaking : RoomMenuBase
 
 	void DrawMapOptions()
 	{
-		GUILayout.Label( "Maps", Styles.LabelSmall );
+		GUILayout.Label( "Characters", Styles.LabelSmall );
 
 		for( int i = 0; i < ServerOptions.AvailableMaps.Length; ++i )
 		{
@@ -222,7 +222,8 @@ public class RoomMenuMatchmaking : RoomMenuBase
 				ServerOptions.AvailableMaps[ i ],
 				Styles.Toggle );
 
-			Matchmaking.SetMapSelection( ServerOptions.AvailableMaps[ i ], value );
+			Matchmaking.SetMapSelection (ServerOptions.AvailableMaps [i], value);
+		
 		}
 	}
 

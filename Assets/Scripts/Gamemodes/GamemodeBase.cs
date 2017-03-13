@@ -101,7 +101,9 @@ public abstract class GamemodeBase : MonoBehaviour
 		newProperties.Add( RoomProperty.RedScore, 0 );
 		newProperties.Add( RoomProperty.MapIndex, nextMapIndex );
 		newProperties.Add( RoomProperty.Map, map.Name );
-		newProperties.Add( RoomProperty.Mode, (int)map.Mode );
+		Debug.Log ("LOOK AT MEEEEEEEEEEEEE");
+		Debug.Log (map.Mode);
+		newProperties.Add( RoomProperty.Mode, map.Mode );
 
 		//And store this information in the rooms custom properties
 		PhotonNetwork.room.SetCustomProperties( newProperties );
@@ -109,6 +111,7 @@ public abstract class GamemodeBase : MonoBehaviour
 		//Then load the next map. PhotonNetwork.LoadLevel automatically sends the LoadLevel event
 		//to all other clients so that everybody joins the next map. This only has to be called on
 		//the master client
-		PhotonNetwork.LoadLevel( map.Name );
+		PhotonNetwork.LoadLevel( "main" );
+		//PhotonNetwork.LoadLevel( map.Name );
 	}
 }

@@ -5,6 +5,7 @@ public enum Gamemode
 {
 	CaptureTheFlag,
 	Deathmatch,
+	Healer,
 	TeamDeathmatch,
 	Count,
 }

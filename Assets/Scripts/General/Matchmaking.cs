@@ -6,12 +6,12 @@ public enum MatchmakingType
 {
 	Random,
 	RoomProperties,
-	Sql,
+//	Sql,
 }
 
 public class Matchmaking : MonoBehaviour 
 {
-	public MatchmakingType SelectedMatchmakingType = MatchmakingType.Sql;
+	public MatchmakingType SelectedMatchmakingType = MatchmakingType.RoomProperties;
 
 	Dictionary<string, bool> m_MapSelection = new Dictionary<string, bool>();
 	Dictionary<Gamemode, bool> m_ModeSelection = new Dictionary<Gamemode, bool>();
@@ -22,7 +22,7 @@ public class Matchmaking : MonoBehaviour
 
 	List<MapQueueEntry> m_MatchmakingMapQueue = new List<MapQueueEntry>();
 
-	const int MaximumSkillDeviationInSqlMatchmaking = 3;
+//	const int MaximumSkillDeviationInSqlMatchmaking = 3;
 
 	void Awake()
 	{
@@ -100,8 +100,8 @@ public class Matchmaking : MonoBehaviour
 			return "";
 		case MatchmakingType.RoomProperties:
 			return "Join attempt " + m_JoinAttempt + "/" + m_MatchmakingMapQueue.Count;
-		case MatchmakingType.Sql:
-			return "Join attempt " + m_JoinAttempt;
+//		case MatchmakingType.Sql:
+//			return "Join attempt " + m_JoinAttempt;
 		}
 
 		return "";
@@ -123,10 +123,10 @@ public class Matchmaking : MonoBehaviour
 		{
 			Invoke( "MakeRoomPropertiesMatchmakingJoinAttempt", 1f );
 		}
-		else if( SelectedMatchmakingType == MatchmakingType.Sql )
-		{
-			Invoke( "MakeSqlMatchmakingJoinAttempt", 1f );
-		}
+//		else if( SelectedMatchmakingType == MatchmakingType.Sql )
+//		{
+//			Invoke( "MakeSqlMatchmakingJoinAttempt", 1f );
+//		}
 	}
 
 	public void StartMatchmaking()
@@ -148,9 +148,9 @@ public class Matchmaking : MonoBehaviour
 		case MatchmakingType.RoomProperties:
 			MakeRoomPropertiesMatchmakingJoinAttempt();
 			break;
-		case MatchmakingType.Sql:
-			MakeSqlMatchmakingJoinAttempt();
-			break;
+//		case MatchmakingType.Sql:
+//			MakeSqlMatchmakingJoinAttempt();
+//			break;
 		}
 	}
 
@@ -235,79 +235,61 @@ public class Matchmaking : MonoBehaviour
 	#endregion
 
 
-	#region Sql Matchmaking Demonstration
-	void SqlSearchStringDemonstration()
-	{
-		TypedLobby newLobby = new TypedLobby( "SkyArenaLobby", LobbyType.SqlLobby );
+//	#region Sql Matchmaking Demonstration
+//	void SqlSearchStringDemonstration()
+//	{
+//		TypedLobby newLobby = new TypedLobby( "SkyArenaLobby", LobbyType.SqlLobby );
+//
+//
+//
+//		string possibleSqlSearch = "( C5 = \"Map2\" OR C5 = \"Map5\" ) AND C2 < 20 AND C2 > 10";
+//
+//
+//
+//		PhotonNetwork.JoinRandomRoom(
+//			null,
+//			0,
+//			MatchmakingMode.FillRoom,
+//			newLobby,
+//			possibleSqlSearch
+//		);
+//	}
 
 
 
-		string possibleSqlSearch = "( C5 = \"Map2\" OR C5 = \"Map5\" ) AND C2 < 20 AND C2 > 10";
-
-
-
-		PhotonNetwork.JoinRandomRoom(
-			null,
-			0,
-			MatchmakingMode.FillRoom,
-			newLobby,
-			possibleSqlSearch
-		);
-	}
-
-
-
-
-
-
-
-
-
-
-
-	void SetSqlRoomPropertiesDemonstration()
-	{
-		ExitGames.Client.Photon.Hashtable newSqlProperties = new ExitGames.Client.Photon.Hashtable();
-
-		//We use C0 as the current map name
-		newSqlProperties.Add( "C0", "City" );
-
-		//I use RoomProperty.Map for this, but this is also defined as C0
-		newSqlProperties.Add( RoomProperty.Map, "City" ); //same meaning as the above line
-
-		//C1 is used for the currently played gamemode
-		//RoomProperty.Mode = "C1"
-		newSqlProperties.Add( RoomProperty.Mode, (int)Gamemode.Deathmatch );
-
-		//C2 is used for an arbitrarily selected skill level the player has
-		//RoomProperty.SkillLevel = "C2"
-		newSqlProperties.Add( RoomProperty.SkillLevel, 5 );
-
-		string[] lobbyProperties = new string[] { "C0", "C1", "C2" };
-
-
-        RoomOptions roomOptions = new RoomOptions();
-	    roomOptions.customRoomProperties = newSqlProperties;
-	    roomOptions.customRoomPropertiesForLobby = lobbyProperties;
-	    roomOptions.maxPlayers = 8;
-	    PhotonNetwork.CreateRoom("My Sql Room", roomOptions, null); // this assumes we are in a SQL-typed lobby 
-	}
+//	void SetSqlRoomPropertiesDemonstration()
+//	{
+//		ExitGames.Client.Photon.Hashtable newSqlProperties = new ExitGames.Client.Photon.Hashtable();
+//
+//		//We use C0 as the current map name
+//		newSqlProperties.Add( "C0", "City" );
+//
+//		//I use RoomProperty.Map for this, but this is also defined as C0
+//		newSqlProperties.Add( RoomProperty.Map, "City" ); //same meaning as the above line
+//
+//		//C1 is used for the currently played gamemode
+//		//RoomProperty.Mode = "C1"
+//		newSqlProperties.Add( RoomProperty.Mode, (int)Gamemode.Deathmatch );
+//
+//		//C2 is used for an arbitrarily selected skill level the player has
+//		//RoomProperty.SkillLevel = "C2"
+//		newSqlProperties.Add( RoomProperty.SkillLevel, 5 );
+//
+//		string[] lobbyProperties = new string[] { "C0", "C1", "C2" };
+//
+//
+//        RoomOptions roomOptions = new RoomOptions();
+//	    roomOptions.customRoomProperties = newSqlProperties;
+//	    roomOptions.customRoomPropertiesForLobby = lobbyProperties;
+//	    roomOptions.maxPlayers = 8;
+//	    PhotonNetwork.CreateRoom("My Sql Room", roomOptions, null); // this assumes we are in a SQL-typed lobby 
+//	}
 
 
 
 
 	void Bla()
 	{
-
-
-
-
-
-
-
-
-
-
 		//Possible variables to help you determine what matchmaking algorithm fits best
 
 		int countOfPlayers = PhotonNetwork.countOfPlayers;
@@ -318,90 +300,62 @@ public class Matchmaking : MonoBehaviour
 
 		int countOfRooms = PhotonNetwork.countOfRooms;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	}
-	#endregion
-
-
-
-
-	#region Sql Matchmaking
-
-	string CreateSqlSearchString()
-	{
-		string possibleSqlSearchResult = "( C0 = \"Greenlands\" OR C0 = \"City\" ) AND "
-									   + "( C1 = 0 OR C1 = 1 OR C1 = 2 ) AND "
-									   + "C2 > 3 AND C2 < 7";
-
-		//Create all the search segments used to look for maps
-		List<string> possibleMaps = new List<string>();
-		foreach( KeyValuePair<string, bool> mapPair in m_MapSelection )
-			if( mapPair.Value == true )
-				possibleMaps.Add( RoomProperty.Map + " = \"" + mapPair.Key + "\"" );
-
-		//Create all the search segments used to look for modes
-		List<string> possibleModes = new List<string>();
-		foreach( KeyValuePair<Gamemode, bool> modePair in m_ModeSelection )
-			if( modePair.Value == true )
-				possibleModes.Add( RoomProperty.Mode + " = " + (int)modePair.Key );
-
-		int skillDeviation = m_JoinAttempt + 1;
-
-		return
-			"( " + string.Join( " OR ", possibleMaps.ToArray() ) + " ) AND "
-			+ "( " + string.Join( " OR ", possibleModes.ToArray() ) + " ) AND "
-			+ RoomProperty.SkillLevel + " > " + ( m_PlayerSkill - skillDeviation ) + " AND "
-			+ RoomProperty.SkillLevel + " < " + ( m_PlayerSkill + skillDeviation );
 	}
 
-	void MakeSqlMatchmakingJoinAttempt()
-	{
-		if( m_JoinAttempt < MaximumSkillDeviationInSqlMatchmaking )
-		{
-			string sqlLobbyFilter = CreateSqlSearchString();
+//
+//	string CreateSqlSearchString()
+//	{
+//		string possibleSqlSearchResult = "( C0 = \"Greenlands\" OR C0 = \"City\" ) AND "
+//									   + "( C1 = 0 OR C1 = 1 OR C1 = 2 ) AND "
+//									   + "C2 > 3 AND C2 < 7";
+//
+//		//Create all the search segments used to look for maps
+//		List<string> possibleMaps = new List<string>();
+//		foreach( KeyValuePair<string, bool> mapPair in m_MapSelection )
+//			if( mapPair.Value == true )
+//				possibleMaps.Add( RoomProperty.Map + " = \"" + mapPair.Key + "\"" );
+//
+//		//Create all the search segments used to look for modes
+//		List<string> possibleModes = new List<string>();
+//		foreach( KeyValuePair<Gamemode, bool> modePair in m_ModeSelection )
+//			if( modePair.Value == true )
+//				possibleModes.Add( RoomProperty.Mode + " = " + (int)modePair.Key );
+//
+//		int skillDeviation = m_JoinAttempt + 1;
+//
+//		return
+//			"( " + string.Join( " OR ", possibleMaps.ToArray() ) + " ) AND "
+//			+ "( " + string.Join( " OR ", possibleModes.ToArray() ) + " ) AND "
+//			+ RoomProperty.SkillLevel + " > " + ( m_PlayerSkill - skillDeviation ) + " AND "
+//			+ RoomProperty.SkillLevel + " < " + ( m_PlayerSkill + skillDeviation );
+//	}
 
-			PhotonNetwork.JoinRandomRoom( 
-				null, 
-				8, 
-				MatchmakingMode.FillRoom, 
-				MultiplayerConnector.Lobby,
-				sqlLobbyFilter );
+//	void MakeSqlMatchmakingJoinAttempt()
+//	{
+//		if( m_JoinAttempt < MaximumSkillDeviationInSqlMatchmaking )
+//		{
+//			string sqlLobbyFilter = CreateSqlSearchString();
+//
+//			PhotonNetwork.JoinRandomRoom( 
+//				null, 
+//				8, 
+//				MatchmakingMode.FillRoom, 
+//				MultiplayerConnector.Lobby,
+//				sqlLobbyFilter );
+//
+//			m_JoinAttempt++;
+//		}
+//		else
+//		{
+//			CreateSqlMatchmakingServer();
+//		}
+//	}
 
-			m_JoinAttempt++;
-		}
-		else
-		{
-			CreateSqlMatchmakingServer();
-		}
-	}
+//	void CreateSqlMatchmakingServer()
+//	{
+//		string serverName = ChatHandler.Instance.ChatUsername + "'s Server";
+//
+//		ServerOptions.CreateRoom( serverName, MapQueue.ListToString( m_MatchmakingMapQueue ), m_PlayerSkill );
+//	}
 
-	void CreateSqlMatchmakingServer()
-	{
-		string serverName = ChatHandler.Instance.ChatUsername + "'s Server";
-
-		ServerOptions.CreateRoom( serverName, MapQueue.ListToString( m_MatchmakingMapQueue ), m_PlayerSkill );
-	}
-	#endregion
 }

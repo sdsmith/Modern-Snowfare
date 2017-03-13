@@ -19,13 +19,13 @@ public class SceneItem : Editor
 	[MenuItem( "Open Scene/Greenlands" )]
 	public static void OpenLevel1()
 	{
-		OpenScene( "Greenlands" );
+		OpenScene( "main" );
 	}
 
 	[MenuItem( "Open Scene/City" )]
 	public static void OpenLevel2()
 	{
-		OpenScene( "City" );
+		OpenScene( "main" );
 	}
 
 	[MenuItem( "Open Scene/Level1Offline" )]

@@ -208,7 +208,10 @@ public class MultiplayerConnector : MonoBehaviour
 
             // PhotonNetwork.LoadLevel will internally handle isMessageQueueRunning. 
             // It will also load the correct scene on all clients automatically, so this call is only needed by the Master Client.
-            PhotonNetwork.LoadLevel(currentMap.Name);
+			PhotonNetwork.LoadLevel("main");
+
+			//PhotonNetwork.player.CustomProperties;
+//            PhotonNetwork.LoadLevel(currentMap.Name);
         }
         else
         {
@@ -307,4 +310,6 @@ public class MultiplayerConnector : MonoBehaviour
 			instance = connectorObject.GetComponent<MultiplayerConnector>();
 		}
 	}
+
+
 }
