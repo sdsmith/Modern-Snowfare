@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
 {
 	void Start()
 	{
-		if( ChatHandler.Instance.ChatUsername == "Pilot XXX" )
+		if( ChatHandler.Instance.ChatUsername == "Player XXX" )
 		{
 			if( PlayerPrefs.HasKey( "LoginUsername" ) == true )
 			{
@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
 			}
 			else
 			{
-				ChatHandler.Instance.ChatUsername = "Pilot " + System.Environment.TickCount % 1000;
+				ChatHandler.Instance.ChatUsername = "Player " + System.Environment.TickCount % 1000;
 			}
 		}
 	}
