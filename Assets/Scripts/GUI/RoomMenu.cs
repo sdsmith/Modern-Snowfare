@@ -10,7 +10,7 @@ public class RoomMenu : MonoBehaviour
 		// CreateRoom,
 	}
 
-	TabCategories m_ActiveTab = TabCategories.RoomBrowser;
+	TabCategories m_ActiveTab = TabCategories.Matchmaking;
 
 	//RoomMenuCreateRoom m_CreateRoomMenu;
 //	RoomMenuCreateRoom CreateRoomMenu
