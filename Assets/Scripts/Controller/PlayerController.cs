@@ -20,6 +20,7 @@ public class PlayerController : BaseController {
 
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
+    private GUITexture healthBarGUITexture;
 
     protected void Start () {
         // Component references
@@ -39,9 +40,16 @@ public class PlayerController : BaseController {
         // Character movement
         {
             Vector3 moveDirection, moveVelocity;
-            float forwardMove = Input.GetAxis("Vertical");
-            float sideMove = Input.GetAxis("Horizontal");
+            float forwardMove = 0;
+            float sideMove = 0;
             bool isGrounded = IsGrounded();
+            bool cursorLocked = Cursor.lockState == CursorLockMode.Locked;
+
+            // Only influence movement if cursor is locked in the window.
+            if (cursorLocked) {
+                forwardMove = Input.GetAxis("Vertical");
+                sideMove = Input.GetAxis("Horizontal");
+            }
 
             moveDirection = new Vector3(sideMove, 0, forwardMove);
 
@@ -64,19 +72,14 @@ public class PlayerController : BaseController {
             // does not need to be transformed.
             moveVelocity.y = rigidbody.velocity.y;
 
-            // Jump
-            if (isGrounded && Input.GetButtonDown("Jump")) {
+            // Jump (only influence movement is cursor is locked in the window)
+            if (cursorLocked && isGrounded && Input.GetButtonDown("Jump")) {
                 // Add upward velocity (jump!)
                 moveVelocity.y += jumpSpeed;
             }
 
             // Move
             rigidbody.velocity = moveVelocity;
-        }
-
-        // @TODO(sdsmith): Refactor non-character specific input out of here.
-        if (Input.GetKeyDown("escape")) {
-            Cursor.lockState = CursorLockMode.None;
         }
     }
 

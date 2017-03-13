@@ -73,6 +73,9 @@ public class Health : MonoBehaviour {
 				//transform.DetachChildren();
 				// DeathAnimation ();
 				PhotonNetwork.Destroy (gameObject);
+
+                // Update utilities
+                Util.localPlayer = null;
 			}
 		}
 	}

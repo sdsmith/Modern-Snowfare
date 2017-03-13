@@ -41,7 +41,7 @@ public class GrabAndDrop : MonoBehaviour {
 	[PunRPC]
 	public void GrabbingObject(int viewID) {
 
-		grabbedObject = PhotonView.Find (viewID).gameObject;
+		grabbedObject = PhotonView.Find(viewID).gameObject;
 
 		grabbedObject.GetComponent<CapsuleCollider> ().enabled = false;
 		grabbedObject.transform.SetParent (gameObject.transform, false);
