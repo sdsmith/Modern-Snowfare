@@ -132,7 +132,7 @@ public class NetworkManager : MonoBehaviour {
                 {
                     GUILayout.BeginHorizontal();
                     {
-                        if (GUILayout.Button("healer", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 140)))
+                        if (GUILayout.Button("healer", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f - 20), GUILayout.Height(Screen.height - 140)))
                         {
                             prefabName = "Healer";
                             hasPickedChar = true;
@@ -140,9 +140,21 @@ public class NetworkManager : MonoBehaviour {
 
                         GUILayout.FlexibleSpace();
 
-                        if (GUILayout.Button("flash", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 140)))
+                        if (GUILayout.Button("flash", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f - 20), GUILayout.Height(Screen.height - 140)))
                         {
                             prefabName = "Flash";
+                            hasPickedChar = true;
+                        }
+
+                        if (GUILayout.Button("juggernaut", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f - 20), GUILayout.Height(Screen.height - 140)))
+                        {
+                            prefabName = "Juggernaut";
+                            hasPickedChar = true;
+                        }
+
+                        if (GUILayout.Button("sniper", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f - 20), GUILayout.Height(Screen.height - 140)))
+                        {
+                            prefabName = "Sniper";
                             hasPickedChar = true;
                         }
                     }
