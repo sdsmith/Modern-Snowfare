@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: StonePath2
+  m_Name: Brick
   m_Shader: {fileID: 7, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
@@ -18,8 +18,8 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 2800000, guid: bafa7f04dcc647447a4f3db7364ec0a7, type: 3}
-        m_Scale: {x: 2, y: 2}
+        m_Texture: {fileID: 2800000, guid: be2326df608ad7f48862a23f725327f8, type: 3}
+        m_Scale: {x: 1, y: 6}
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
