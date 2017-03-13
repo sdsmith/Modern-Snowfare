@@ -27,11 +27,12 @@ public class PlayerInGameOverlay : MonoBehaviour {
     /** Health component of the attached player. */
     private Health playerHealth;
 
+    private Slider overlayHealthBarSlider;
+
     private Canvas overlayCanvas;
 
 
 	void Awake () {
-        overlayEnabled = false;
         screenOffset = new Vector3(0, 0, 0);
         localOffset = new Vector3(0, 0, 0);
 
@@ -82,10 +83,10 @@ public class PlayerInGameOverlay : MonoBehaviour {
         overlayBackgroundImage = canvasGameObject.transform.Find("Background").gameObject.GetComponent<Image>();
         Debug.Assert(overlayBackgroundImage != null, "Background game object must have an 'Image' component");
 
-        // Get the health bar game obeject and slider component
+        // Get the health bar game object and slider component
         Transform overlayHealthBarTransform = canvasGameObject.transform.Find("HealthBar");
         Debug.Assert(overlayHealthBarTransform != null, "PlayerInGameOverlay must have a child 'HealthBar' game object");
-        Slider overlayHealthBarSlider = overlayHealthBarTransform.gameObject.GetComponent<Slider>();
+        overlayHealthBarSlider = overlayHealthBarTransform.gameObject.GetComponent<Slider>();
         Debug.Assert(overlayHealthBarSlider != null, "HealthBar game object must have a 'Slider' component");
         RectTransform healthBarRectTransform = overlayHealthBarTransform.gameObject.GetComponent<RectTransform>();
 
@@ -94,18 +95,13 @@ public class PlayerInGameOverlay : MonoBehaviour {
         Debug.Assert(overlayPlayerNameTransform != null, "PlayerInGameOverlay must have a child 'PlayerName' game object");
         overlayPlayerNameText = overlayPlayerNameTransform.gameObject.GetComponent<Text>();
         Debug.Assert(overlayPlayerNameText != null, "PlayerName game object must have a 'Text' component");
+        RectTransform playerNameRectTransform = overlayPlayerNameTransform.gameObject.GetComponent<RectTransform>();
 
         float playerNameHeight;
         float healthBarHeight = healthBarRectTransform.sizeDelta.y;
 
         // Add the player's name to the overlay
         overlayPlayerNameText.text = playerName;
-        //Font arialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
-        //overlayPlayerNameText.font = arialFont;
-        //overlayPlayerNameText.material = arialFont.material;
-        //overlayPlayerNameText.alignment = TextAnchor.MiddleCenter;
-        //overlayPlayerNameText.fontSize = 14;
-        //overlayPlayerNameText.horizontalOverflow = HorizontalWrapMode.Overflow;
         overlayPlayerNameText.color = teamColor;
         playerNameHeight = overlayPlayerNameText.preferredHeight;
         overlayPlayerNameText.transform.position += new Vector3(0, (playerNameHeight / 4.0f) / 10f, 0); // Shift up in overlay
@@ -117,6 +113,9 @@ public class PlayerInGameOverlay : MonoBehaviour {
         float overlayWidth = overlayPlayerNameText.fontSize * maxPlayerNameDisplayLength + padding * 2.0f;
         float overlayHeight = playerNameHeight + healthBarHeight + padding;
         overlayBackgroundImage.rectTransform.sizeDelta = new Vector2(overlayWidth, overlayHeight);
+
+        // Set the player name text to be with width of the overlay (minus the padding)
+        playerNameRectTransform.sizeDelta = new Vector2(overlayWidth - padding * 2f, overlayPlayerNameText.preferredHeight);
 
         // Add health bar to the overlay
         overlayHealthBarSlider.minValue = 0;
@@ -140,6 +139,9 @@ public class PlayerInGameOverlay : MonoBehaviour {
             v.x = v.z = 0.0f;
             overlayCanvas.transform.LookAt(Camera.main.transform.position - v);
             overlayCanvas.transform.Rotate(0, 180, 0);
+
+            // Update the health bar with the player's current health
+            overlayHealthBarSlider.value = playerHealth.GetCurrentHitPoints();
         }
     }
 
