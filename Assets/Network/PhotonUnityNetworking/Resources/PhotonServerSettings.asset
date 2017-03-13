@@ -51,4 +51,8 @@ MonoBehaviour:
   - DroppingObject
   - GrabbingObject
   - ResetFlag
+  - RPCFlameOff
+  - LightTorch
+  - RPCFlameOn
+  - SetToLight
   DisableAutoOpenWizard: 1

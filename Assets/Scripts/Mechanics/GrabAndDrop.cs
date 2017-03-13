@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GrabAndDrop : MonoBehaviour {
 
+	GameObject toLight;
 	GameObject grabbedObject;
 	float grabbedObjectSize;
 	// public GameObject BlueTorchSpawn;
@@ -63,9 +64,10 @@ public class GrabAndDrop : MonoBehaviour {
 		grabbedObjectSize = grabbedObject.GetComponent<Renderer>().bounds.size.magnitude;
 
 		grabbedObject.GetComponent<CapsuleCollider> ().enabled = false;
-		grabbedObject.transform.SetParent (gameObject.transform, true);
+
 		Vector3 offset = Quaternion.AngleAxis(-45, gameObject.transform.right) * gameObject.transform.forward * 2;
 		grabbedObject.transform.position = gameObject.transform.position + offset;
+		grabbedObject.transform.SetParent (gameObject.transform, true);
 		Debug.Log ("Grabbing Object");
 	}
 
@@ -99,12 +101,42 @@ public class GrabAndDrop : MonoBehaviour {
 
 	void OnCollisionEnter (Collision col)
 	{
-		if ((col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.blue) ||
-		    (col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.red)) {
-			TryGrabObject (col.gameObject);
-			Debug.Log ("trying to grb flag");
+		//if blue team colliding with red torch
+		if (col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.blue) {
+			//if red torch is lit
+			if (Util.redTorchLit == true) {
+				//grab it
+				TryGrabObject (col.gameObject);
+				Debug.Log ("trying to grb flag");
+			} 
+			//red torch not lit
+			else {
+				//if holding lighter
+				if (grabbedObject.name == "Lighter") {
+					toLight = col.gameObject;
+					//light the torch
+					GetComponent<PhotonView> ().RPC ("LightTorch", PhotonTargets.AllBuffered, "red");
+					//LightTorch ("red");
+					//col.gameObject.GetComponent<Torchelight> ().IntensityLight = 1;
+					//col.gameObject.GetComponent<Torchelight> ().MaxLightIntensity = 3;
+				}
+			}
+		} else if (col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.red) {
+			if (Util.blueTorchLit == true) {
+				TryGrabObject (col.gameObject);
+				Debug.Log ("trying to grb flag");
+			} else {
+				
+				if (grabbedObject.name == "Lighter") {
+					toLight = col.gameObject;
+					GetComponent<PhotonView> ().RPC ("LightTorch", PhotonTargets.AllBuffered, "blue");
+					//LightTorch ("blue");
+					//col.gameObject.GetComponent<Torchelight> ().IntensityLight = 1;
+					//col.gameObject.GetComponent<Torchelight> ().MaxLightIntensity = 3;
+				}
+			}
 		} else if ((col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.red) ||
-		        (col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.blue)) {
+		         (col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.blue)) {
 			// col.gameObject.transform.position = RedTorchSpawn.transform.position;
 			GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
 			// Debug.Log ("Red reclaiming red torch");
@@ -132,6 +164,11 @@ public class GrabAndDrop : MonoBehaviour {
 				// score() 
 				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, PunTeams.Team.red);
 			}
+		} 
+
+		else if (col.gameObject.name == "Lighter") 
+		{
+			TryGrabObject (col.gameObject);
 		}
 
 	}
@@ -194,5 +231,65 @@ public class GrabAndDrop : MonoBehaviour {
 
 		}
 	}
+
+	public void flameOff()
+	{
+		GetComponent<PhotonView> ().RPC ("RPCFlameOff", PhotonTargets.AllBuffered);
+	}
+
+	[PunRPC]
+	public void RPCFlameOff()
+	{
+		if (getGrabbedObjectName () == "Torch_Red") {
+			Util.redTorchLit = false; 
+			grabbedObject.GetComponent<Torchelight> ().IntensityLight = 0;
+			grabbedObject.GetComponent<Torchelight> ().MaxLightIntensity = 0;
+
+		} 
+		else if (getGrabbedObjectName() == "Torch_Blue"){
+			Util.blueTorchLit = false;
+			grabbedObject.GetComponent<Torchelight> ().IntensityLight = 0;
+			grabbedObject.GetComponent<Torchelight> ().MaxLightIntensity = 0;
+		}
+	}
+
+	[PunRPC]
+	public void SetToLight()
+	{
+		
+	}
+	[PunRPC]
+	public void RPCFlameOn()
+	{
+		Debug.Log ("setting torch light intensity");
+		toLight.GetComponent<Torchelight> ().IntensityLight = 1;
+		toLight.GetComponent<Torchelight> ().MaxLightIntensity = 3;
+		Debug.Log ("Torch light intensity set");
+	}
+
+	[PunRPC]
+	public void LightTorch(string colour)
+	{
+		//GetComponent<PhotonView> ().RPC ("RPCFlameOn", PhotonTargets.AllBuffered);
+		if (colour == "red") 
+		{
+			Util.redTorchLit = true;
+			GameObject.Find ("Torch_Red").GetComponent<Torchelight> ().IntensityLight = 1;
+			GameObject.Find ("Torch_Red").GetComponent<Torchelight> ().MaxLightIntensity = 1;
+		}
+
+		else if (colour == "blue") 
+		{
+			Util.blueTorchLit = true;
+			GameObject.Find ("Torch_Blue").GetComponent<Torchelight> ().IntensityLight = 1;
+			GameObject.Find ("Torch_Blue").GetComponent<Torchelight> ().MaxLightIntensity = 1;
+
+		}
+
+		toLight = null;
+
+	}
+
+
 
 }

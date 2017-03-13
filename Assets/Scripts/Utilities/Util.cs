@@ -10,12 +10,18 @@ public class Util : MonoBehaviour {
 	public static GameObject redTorchSpawn;
 	public static GameObject blueTorchSpawn;
 
+	public static bool redTorchLit;
+	public static bool blueTorchLit;
+
 	void Start() {
 		redSpawns = GameObject.FindGameObjectsWithTag ("RedSpawn");
 		blueSpawns = GameObject.FindGameObjectsWithTag ("BlueSpawn");
 
 		redTorchSpawn = GameObject.Find ("RedTorchSpawn");
 		blueTorchSpawn = GameObject.Find ("BlueTorchSpawn");
+
+		redTorchLit = true;
+		blueTorchLit = true;
 	}
 
 	// Get spawn point based on your team

@@ -62,6 +62,11 @@ public class Health : MonoBehaviour {
 				if (gameObject.tag == "Player") {
 					// show the standby camera. Optional for now
 					if (GetComponent <GrabAndDrop> () != null) {
+						if (GetComponent<GrabAndDrop> ().getGrabbedObjectName() == "Torch_Red"
+							|| GetComponent<GrabAndDrop> ().getGrabbedObjectName() == "Torch_Blue") {
+
+							GetComponent<GrabAndDrop> ().flameOff ();
+						}
 						GetComponent<GrabAndDrop> ().DropObject ();
 					}
 
