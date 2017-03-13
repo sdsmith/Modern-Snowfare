@@ -29,7 +29,7 @@ public class PlayerInGameOverlay : MonoBehaviour {
     private Canvas overlayCanvas;
 
 
-	void Start () {
+	void Awake () {
         overlayEnabled = false;
         screenOffset = new Vector3(0, 0, 0);
         localOffset = new Vector3(0, 0, 0);
@@ -109,6 +109,9 @@ public class PlayerInGameOverlay : MonoBehaviour {
         // Adjust background size to fit overlay content
         const float backgroundPadding = 5f;
         overlayBackgroundImage.rectTransform.sizeDelta = new Vector2(overlayPlayerNameText.preferredWidth + backgroundPadding, overlayPlayerNameText.preferredHeight);
+
+        // Turn off the overlay by default
+        Disable();
     }
 
 

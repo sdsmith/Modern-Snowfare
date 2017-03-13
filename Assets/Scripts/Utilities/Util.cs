@@ -85,4 +85,18 @@ public class Util : MonoBehaviour {
     public static bool IsSameTeam(GameObject go1, GameObject go2) {
         return GetTeam(go1) == GetTeam(go2);
     }
+
+
+    /**
+     * Return the first child transform of the given game object with the given tag,
+     * or null if no matching tags are found.
+     */
+    public static Transform FindChildByTag(GameObject go, string tag) {
+        foreach (Transform child in go.transform) {
+            if (child.tag == tag) {
+                return child;
+            }
+        }
+        return null;
+    }
 }

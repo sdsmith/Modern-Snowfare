@@ -28,14 +28,29 @@ public class FXManager : MonoBehaviour {
         }
     }
 
+    /**
+     * @TODO(sdsmith): doc
+     */
     void DisplayInGameOverlay() {
         // Enable overlays with proximity
-        foreach (GameObject goOverlay in GameObject.FindGameObjectsWithTag("PlayerInGameOverlay")) {
-            PlayerInGameOverlay overlay = goOverlay.GetComponent<PlayerInGameOverlay>();
+        foreach (GameObject playerGO in GameObject.FindGameObjectsWithTag("Player")) {
+            GameObject overlayGO;
+
+            // Check if the player has an overlay
+            Transform overlayTransform = Util.FindChildByTag(playerGO, "PlayerInGameOverlay");
+            if (overlayTransform == null) {
+                // Player does not have attached overlay, create one
+                overlayGO = (GameObject)Instantiate(Resources.Load("Overlay/PlayerInGameOverlay"), playerGO.transform, false);
+            } else {
+                // Get the existing overlay
+                overlayGO = overlayTransform.gameObject;
+            }
+
+            PlayerInGameOverlay overlay = overlayGO.GetComponent<PlayerInGameOverlay>();
 
             // Don't display our own overlay
-            Debug.Assert(Util.localPlayer.GetComponentInChildren<PlayerInGameOverlay>() != null, "Could not find PlayerInGameOverlay in child components");
-            if (Util.localPlayer.GetComponentInChildren<PlayerInGameOverlay>() == overlay) {
+            Debug.Assert(Util.localPlayer != null, "Local player game object not set");
+            if (Util.localPlayer == playerGO) {
                 continue;
             }
 
