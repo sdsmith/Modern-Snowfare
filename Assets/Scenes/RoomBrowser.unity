@@ -140,7 +140,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.36862746, g: 0.2, b: 0.5686275, a: 0.019607844}
+  m_BackGroundColor: {r: 0.015686275, g: 0.015686275, b: 0.20392157, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -246,8 +246,8 @@ GUITexture:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2010319477}
   m_Enabled: 1
-  m_Texture: {fileID: 2800000, guid: 1a8a767f2ee22304996d2f39321c18de, type: 3}
-  m_Color: {r: 0.5955882, g: 0.5955882, b: 0.5955882, a: 1}
+  m_Texture: {fileID: 2800000, guid: c59390ef40ff81a42a8142f4c24e8805, type: 3}
+  m_Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0.359}
   m_PixelInset:
     serializedVersion: 2
     x: -640
