@@ -16,7 +16,6 @@ public class PlayerInGameOverlay : MonoBehaviour {
     private Vector3 screenOffset;
     /** Reference to the player's name text in the overlay. */
     private Text overlayPlayerNameText;
-    private GameObject overlayPlayerNameGO;
     /** Reference to the overlay background image. */
     private Image overlayBackgroundImage;
 
@@ -93,7 +92,6 @@ public class PlayerInGameOverlay : MonoBehaviour {
 
         // Get the player name text component
         Transform overlayPlayerNameTransform = canvasGameObject.transform.Find("PlayerName");
-        overlayPlayerNameGO = overlayPlayerNameTransform.gameObject;
         Debug.Assert(overlayPlayerNameTransform != null, "PlayerInGameOverlay must have a child 'PlayerName' game object");
         overlayPlayerNameText = overlayPlayerNameTransform.gameObject.GetComponent<Text>();
         Debug.Assert(overlayPlayerNameText != null, "PlayerName game object must have a 'Text' component");
@@ -153,13 +151,13 @@ public class PlayerInGameOverlay : MonoBehaviour {
      * Enable the canvas component to display the overlay.
      */
     public void Enable() {
-        overlayCanvas.enabled = true;
+        // NOTE(sdsmith): Could do overlayCanvas.enabled = false, however, read the STUDY.
+        // Doing it this way acts like disabling its child objects.
+        // STUDY(sdsmith): Without disbaling the PlayerName game object, the text will not display 
+        // by default even while all the settings were correct. Any modification to the Text 
+        // component in the inspector would trigger the text to display. This is simply a workaround.
+        overlayCanvas.gameObject.SetActive(true);
         overlayEnabled = true;
-
-        // STUDY(sdsmith): Without this, the text will not display by default even while all 
-        // the settings were correct. Any modification to the Text component in the inspector
-        // would trigger the text to display. This is simply a workaround.
-        overlayPlayerNameGO.SetActive(true);
     }
 
 
@@ -167,13 +165,14 @@ public class PlayerInGameOverlay : MonoBehaviour {
      * Disabled the canvas component to hide the overlay.
      */
     public void Disable() {
-        overlayCanvas.enabled = false;
+        // NOTE(sdsmith): Could do overlayCanvas.enabled = false, however, read the STUDY.
+        // Doing it this way acts like disabling its child objects.
+        // STUDY(sdsmith): Without disbaling the PlayerName game object, the text will not display 
+        // by default even while all the settings were correct. Any modification to the Text 
+        // component in the inspector would trigger the text to display. This is simply a workaround.
+        overlayCanvas.gameObject.SetActive(false);
         overlayEnabled = false;
 
-        // STUDY(sdsmith): Without this, the text will not display by default even while all 
-        // the settings were correct. Any modification to the Text component in the inspector
-        // would trigger the text to display. This is simply a workaround.
-        overlayPlayerNameGO.SetActive(false);
     }
 
 
