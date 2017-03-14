@@ -16,7 +16,7 @@ public class PlayerController : BaseController {
 
 	protected float speed = 10.0f;
 	protected float damage = 1.0f;
-	public float jumpSpeed = 15.0F;
+    public float jumpSpeed;
 
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
@@ -26,6 +26,8 @@ public class PlayerController : BaseController {
         // Component references
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
+
+        jumpSpeed = 7f;
 
 		// @DEBUG(Llewellin): Add entry to debug overlay
 		DebugOverlay.AddAttr("speed", GetSpeed().ToString());
