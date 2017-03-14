@@ -45,7 +45,7 @@ public class GrabAndDrop : MonoBehaviour {
 
 		grabbedObject.GetComponent<CapsuleCollider> ().enabled = false;
 		grabbedObject.transform.SetParent (gameObject.transform, false);
-		Vector3 offset = Quaternion.AngleAxis(-45, gameObject.transform.right) * gameObject.transform.forward * 2;
+		Vector3 offset = Quaternion.AngleAxis(-45, gameObject.transform.right) * gameObject.transform.forward * 4;
 		grabbedObject.transform.position = gameObject.transform.position + offset;
 	}
 
