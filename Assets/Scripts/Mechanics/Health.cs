@@ -99,14 +99,14 @@ public class Health : MonoBehaviour {
 	/*
 	 * DEBUGGING PURPOSES 
 	*/
-	void OnGUI(){
-		// If this is my player, kill myself to test respawning
-		if (GetComponent<PhotonView> ().isMine && gameObject.tag == "Player") {
-			if (GUI.Button (new Rect (Screen.width - 225, 0, 225, 30), "I don't wanna be here anymore!")) {
-				Die ();
-			}
-		}
-	}
+//	void OnGUI(){
+//		// If this is my player, kill myself to test respawning
+//		if (GetComponent<PhotonView> ().isMine && gameObject.tag == "Player") {
+//			if (GUI.Button (new Rect (Screen.width - 225, 0, 225, 30), "I don't wanna be here anymore!")) {
+//				Die ();
+//			}
+//		}
+//	}
 
 	public void SetCurrentPoints(float health){
 		this.currentPoints = health;
