@@ -128,7 +128,7 @@ public class PlayerInGameOverlay : MonoBehaviour {
      * Display the overlay for this frame.
      */
     void LateUpdate() {
-        if (overlayEnabled) {
+        if (overlayEnabled && Camera.main != null) {
             // Force the canvas to face the player
             Vector3 v = Camera.main.transform.position - transform.position;
             v.x = v.z = 0.0f;
