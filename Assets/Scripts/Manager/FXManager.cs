@@ -6,6 +6,9 @@ public class FXManager : MonoBehaviour {
 
 	public GameObject SnowballPrefab;
     public float SnowballSpeed = 10f;
+	public string[] PowerUps;
+
+	int RandPowerUp;
 
 	List<GameObject> currentSnowballs;
     //public AudioClip snowballFXAudio; 
@@ -20,6 +23,7 @@ public class FXManager : MonoBehaviour {
     void Start() {
         inGameOverlay = new InGameOverlay();
         inGameOverlay.nearReticleAngle = 15f;//degrees
+		StartCoroutine(Spawner());
     }
 
     void OnGUI() {
@@ -72,5 +76,16 @@ public class FXManager : MonoBehaviour {
 	void SnowballFX(Vector3 startPos, Quaternion rotation, float damage){
 		SnowballPrefab.GetComponent<SnowballController> ().SetSnowballDamage (damage);
         Instantiate(SnowballPrefab, startPos, rotation);
+	}
+
+	IEnumerator Spawner(){	
+		while (true) {
+			int randomTimer =  Random.Range (0, 60);
+			yield return new WaitForSeconds (randomTimer);
+			RandPowerUp = Random.Range (0, 3);
+			Vector3 SpawnPosition = new Vector3 (Random.Range (20, 150), 7, Random.Range (20, 150));
+			PhotonNetwork.Instantiate (PowerUps[RandPowerUp], SpawnPosition, gameObject.transform.rotation,0);
+		}
+
 	}
 }

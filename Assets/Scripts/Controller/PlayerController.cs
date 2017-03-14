@@ -124,4 +124,8 @@ public class PlayerController : BaseController {
 	public virtual float GetDamage() {
 		return damage;
 	}
+
+	public  void SetSpeed(float new_Speed) {
+		this.speed = new_Speed;
+	}
 }

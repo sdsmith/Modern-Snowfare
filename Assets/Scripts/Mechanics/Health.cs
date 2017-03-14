@@ -107,4 +107,8 @@ public class Health : MonoBehaviour {
 			}
 		}
 	}
+
+	public void SetCurrentPoints(float health){
+		this.currentPoints = health;
+	}
 }
