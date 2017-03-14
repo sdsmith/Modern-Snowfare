@@ -8,6 +8,9 @@ TagManager:
   - Obstacle
   - Ship
   - Crosshair
+  - BlueSpawn
+  - RedSpawn
+  - PlayerinGameOverlay
   layers:
   - Default
   - TransparentFX
@@ -18,8 +21,8 @@ TagManager:
   - 
   - 
   - Ship
-  - 
-  - 
+  - Radar
+  - PlayerinGameOverlay
   - 
   - 
   - 

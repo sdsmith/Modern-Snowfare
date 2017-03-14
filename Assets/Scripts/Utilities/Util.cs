@@ -1,21 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Util : MonoBehaviour {
 
 	static GameObject[] redSpawns;
 	static GameObject[] blueSpawns;
 
-	public static GameObject redTorchSpawn;
-	public static GameObject blueTorchSpawn;
+    public static Vector3 defaultRedFlag;
+    public static Vector3 defaultBlueFlag;
+
+    /** Contains reference to the local player, or null if it doesn't exist. */
+    public static GameObject localPlayer = null;
+
+
+
+	public static GameObject redFortEntrance;
+	public static GameObject blueFortEntrance;
 
 	void Start() {
 		redSpawns = GameObject.FindGameObjectsWithTag ("RedSpawn");
 		blueSpawns = GameObject.FindGameObjectsWithTag ("BlueSpawn");
 
-		redTorchSpawn = GameObject.Find ("RedTorchSpawn");
-		blueTorchSpawn = GameObject.Find ("BlueTorchSpawn");
+		defaultRedFlag = GameObject.Find ("Torch_Red").transform.position;
+		defaultBlueFlag = GameObject.Find ("Torch_Blue").transform.position;
+
+		redFortEntrance = GameObject.Find("RedFortEntrance");
+		blueFortEntrance = GameObject.Find("BlueFortEntrance");
 	}
 
 	// Get spawn point based on your team
@@ -27,4 +39,19 @@ public class Util : MonoBehaviour {
 			return blueSpawns [Random.Range (0, blueSpawns.Length)];
 		}
 	}
+
+    /**
+     * Add UnityEngine.UI.Text component to the given Canvas game object with the given text.
+     * Returns a reference to the added Text component.
+     */
+    public static Text AddTextToCanvas(string text, GameObject canvasGameObject) {
+        Text t = canvasGameObject.AddComponent<Text>();
+        t.text = text;
+
+        Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
+        t.font = ArialFont;
+        t.material = ArialFont.material;
+
+        return t;
+    }
 }

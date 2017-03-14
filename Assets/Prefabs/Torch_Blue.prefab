@@ -39,12 +39,8 @@ GameObject:
   - component: {fileID: 114867403131613288}
   - component: {fileID: 114295413181523950}
   - component: {fileID: 136919058021030844}
-  - component: {fileID: 114874477198529500}
-  - component: {fileID: 114486498387515556}
   - component: {fileID: 33322292669854700}
   - component: {fileID: 23473099216561736}
-  - component: {fileID: 114888354727980910}
-  - component: {fileID: 114880694048140244}
   m_Layer: 0
   m_Name: Torch_Blue
   m_TagString: Untagged
@@ -363,23 +359,12 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114888354727980910}
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114486498387515556
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1262474029033202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a8724b2606084410aac7bff8431d31e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114867403131613288
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -398,68 +383,6 @@ MonoBehaviour:
   Fumee: {fileID: 1042300221643724}
   MaxLightIntensity: 3
   IntensityLight: 1
---- !u!114 &114874477198529500
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1262474029033202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a8724b2606084410aac7bff8431d31e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114880694048140244
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1262474029033202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6fe65ef9dfc0d34d990203dc33b0d9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DisplayIcon: {fileID: 2800000, guid: c03c0ff9fdb67b2498ba742ec762f942, type: 3}
-  IconColour: {r: 0, g: 0.27910748, b: 0.9411765, a: 1}
-  Display_1_Type: 0
-  Distance_1_Units: 
-  Display_1_Timer: 0
-  Display_1_Text: 
-  Text_1_Colour: {r: 1, g: 1, b: 1, a: 1}
-  Display_2_Type: 0
-  Distance_2_Units: 
-  Display_2_Timer: 0
-  Display_2_Text: 
-  Text_2_Colour: {r: 1, g: 1, b: 1, a: 1}
-  PointerArrowIcon: {fileID: 0}
-  PointerColour: {r: 1, g: 1, b: 1, a: 1}
-  DisplayStyle: 0
-  PulsingAnimation: 0
-  PulsingSpeed: 0
-  FadeOverDistance: 0
-  MaxFadeDistance: 0
-  FadeDistances:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  DisplayOnScreen: 1
-  DisplayOffScreen: 1
-  Minimap_Display_Icon: {fileID: 0}
-  LastTimerUpdate: 0
---- !u!114 &114888354727980910
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1262474029033202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a8724b2606084410aac7bff8431d31e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &136919058021030844
 CapsuleCollider:
   m_ObjectHideFlags: 1
