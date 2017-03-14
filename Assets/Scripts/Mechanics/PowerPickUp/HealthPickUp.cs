@@ -44,7 +44,7 @@ public class HealthPickUp : MonoBehaviour {
 	IEnumerator Timer(PlayerController Player, float Speed) {
 		yield return new WaitForSeconds(15);
 		Player.GetComponent<Health> ().SetCurrentPoints (Player.GetHealth());
-		if (Player != null) {
+		if (Player != null && Player.transform.Find("HealthPowerUpIndicator(Clone)").gameObject!= null) {
 			Destroy(Player.transform.Find("HealthPowerUpIndicator(Clone)").gameObject);
 		}
 		Destroy (this.gameObject);

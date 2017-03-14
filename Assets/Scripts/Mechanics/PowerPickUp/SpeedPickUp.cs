@@ -42,7 +42,7 @@ public class SpeedPickUp : MonoBehaviour {
 	IEnumerator Timer(PlayerController Player, float Speed) {
 		yield return new WaitForSeconds(15);
 		Player.SetSpeed (10);
-		if (Player != null) {
+		if (Player != null && Player.transform.Find("SpeedPowerUpIndicator(Clone)").gameObject!= null) {
 			Destroy (Player.transform.Find ("SpeedPowerUpIndicator(Clone)").gameObject);
 		}
 		Destroy (this.gameObject);

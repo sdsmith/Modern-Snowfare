@@ -43,7 +43,7 @@ public class InvPickUp : MonoBehaviour {
 	IEnumerator Timer(PlayerController Player, SkinnedMeshRenderer Renderer) {
 		yield return new WaitForSeconds(15);
 		Player.GetComponent<Health> ().SetCurrentPoints (Player.GetHealth());
-		if (Player != null) {
+		if (Player != null && Player.transform.Find("InvPowerUpIndicator(Clone)").gameObject!= null) {
 			Renderer.enabled = true;
 			Destroy(Player.transform.Find("InvPowerUpIndicator(Clone)").gameObject);
 		}
