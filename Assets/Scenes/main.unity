@@ -598,6 +598,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SnowballPrefab: {fileID: 193098, guid: 89ef627f3c43048578b1cb90e36ed088, type: 2}
   SnowballSpeed: 10
+  PowerUps:
+  - HealthPowerUp
+  - SpeedPowerUp
+  - InvPowerUp
 --- !u!114 &292221895
 MonoBehaviour:
   m_ObjectHideFlags: 0
