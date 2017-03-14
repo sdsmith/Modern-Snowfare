@@ -5,7 +5,6 @@ public enum Gamemode
 {
 	CaptureTheFlag,
 	Deathmatch,
-	Healer,
 	TeamDeathmatch,
 	Count,
 }
@@ -49,6 +48,7 @@ public class GamemodeManager : MonoBehaviour
 
 	void Awake()
 	{
+		Debug.Log ("Awake");
 		Instance = this;
 
 		FindGamemodes();
@@ -77,6 +77,12 @@ public class GamemodeManager : MonoBehaviour
 		//Check if we are actually connected to a room
 		if( PhotonNetwork.room == null )
 		{
+			return;
+		}
+
+		// @NOTE(Llewellin): Always set to CTF
+		{
+			SelectedGamemode = Gamemode.CaptureTheFlag;
 			return;
 		}
 

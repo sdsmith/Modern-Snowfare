@@ -117,10 +117,10 @@ public class GamemodeGUIBase : MonoBehaviour
 
 	protected void DrawLeaderboards()
 	{
-		if( GamemodeManager.CurrentGamemode.IsRoundFinished() == true )
-		{
-			m_LeaderboardsFadeIn = 1;
-		}
+//		if( GamemodeManager.CurrentGamemode.IsRoundFinished() == true )
+//		{
+//			m_LeaderboardsFadeIn = 1;
+//		}
 
 		if( m_LeaderboardsFadeIn == 0 )
 		{

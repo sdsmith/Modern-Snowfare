@@ -15,7 +15,6 @@ public class ServerOptions
 	{ 
 		Gamemode.CaptureTheFlag, 
 		Gamemode.Deathmatch,
-		Gamemode.Healer,
 		Gamemode.TeamDeathmatch
 	};
 

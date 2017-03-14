@@ -23,7 +23,7 @@ public class GamemodeGUICaptureTheFlag : GamemodeGUIBase
 
 	void Start()
 	{
-		m_Gamemode = GamemodeManager.Instance.GetGamemode( Gamemode.CaptureTheFlag ) as GamemodeCaptureTheFlag;
+		// m_Gamemode = GamemodeManager.Instance.GetGamemode( Gamemode.CaptureTheFlag ) as GamemodeCaptureTheFlag;
 	}
 
 	void Update()
@@ -33,21 +33,21 @@ public class GamemodeGUICaptureTheFlag : GamemodeGUIBase
 
 	void OnGUI()
 	{
-		if( GamemodeManager.CurrentGamemode.GetGamemodeType() != Gamemode.CaptureTheFlag )
-		{
-			return;
-		}
+//		if( GamemodeManager.CurrentGamemode.GetGamemodeType() != Gamemode.CaptureTheFlag )
+//		{
+//			return;
+//		}
 
 		DrawLeaderboards();
 
-		if( m_Gamemode.IsRoundFinished() == true )
-		{
-			DrawEndOfMatchText();
-		}
-		else
-		{
+//		if( m_Gamemode.IsRoundFinished() == true )
+//		{
+//			DrawEndOfMatchText();
+//		}
+//		else
+//		{
 			DrawScoreHUD();
-		}
+//		}
 	}
 
 	void DrawEndOfMatchText()
@@ -111,7 +111,8 @@ public class GamemodeGUICaptureTheFlag : GamemodeGUIBase
 		GUI.color = Color.white;
 		GUI.DrawTexture( new Rect( ( Screen.width - GuiTexture.width ) * 0.5f, 0, GuiTexture.width, GuiTexture.height ), GuiTexture );
 		GUI.DrawTexture( new Rect( ( Screen.width - GuiTextureTeamWings.width ) * 0.5f, 0, GuiTextureTeamWings.width, GuiTextureTeamWings.height ), GuiTextureTeamWings );
-		GUI.Label( new Rect( Screen.width * 0.5f - 53, 3, 100, 40 ), GetTimeLeftString( timePassed ), LabelStyleCentered );
+//		GUI.Label( new Rect( Screen.width * 0.5f - 53, 3, 100, 40 ), GetTimeLeftString( timePassed ), LabelStyleCentered );
+		// GUI.Label( new Rect( Screen.width * 0.5f - 53, 3, 100, 40 ), GetTime(timePassed), LabelStyleCentered );
 		GUI.Label( new Rect( Screen.width * 0.5f - 129, 3, 50, 40 ), blueScore.ToString(), LabelStyleCentered );
 		GUI.Label( new Rect( Screen.width * 0.5f + 75, 3, 50, 40 ), redScore.ToString(), LabelStyleCentered );
 
@@ -126,5 +127,14 @@ public class GamemodeGUICaptureTheFlag : GamemodeGUIBase
 			GUI.color = Color.red;
 			GUI.DrawTexture( new Rect( Screen.width * 0.5f + 43, 4, FlagIcon.width, FlagIcon.height ), FlagIcon );
 		}
+	}
+
+	//@Llewellin
+	string GetTime(double time) 
+	{
+		int minutesLeft = Mathf.FloorToInt( (float)time / 60 );
+		int secondsLeft = Mathf.FloorToInt( (float)time ) % 60;
+
+		return minutesLeft.ToString() + ":" + secondsLeft.ToString( "00" );
 	}
 }

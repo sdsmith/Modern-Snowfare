@@ -24,11 +24,9 @@ public class RoomMenuCreateRoom : RoomMenuBase
 	{
 		AddMapToQueue( "Greenlands", Gamemode.CaptureTheFlag );
 //		AddMapToQueue( "City", Gamemode.TeamDeathmatch );
-		AddMapToQueue( "City", Gamemode.Healer );
 		AddMapToQueue( "Greenlands", Gamemode.Deathmatch );
 		AddMapToQueue( "City", Gamemode.CaptureTheFlag );
 //		AddMapToQueue( "Greenlands", Gamemode.TeamDeathmatch );
-		AddMapToQueue( "Greenlands", Gamemode.Healer );
 		AddMapToQueue( "City", Gamemode.Deathmatch );
 	}
 
