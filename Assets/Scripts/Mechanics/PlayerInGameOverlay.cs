@@ -16,6 +16,7 @@ public class PlayerInGameOverlay : MonoBehaviour {
     private Vector3 screenOffset;
     /** Reference to the player's name text in the overlay. */
     private Text overlayPlayerNameText;
+    private GameObject overlayPlayerNameGO;
     /** Reference to the overlay background image. */
     private Image overlayBackgroundImage;
 
@@ -63,7 +64,7 @@ public class PlayerInGameOverlay : MonoBehaviour {
         PhotonView targetPhotonView = gameObject.GetComponentInParent<PhotonView>();
         Debug.Assert(targetPhotonView != null, "Parent game object must have a PhotonView");
         Debug.Assert(targetPhotonView.owner != null, "Parent game object must be owner by a user, not the scene");
-        playerName = targetPhotonView.owner.NickName;
+        playerName = targetPhotonView.owner.NickName.ToUpper();
         // Adjust the player name to max display length
         if (playerName.Length > maxPlayerNameDisplayLength) {
             playerName = playerName.Substring(0, maxPlayerNameDisplayLength - 1) + "~";
@@ -92,6 +93,7 @@ public class PlayerInGameOverlay : MonoBehaviour {
 
         // Get the player name text component
         Transform overlayPlayerNameTransform = canvasGameObject.transform.Find("PlayerName");
+        overlayPlayerNameGO = overlayPlayerNameTransform.gameObject;
         Debug.Assert(overlayPlayerNameTransform != null, "PlayerInGameOverlay must have a child 'PlayerName' game object");
         overlayPlayerNameText = overlayPlayerNameTransform.gameObject.GetComponent<Text>();
         Debug.Assert(overlayPlayerNameText != null, "PlayerName game object must have a 'Text' component");
@@ -105,6 +107,7 @@ public class PlayerInGameOverlay : MonoBehaviour {
         overlayPlayerNameText.color = teamColor;
         playerNameHeight = overlayPlayerNameText.preferredHeight;
         overlayPlayerNameText.transform.position += new Vector3(0, (playerNameHeight / 4.0f) / 10f, 0); // Shift up in overlay
+        //overlayPlayerNameText.FontTextureChanged();
 
         // Add a background to the overlay
         overlayBackgroundImage.color = new Color(teamColor.r / 3, teamColor.g, teamColor.b, 0.3f);
@@ -152,6 +155,11 @@ public class PlayerInGameOverlay : MonoBehaviour {
     public void Enable() {
         overlayCanvas.enabled = true;
         overlayEnabled = true;
+
+        // STUDY(sdsmith): Without this, the text will not display by default even while all 
+        // the settings were correct. Any modification to the Text component in the inspector
+        // would trigger the text to display. This is simply a workaround.
+        overlayPlayerNameGO.SetActive(true);
     }
 
 
@@ -161,6 +169,11 @@ public class PlayerInGameOverlay : MonoBehaviour {
     public void Disable() {
         overlayCanvas.enabled = false;
         overlayEnabled = false;
+
+        // STUDY(sdsmith): Without this, the text will not display by default even while all 
+        // the settings were correct. Any modification to the Text component in the inspector
+        // would trigger the text to display. This is simply a workaround.
+        overlayPlayerNameGO.SetActive(false);
     }
 
 

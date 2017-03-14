@@ -36,6 +36,12 @@ public class FXManager : MonoBehaviour {
         foreach (GameObject playerGO in GameObject.FindGameObjectsWithTag("Player")) {
             GameObject overlayGO;
 
+            // Our player should not have an overlay
+            Debug.Assert(Util.localPlayer != null, "Local player game object not set");
+            if (Util.localPlayer == playerGO) {
+                continue;
+            }
+
             // Check if the player has an overlay
             Transform overlayTransform = Util.FindChildByTag(playerGO, "PlayerInGameOverlay");
             if (overlayTransform == null) {
@@ -47,12 +53,6 @@ public class FXManager : MonoBehaviour {
             }
 
             PlayerInGameOverlay overlay = overlayGO.GetComponent<PlayerInGameOverlay>();
-
-            // Don't display our own overlay
-            Debug.Assert(Util.localPlayer != null, "Local player game object not set");
-            if (Util.localPlayer == playerGO) {
-                continue;
-            }
 
             Transform playerTransform = overlay.GetTarget();
 
