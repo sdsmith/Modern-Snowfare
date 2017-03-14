@@ -27,10 +27,6 @@ public class PlayerController : BaseController {
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
 
-        // @TODO(sdsmith): Move this out of here. Has nothing to do with the player.
-        // Lock cursor to window (hides OS cursor graphic)
-        Cursor.lockState = CursorLockMode.Locked;
-
 		// @DEBUG(Llewellin): Add entry to debug overlay
 		DebugOverlay.AddAttr("speed", GetSpeed().ToString());
 		DebugOverlay.AddAttr("damage", GetDamage().ToString());
