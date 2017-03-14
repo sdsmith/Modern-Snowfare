@@ -10,16 +10,13 @@ public class PlayerInGameOverlay : MonoBehaviour {
     private bool overlayEnabled;
     /** The transform of the game object to be tracked. */
     private Transform target;
-    /** Offset from the target (local delta). */
-    private Vector3 localOffset;
-    /** Set the offset of the canvas on the screen (ie. shift from (0,0) screen space). */
-    private Vector3 screenOffset;
     /** Reference to the player's name text in the overlay. */
     private Text overlayPlayerNameText;
     /** Reference to the overlay background image. */
     private Image overlayBackgroundImage;
-
+    /** Maximum number of characters to display in the overlay for a player's name. */
     private int maxPlayerNameDisplayLength = 8;
+    /** The color of the player's team that the overlay is attached to. */
     private Color teamColor;
 
     /** Name of the attached player. */
@@ -27,15 +24,13 @@ public class PlayerInGameOverlay : MonoBehaviour {
     /** Health component of the attached player. */
     private Health playerHealth;
 
+    /** Reference to the overlay halth bar slider. */
     private Slider overlayHealthBarSlider;
-
+    /** Reference to the overlay canvas component. */
     private Canvas overlayCanvas;
 
 
 	void Awake () {
-        screenOffset = new Vector3(0, 0, 0);
-        localOffset = new Vector3(0, 0, 0);
-
         // Set the team color
         switch (Util.GetTeam(gameObject)) {
             case PunTeams.Team.none:
@@ -54,6 +49,7 @@ public class PlayerInGameOverlay : MonoBehaviour {
 
         // Get the overlay canvas
         overlayCanvas = GetComponent<Canvas>();
+        GameObject canvasGameObject = overlayCanvas.gameObject;
 
         // Get the player's health component
         playerHealth = gameObject.GetComponentInParent<Health>();
@@ -71,8 +67,6 @@ public class PlayerInGameOverlay : MonoBehaviour {
 
         // Set our target to the player's transform
         target = gameObject.transform.root;
-
-        GameObject canvasGameObject = overlayCanvas.gameObject;
 
         // @NOTE(sdsmith): Can only have one graphic component per game object. Therefore, each 
         // graphic element of the overlay must be its own game object.

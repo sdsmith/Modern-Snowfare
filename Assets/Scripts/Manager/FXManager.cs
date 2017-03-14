@@ -53,7 +53,6 @@ public class FXManager : MonoBehaviour {
             }
 
             PlayerInGameOverlay overlay = overlayGO.GetComponent<PlayerInGameOverlay>();
-
             Transform playerTransform = overlay.GetTarget();
 
             // Calculate the distance from the player to the reticle

@@ -4,9 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Projectile
+  - Obstacle
+  - Ship
+  - Crosshair
   - BlueSpawn
   - RedSpawn
-  - PlayerInGameOverlay
+  - PlayerinGameOverlay
   layers:
   - Default
   - TransparentFX
@@ -16,9 +20,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Ship
   - Radar
-  - PlayerInGameOverlay
+  - PlayerinGameOverlay
   - 
   - 
   - 

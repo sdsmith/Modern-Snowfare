@@ -6,13 +6,20 @@ public class NetworkManager : MonoBehaviour {
 
     public GameObject standbyCamera;
     public bool debug = false;
-    // This is the name of the prefab we are going to create into the game.
-    // This should be changed to match whichever character the player chooses to be
-    string prefabName;
-    public GameObject Indicator;
-    bool connecting = false;
-    List<string> chatMessages;
-    int maxChatMessages = 5;
+
+	// This is the name of the prefab we are going to create into the game.
+	// This should be changed to match whichever character the player chooses to be
+	string prefabName;
+	public GameObject Indicator;
+	bool connecting = false;
+	List<string> chatMessages;
+	int maxChatMessages = 5;
+    bool hasPickedChar = false;
+
+    GUIStyle m_PickButtonStyle;
+    public Font ButtonFont;
+    public Texture2D ButtonBackground;
+
 
     public float respawnTimer = 0f;
 
@@ -118,46 +125,100 @@ public class NetworkManager : MonoBehaviour {
             GUILayout.EndArea();
         }
 
-        // send the chat label at the bottom left
-        if (PhotonNetwork.connected && !connecting) {
 
-            if (hasPickedTeam) {
-                GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
-                GUILayout.BeginVertical();
-                GUILayout.FlexibleSpace();
+		// send the chat label at the bottom left
+		if (PhotonNetwork.connected && !connecting) {
+            if (!hasPickedChar)
+            {
+                LoadStyles();
+                GUILayout.BeginArea(new Rect(10, 10, Screen.width - 20, Screen.height - 20));
+                {
+                    GUILayout.BeginHorizontal();
+                    {
+                        if (GUILayout.Button("healer", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f - 20), GUILayout.Height(Screen.height - 20)))
+                        {
+                            prefabName = "Healer";
+                            hasPickedChar = true;
+                        }
 
-                foreach (string msg in chatMessages) {
-                    GUILayout.Label(msg);
+                        GUILayout.FlexibleSpace();
+
+                        if (GUILayout.Button("flash", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f), GUILayout.Height(Screen.height - 20)))
+                        {
+                            prefabName = "Flash";
+                            hasPickedChar = true;
+                        }
+
+                        if (GUILayout.Button("tank", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f), GUILayout.Height(Screen.height - 20)))
+                        {
+                            prefabName = "Juggernaut";
+                            hasPickedChar = true;
+                        }
+
+                        if (GUILayout.Button("sniper", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f), GUILayout.Height(Screen.height - 20)))
+                        {
+                            prefabName = "Sniper";
+                            hasPickedChar = true;
+                        }
+                    }
+                    GUILayout.EndHorizontal();
                 }
-
-                GUILayout.EndVertical();
-                GUILayout.EndArea();
-            } else {
-                // Player has not yet selected a team
-
-                GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
-                GUILayout.BeginHorizontal();
-                GUILayout.FlexibleSpace();
-                GUILayout.BeginVertical();
-                GUILayout.FlexibleSpace();
-
-                if (GUILayout.Button("Red Team")) {
-                    PhotonNetwork.player.SetTeam(PunTeams.Team.red);
-                    SpawnMyPlayer();
-                }
-                if (GUILayout.Button("Blue Team")) {
-                    PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
-                    SpawnMyPlayer();
-                }
-                GUILayout.FlexibleSpace();
-                GUILayout.EndVertical();
-                GUILayout.FlexibleSpace();
-                GUILayout.EndHorizontal();
                 GUILayout.EndArea();
 
             }
+
+			else if (hasPickedTeam) {
+				GUILayout.BeginArea (new Rect (0, 0, Screen.width, Screen.height));
+				GUILayout.BeginVertical ();
+				GUILayout.FlexibleSpace ();
+
+				foreach (string msg in chatMessages) {
+					GUILayout.Label (msg);
+				}
+
+				GUILayout.EndVertical ();
+				GUILayout.EndArea ();
+			} 
+			else{
+                // Player has not yet selected a team
+                LoadStyles();
+                GUILayout.BeginArea(new Rect(10, 10, Screen.width - 20, Screen.height - 20));
+                {
+                    GUILayout.BeginHorizontal();
+                    {
+                        if (GUILayout.Button("blue", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 140)))
+                        {
+                            PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
+                            SpawnMyPlayer();
+                        }
+
+                        GUILayout.FlexibleSpace();
+
+                        if (GUILayout.Button("red", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 140)))
+                        {
+                            PhotonNetwork.player.SetTeam(PunTeams.Team.red);
+                            SpawnMyPlayer();
+                        }
+                    }
+                    GUILayout.EndHorizontal();
+                }
+                GUILayout.EndArea();
+
+            }
+
+
+		}
+	}
+
+    void LoadStyles()
+    {
+        if (m_PickButtonStyle == null)
+        {
+            m_PickButtonStyle = new GUIStyle(Styles.Button);
+            m_PickButtonStyle.fontSize = 60;
         }
     }
+
 
     /*
 	 * When the network connects, Photon calls OnJoinedLobby().
@@ -167,9 +228,10 @@ public class NetworkManager : MonoBehaviour {
 	 * Otherwise, OnJoinedRoom() is called.
 	 */
     void OnJoinedLobby() {
-        Debug.Log("OnJoinedLobby");
-        PhotonNetwork.JoinRandomRoom();
-    }
+		Debug.Log ("OnJoinedLobby");
+		PhotonNetwork.JoinRandomRoom();
+	}
+
 
     /*
 	 * We are the first player, so joining a random room failed
@@ -307,12 +369,19 @@ public class NetworkManager : MonoBehaviour {
         myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
         myPlayerGO.transform.FindChild("RadarCamera").gameObject.SetActive(true);
 
-        //activates indicators
-        GameObject temp = Instantiate(Indicator);
-        temp.transform.parent = myPlayerGO.transform;
-        myPlayerGO.transform.FindChild("IndicatorLogic(Clone)").gameObject.SetActive(true);
+		//activates indicators
+		GameObject temp = Instantiate (Indicator);
+		temp.transform.parent = myPlayerGO.transform;
+		myPlayerGO.transform.FindChild("IndicatorLogic(Clone)").gameObject.SetActive(true);
 
-
-
-    }
+		// Allow a player to walk into their teams base
+		CapsuleCollider playerCC = myPlayerGO.GetComponent<CapsuleCollider> ();
+		if (PhotonNetwork.player.GetTeam () == PunTeams.Team.red) {
+			BoxCollider fortBC = Util.redFortEntrance.GetComponent<BoxCollider> ();
+			Physics.IgnoreCollision (playerCC, fortBC);
+		} else {
+			BoxCollider fortBC = Util.blueFortEntrance.GetComponent<BoxCollider> ();
+			Physics.IgnoreCollision (playerCC, fortBC);
+		}
+	}
 }

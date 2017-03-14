@@ -7,13 +7,13 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(PlayerShooting))]
-public class PlayerController : MonoBehaviour {
+public class PlayerController : BaseController {
 	/*
 	 * @NOTE(Llewellin): These are the default stats for characters.
 	 * Characters will override these stats as needed, so when using
 	 * these variables don't access them directly, call their Get() method.
 	 */
-	protected float health = 2.0f;
+
 	protected float speed = 10.0f;
 	protected float damage = 1.0f;
 	public float jumpSpeed = 15.0F;
@@ -115,11 +115,6 @@ public class PlayerController : MonoBehaviour {
         }
 
         return hit;
-    }
-
-	// @NOTE(Llewellin): Overridden in JuggernautController
-    public virtual float GetHealth() {
-		return health;
     }
 
 	// @Note(Llewellin): Overridden in FlashController

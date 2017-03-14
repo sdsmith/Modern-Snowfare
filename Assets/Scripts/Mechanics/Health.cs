@@ -2,24 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(BaseController))]
 public class Health : MonoBehaviour {
 
 	float hitPoints;
 	float currentPoints;
 
-	private PlayerController pc;
+	private BaseController bc;
 
 
 	// Use this for initialization
-	void Start () {
+	public void Start () {
 
-        pc = GetComponent<PlayerController> ();
-        if (pc == null) {
-            Debug.LogError ("Player Controller is null");
+        bc = GetComponent<BaseController> ();
+        if (bc == null) {
+            Debug.LogError ("Base Controller is null");
         }
 
-        hitPoints = pc.GetHealth ();
+        hitPoints = bc.GetHealth ();
         currentPoints = hitPoints;
 
         // @DEBUG(sdsmith): Add entry to debug overlay
@@ -38,7 +38,7 @@ public class Health : MonoBehaviour {
 
 	[PunRPC] // can be called indirectly
 	// all players recieve notification of something taking damage
-	public void TakeDamage (float amt) {
+	public virtual void TakeDamage (float amt) {
         currentPoints -= amt;
 
         // @DEBUG(sdsmith): Update debug stats
