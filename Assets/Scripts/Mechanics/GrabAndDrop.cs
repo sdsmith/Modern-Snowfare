@@ -115,7 +115,8 @@ public class GrabAndDrop : MonoBehaviour {
 	{
 		if (grabbedObject != null) {
 			DropObject ();
-			// score() 
+
+			IncreaseTeamScore (ourTeam);
 
 			//If we're red team, reset the blue flag
 			if (ourTeam == PunTeams.Team.red) {
@@ -126,6 +127,29 @@ public class GrabAndDrop : MonoBehaviour {
 			}
 
 		}
+	}
+
+	public void IncreaseTeamScore( PunTeams.Team team )
+	{
+		//We need to know which property we have to change, blue or red
+		string property = RoomProperty.BlueScore;
+
+		if( team == PunTeams.Team.red )
+		{
+			property = RoomProperty.RedScore;
+		}
+
+		ExitGames.Client.Photon.Hashtable newProperties = new ExitGames.Client.Photon.Hashtable();
+		//In case the property doesn't yet exist, create it with a score of 1
+		newProperties.Add( property, 1 );
+
+		if( PhotonNetwork.room.customProperties.ContainsKey( property ) == true )
+		{
+			//if the property does exist, we just add one to the old value
+			newProperties[ property ] = (int)PhotonNetwork.room.customProperties[ property ] + 1;
+		}
+
+		PhotonNetwork.room.SetCustomProperties( newProperties );
 	}
 
 }
