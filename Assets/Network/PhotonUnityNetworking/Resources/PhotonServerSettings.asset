@@ -59,4 +59,8 @@ MonoBehaviour:
   - OnRespawn
   - OnReturn
   - OnShoot
+  - HealthUnit
+  - InvUnit
+  - SpeedUnit
+  - Timer
   DisableAutoOpenWizard: 1

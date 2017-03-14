@@ -16,7 +16,7 @@ public class PlayerController : BaseController {
 
 	protected float speed = 10.0f;
 	protected float damage = 1.0f;
-	public float jumpSpeed = 15.0F;
+    public float jumpSpeed;
 
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
@@ -27,9 +27,7 @@ public class PlayerController : BaseController {
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
 
-        // @TODO(sdsmith): Move this out of here. Has nothing to do with the player.
-        // Lock cursor to window (hides OS cursor graphic)
-        Cursor.lockState = CursorLockMode.Locked;
+        jumpSpeed = 7f;
 
 		// @DEBUG(Llewellin): Add entry to debug overlay
 		DebugOverlay.AddAttr("speed", GetSpeed().ToString());
@@ -125,5 +123,9 @@ public class PlayerController : BaseController {
 	// @Note(Llewellin): Overriden in SniperController
 	public virtual float GetDamage() {
 		return damage;
+	}
+
+	public  void SetSpeed(float new_Speed) {
+		this.speed = new_Speed;
 	}
 }

@@ -250,7 +250,7 @@ public class NetworkManager : MonoBehaviour {
 	 * This will remove the 
 	 */
     void OnJoinedRoom() {
-        Debug.Log("OnJoinedRoom");
+        //Debug.Log("OnJoinedRoom");
 
         connecting = false;
         // SpawnMyPlayer();

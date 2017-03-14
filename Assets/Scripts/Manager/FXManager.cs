@@ -6,20 +6,24 @@ public class FXManager : MonoBehaviour {
 
 	public GameObject SnowballPrefab;
     public float SnowballSpeed = 10f;
+	public string[] PowerUps;
+
+	int RandPowerUp;
 
 	List<GameObject> currentSnowballs;
     //public AudioClip snowballFXAudio; 
 
     struct InGameOverlay {
         /** Radius of the circle that is considered 'near' the center reticle point. */
-        public float nearReticleRadius;
+        public float nearReticleAngle;
     };
     InGameOverlay inGameOverlay;
 
 
     void Start() {
         inGameOverlay = new InGameOverlay();
-        inGameOverlay.nearReticleRadius = 1000f; // @TODO(sdsmith): Adjust value
+        inGameOverlay.nearReticleAngle = 15f;//degrees
+		StartCoroutine(Spawner());
     }
 
     void OnGUI() {
@@ -28,27 +32,38 @@ public class FXManager : MonoBehaviour {
         }
     }
 
+    /**
+     * @TODO(sdsmith): doc
+     */
     void DisplayInGameOverlay() {
         // Enable overlays with proximity
-        foreach (GameObject goOverlay in GameObject.FindGameObjectsWithTag("PlayerInGameOverlay")) {
-            PlayerInGameOverlay overlay = goOverlay.GetComponent<PlayerInGameOverlay>();
+        foreach (GameObject playerGO in GameObject.FindGameObjectsWithTag("Player")) {
+            GameObject overlayGO;
 
-            // Don't display our own overlay
-            Debug.Assert(Util.localPlayer.GetComponentInChildren<PlayerInGameOverlay>() != null, "Could not find PlayerInGameOverlay in child components");
-            if (Util.localPlayer.GetComponentInChildren<PlayerInGameOverlay>() == overlay) {
+            // Our player should not have an overlay
+            Debug.Assert(Util.localPlayer != null, "Local player game object not set");
+            if (Util.localPlayer == playerGO) {
                 continue;
             }
-    
-            // Vector from camera to player
-            Vector3 toPlayer = overlay.GetTarget().position - Camera.main.transform.position;
 
-            // Calculate distance to reticle
-            Vector3 forward = Camera.main.transform.forward * toPlayer.magnitude;
-            float projectOntoForward = toPlayer.magnitude * Mathf.Cos(Vector3.Angle(forward, toPlayer));
-            float distanceToReticle = Mathf.Sqrt(Mathf.Pow(toPlayer.magnitude, 2) - Mathf.Pow(projectOntoForward, 2));
+            // Check if the player has an overlay
+            Transform overlayTransform = Util.FindChildByTag(playerGO, "PlayerInGameOverlay");
+            if (overlayTransform == null) {
+                // Player does not have attached overlay, create one
+                overlayGO = (GameObject)Instantiate(Resources.Load("Overlay/PlayerInGameOverlay"), playerGO.transform, false);
+            } else {
+                // Get the existing overlay
+                overlayGO = overlayTransform.gameObject;
+            }
 
+            PlayerInGameOverlay overlay = overlayGO.GetComponent<PlayerInGameOverlay>();
+            Transform playerTransform = overlay.GetTarget();
+
+            // Calculate the distance from the player to the reticle
+            Vector3 vecCamToPlayer = playerTransform.position - Camera.main.transform.position;
+            
             // Enable overlay iff close to reticle
-            if (distanceToReticle <= inGameOverlay.nearReticleRadius) {
+            if (Vector3.Angle(vecCamToPlayer, Camera.main.transform.forward) <= inGameOverlay.nearReticleAngle) {
                 overlay.Enable();
             } else {
                 overlay.Disable();
@@ -61,5 +76,16 @@ public class FXManager : MonoBehaviour {
 	void SnowballFX(Vector3 startPos, Quaternion rotation, float damage){
 		SnowballPrefab.GetComponent<SnowballController> ().SetSnowballDamage (damage);
         Instantiate(SnowballPrefab, startPos, rotation);
+	}
+
+	IEnumerator Spawner(){	
+		while (true) {
+			int randomTimer =  Random.Range (60, 600);
+			yield return new WaitForSeconds (randomTimer);
+			RandPowerUp = Random.Range (0, 3);
+			Vector3 SpawnPosition = new Vector3 (Random.Range (20, 150), 7, Random.Range (20, 150));
+			PhotonNetwork.Instantiate (PowerUps[RandPowerUp], SpawnPosition, gameObject.transform.rotation,0);
+		}
+
 	}
 }
