@@ -6,26 +6,14 @@ public class GrabAndDrop : MonoBehaviour {
 
 	GameObject toLight;
 	GameObject grabbedObject;
-	float grabbedObjectSize;
-	// public GameObject BlueTorchSpawn;
-	// public GameObject RedTorchSpawn;
 	public PunTeams.Team ourTeam;
 	public Vector3 offset = new Vector3(0,0,0);
+
 	// Use this for initialization
 	void Start () {
-		Debug.Log ("STARTING GRAB AND DROP");
-		// BlueTorchSpawn = GameObject.Find ("BlueTorchSpawn");;
-		if (Util.blueTorchSpawn == null) {
-			Debug.LogError ("BlueTorchSpawn is null");
-		}
-
-		// RedTorchSpawn = GameObject.Find ("RedTorchSpawn");
-		// RedTorchSpawn = Util.redTorchSpawn;
-		if (Util.redTorchSpawn == null) {
-			Debug.LogError ("RedTorchSpawn is null");
-		}
 		ourTeam = PhotonNetwork.player.GetTeam();
 	}
+
 	/*
 	GameObject GetMouseHoverObject(float range)
 	{
@@ -40,41 +28,34 @@ public class GrabAndDrop : MonoBehaviour {
 		return null; 
 	}*/
 
-
 	void TryGrabObject(GameObject grabObject)
+	{
+		if(grabObject == null)
 		{
-			if(grabObject == null)
-			{
-				return;
-			}
-
-//			grabbedObject = grabObject;
-//			grabbedObjectSize = grabObject.GetComponent<Renderer>().bounds.size.magnitude;
-			int objViewID = grabObject.GetComponent<PhotonView>().viewID;
-			Debug.Log ("TryGrabObject");
-			GetComponent<PhotonView>().RPC("GrabbingObject", PhotonTargets.AllBuffered, objViewID);
+			return;
 		}
+		
+		int objViewID = grabObject.GetComponent<PhotonView>().viewID;
+		GetComponent<PhotonView>().RPC("GrabbingObject", PhotonTargets.AllBuffered, objViewID);
+	}
 
 	[PunRPC]
 	public void GrabbingObject(int viewID) {
-		//Vector3 offset = Quaternion.AngleAxis(-45, gameObject.transform.right) * gameObject.transform.forward * 2;
-		//grabbedObject.transform.position = gameObject.transform.position + offset;
 
-		grabbedObject = PhotonView.Find (viewID).gameObject;
-		grabbedObjectSize = grabbedObject.GetComponent<Renderer>().bounds.size.magnitude;
+		grabbedObject = PhotonView.Find(viewID).gameObject;
 
 		grabbedObject.GetComponent<CapsuleCollider> ().enabled = false;
 
-		Vector3 offset = Quaternion.AngleAxis(-45, gameObject.transform.right) * gameObject.transform.forward * 2;
+		grabbedObject.transform.SetParent (gameObject.transform, false);
+		Vector3 offset = Quaternion.AngleAxis(-45, gameObject.transform.right) * gameObject.transform.forward * 4;
 		grabbedObject.transform.position = gameObject.transform.position + offset;
-		grabbedObject.transform.SetParent (gameObject.transform, true);
-		Debug.Log ("Grabbing Object");
+
 	}
 
 	public void DropObject()
-		{
-			GetComponent<PhotonView>().RPC("DroppingObject", PhotonTargets.AllBuffered);
-		}
+	{
+		GetComponent<PhotonView>().RPC("DroppingObject", PhotonTargets.AllBuffered);
+	}
 
 	[PunRPC]
 	public void DroppingObject(){
@@ -82,7 +63,7 @@ public class GrabAndDrop : MonoBehaviour {
 		{
 			return;
 		}
-		//grabbedObject.transform.SetParent (null, false);
+
 		grabbedObject.transform.parent = null;
 		grabbedObject.GetComponent<CapsuleCollider> ().enabled = true;
 		grabbedObject.transform.position = gameObject.transform.position;
@@ -91,11 +72,11 @@ public class GrabAndDrop : MonoBehaviour {
 
 	[PunRPC]
 	public void ResetFlag(PunTeams.Team team) {
-		Debug.Log ("reset flag");
+
 		if (team == PunTeams.Team.red) {
-			GameObject.Find ("Torch_Red").transform.position = Util.redTorchSpawn.transform.position;
+			GameObject.Find ("Torch_Red").transform.position = Util.defaultRedFlag;
 		} else {
-			GameObject.Find ("Torch_Blue").transform.position = Util.blueTorchSpawn.transform.position;
+			GameObject.Find ("Torch_Blue").transform.position = Util.defaultBlueFlag;
 		}
 	}
 
@@ -140,29 +121,22 @@ public class GrabAndDrop : MonoBehaviour {
 			// col.gameObject.transform.position = RedTorchSpawn.transform.position;
 			GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
 			// Debug.Log ("Red reclaiming red torch");
+
 		}
-
-//		else if(col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.blue)
-//		{
-//			col.gameObject.transform.position = BlueTorchSpawn.transform.position;
-//			Debug.Log ("Blue reclaiming blue torch");
-//		}
-
-
-		else if (col.gameObject.name == "RedTorchSpawn" && ourTeam == PunTeams.Team.red) {
-			if (grabbedObject != null) {
-				DropObject ();
-				// score() 
-				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, PunTeams.Team.blue);
+		// If we collide with our own flag (red team)
+		else if (col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.red) 
+		{
+			// Reset the flag only if its not at the base
+			if (col.gameObject.transform.position != Util.defaultRedFlag) {
+				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
 			}
-
-		} else if (col.gameObject.name == "BlueTorchSpawn" && ourTeam == PunTeams.Team.blue) {
-//			grabbedObject.transform.position = RedTorchSpawn.transform.position;
-//			DropObject ();
-			if (grabbedObject != null) {
-				DropObject ();
-				// score() 
-				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, PunTeams.Team.red);
+		} 
+		// If we collide with our own flag (blue team)
+		else if(col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.blue) 
+		{
+			// Reset the flag only if its not at the base
+			if (col.gameObject.transform.position != Util.defaultBlueFlag) {
+				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
 			}
 		} 
 
@@ -170,71 +144,42 @@ public class GrabAndDrop : MonoBehaviour {
 		{
 			TryGrabObject (col.gameObject);
 		}
-
 	}
 
-
-
-
-	// Update is called once per frame
-	void Update () {
-		//Debug.Log (GetMouseHoverObject (5)); 
-
-		/*
-		if (Input.GetMouseButtonDown(1))
-			{
-				if(grabbedObject == null)
-				{
-					TryGrabObject(GetMouseHoverObject(10));
-				}
-				
-				else
-				{
-					DropObject(); 
-				}	
-			}
-
-		*/
-
-		if (grabbedObject != null)
-			{
-			
-			 //Vector3 newPosition = gameObject.transform.position+Camera.main.transform.forward*grabbedObjectSize;
-			//Vector3 newPosition = gameObject.transform.position;
-
-			//Vector3 offset = Quaternion.AngleAxis(-45, gameObject.transform.right) * gameObject.transform.forward * 2;
-			//grabbedObject.transform.position = gameObject.transform.position + offset;
-
-				
-			//grabbedObject.GetComponent<CapsuleCollider> ().enabled = false;
-			//grabbedObject.transform.SetParent (gameObject.transform, false);
-			//Debug.Log ("Grabbed Object");
-			//grabbedObject.transform.position = newPosition;
-			}
-	}
-
-	public string getGrabbedObjectName()
+	public string GetGrabbedObjectName()
 	{
+		if (grabbedObject == null) {
+			return "";
+		}
 		return grabbedObject.name;
 	}
 
-	public void captureFlag()
+	public void CaptureFlag()
 	{
 		if (grabbedObject != null) {
 			DropObject ();
-			// score() 
+
+			IncreaseTeamScore (ourTeam);
+
+			//If we're red team, reset the blue flag
 			if (ourTeam == PunTeams.Team.red) {
 				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, PunTeams.Team.blue);
-			} else {
+			} 
+			else {
 				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, PunTeams.Team.red);
 			}
 
 		}
 	}
-
+		
 	public void flameOff()
 	{
 		GetComponent<PhotonView> ().RPC ("RPCFlameOff", PhotonTargets.AllBuffered);
+	}
+
+	public string getGrabbedObjectName ()
+	{
+		return grabbedObject.name;
 	}
 
 	[PunRPC]
@@ -291,5 +236,27 @@ public class GrabAndDrop : MonoBehaviour {
 	}
 
 
+	public void IncreaseTeamScore( PunTeams.Team team )
+	{
+		//We need to know which property we have to change, blue or red
+		string property = RoomProperty.BlueScore;
 
+		if( team == PunTeams.Team.red )
+		{
+			property = RoomProperty.RedScore;
+		}
+
+		ExitGames.Client.Photon.Hashtable newProperties = new ExitGames.Client.Photon.Hashtable();
+		//In case the property doesn't yet exist, create it with a score of 1
+		newProperties.Add( property, 1 );
+
+		if( PhotonNetwork.room.customProperties.ContainsKey( property ) == true )
+		{
+			//if the property does exist, we just add one to the old value
+			newProperties[ property ] = (int)PhotonNetwork.room.customProperties[ property ] + 1;
+		}
+
+		PhotonNetwork.room.SetCustomProperties( newProperties );
+	}
+		
 }

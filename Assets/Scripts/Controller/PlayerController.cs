@@ -7,28 +7,27 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(PlayerShooting))]
-public class PlayerController : MonoBehaviour {
+public class PlayerController : BaseController {
 	/*
 	 * @NOTE(Llewellin): These are the default stats for characters.
 	 * Characters will override these stats as needed, so when using
 	 * these variables don't access them directly, call their Get() method.
 	 */
-	protected float health = 2.0f;
+
 	protected float speed = 10.0f;
 	protected float damage = 1.0f;
-	public float jumpSpeed = 15.0F;
+    public float jumpSpeed;
 
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
+    private GUITexture healthBarGUITexture;
 
     protected void Start () {
         // Component references
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
 
-        // @TODO(sdsmith): Move this out of here. Has nothing to do with the player.
-        // Lock cursor to window (hides OS cursor graphic)
-        Cursor.lockState = CursorLockMode.Locked;
+        jumpSpeed = 7f;
 
 		// @DEBUG(Llewellin): Add entry to debug overlay
 		DebugOverlay.AddAttr("speed", GetSpeed().ToString());
@@ -39,9 +38,16 @@ public class PlayerController : MonoBehaviour {
         // Character movement
         {
             Vector3 moveDirection, moveVelocity;
-            float forwardMove = Input.GetAxis("Vertical");
-            float sideMove = Input.GetAxis("Horizontal");
+            float forwardMove = 0;
+            float sideMove = 0;
             bool isGrounded = IsGrounded();
+            bool cursorLocked = Cursor.lockState == CursorLockMode.Locked;
+
+            // Only influence movement if cursor is locked in the window.
+            if (cursorLocked) {
+                forwardMove = Input.GetAxis("Vertical");
+                sideMove = Input.GetAxis("Horizontal");
+            }
 
             moveDirection = new Vector3(sideMove, 0, forwardMove);
 
@@ -64,19 +70,14 @@ public class PlayerController : MonoBehaviour {
             // does not need to be transformed.
             moveVelocity.y = rigidbody.velocity.y;
 
-            // Jump
-            if (isGrounded && Input.GetButtonDown("Jump")) {
+            // Jump (only influence movement is cursor is locked in the window)
+            if (cursorLocked && isGrounded && Input.GetButtonDown("Jump")) {
                 // Add upward velocity (jump!)
                 moveVelocity.y += jumpSpeed;
             }
 
             // Move
             rigidbody.velocity = moveVelocity;
-        }
-
-        // @TODO(sdsmith): Refactor non-character specific input out of here.
-        if (Input.GetKeyDown("escape")) {
-            Cursor.lockState = CursorLockMode.None;
         }
     }
 
@@ -114,11 +115,6 @@ public class PlayerController : MonoBehaviour {
         return hit;
     }
 
-	// @NOTE(Llewellin): Overridden in JuggernautController
-    public virtual float GetHealth() {
-		return health;
-    }
-
 	// @Note(Llewellin): Overridden in FlashController
 	public virtual float GetSpeed() {
         return speed;
@@ -127,5 +123,9 @@ public class PlayerController : MonoBehaviour {
 	// @Note(Llewellin): Overriden in SniperController
 	public virtual float GetDamage() {
 		return damage;
+	}
+
+	public  void SetSpeed(float new_Speed) {
+		this.speed = new_Speed;
 	}
 }

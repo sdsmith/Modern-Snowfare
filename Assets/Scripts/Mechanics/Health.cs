@@ -2,24 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(BaseController))]
 public class Health : MonoBehaviour {
 
 	float hitPoints;
 	float currentPoints;
 
-	private PlayerController pc;
+	private BaseController bc;
 
 
 	// Use this for initialization
-	void Start () {
+	public void Start () {
 
-        pc = GetComponent<PlayerController> ();
-        if (pc == null) {
-            Debug.LogError ("Player Controller is null");
+        bc = GetComponent<BaseController> ();
+        if (bc == null) {
+            Debug.LogError ("Base Controller is null");
         }
 
-        hitPoints = pc.GetHealth ();
+        hitPoints = bc.GetHealth ();
         currentPoints = hitPoints;
 
         // @DEBUG(sdsmith): Add entry to debug overlay
@@ -27,10 +27,18 @@ public class Health : MonoBehaviour {
         DebugOverlay.AddAttr("Current health", currentPoints.ToString());
     }
 	
+    public float GetMaxHitPoints() {
+        return hitPoints;
+    }
+
+    public float GetCurrentHitPoints() {
+        return currentPoints;
+    }
+
 
 	[PunRPC] // can be called indirectly
 	// all players recieve notification of something taking damage
-	public void TakeDamage (float amt) {
+	public virtual void TakeDamage (float amt) {
         currentPoints -= amt;
 
         // @DEBUG(sdsmith): Update debug stats
@@ -78,6 +86,9 @@ public class Health : MonoBehaviour {
 				//transform.DetachChildren();
 				// DeathAnimation ();
 				PhotonNetwork.Destroy (gameObject);
+
+                // Update utilities
+                Util.localPlayer = null;
 			}
 		}
 	}
@@ -93,12 +104,16 @@ public class Health : MonoBehaviour {
 	/*
 	 * DEBUGGING PURPOSES 
 	*/
-	void OnGUI(){
-		// If this is my player, kill myself to test respawning
-		if (GetComponent<PhotonView> ().isMine && gameObject.tag == "Player") {
-			if (GUI.Button (new Rect (Screen.width - 225, 0, 225, 30), "I don't wanna be here anymore!")) {
-				Die ();
-			}
-		}
+//	void OnGUI(){
+//		// If this is my player, kill myself to test respawning
+//		if (GetComponent<PhotonView> ().isMine && gameObject.tag == "Player") {
+//			if (GUI.Button (new Rect (Screen.width - 225, 0, 225, 30), "I don't wanna be here anymore!")) {
+//				Die ();
+//			}
+//		}
+//	}
+
+	public void SetCurrentPoints(float health){
+		this.currentPoints = health;
 	}
 }

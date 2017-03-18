@@ -51,8 +51,16 @@ MonoBehaviour:
   - DroppingObject
   - GrabbingObject
   - ResetFlag
-  - RPCFlameOff
-  - LightTorch
-  - RPCFlameOn
-  - SetToLight
+  - OnCapture
+  - OnDrop
+  - OnHeal
+  - OnPickup
+  - OnProjectileHit
+  - OnRespawn
+  - OnReturn
+  - OnShoot
+  - HealthUnit
+  - InvUnit
+  - SpeedUnit
+  - Timer
   DisableAutoOpenWizard: 1
