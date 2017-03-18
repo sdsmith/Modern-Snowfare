@@ -87,7 +87,10 @@ public class GrabAndDrop : MonoBehaviour {
 			//if red torch is lit
 			if (Util.redTorchLit == true) {
 				//grab it
+				if (grabbedObject == null)
+				{
 				TryGrabObject (col.gameObject);
+				}
 				Debug.Log ("trying to grb flag");
 			} 
 			//red torch not lit
@@ -104,7 +107,10 @@ public class GrabAndDrop : MonoBehaviour {
 			}
 		} else if (col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.red) {
 			if (Util.blueTorchLit == true) {
+				if (grabbedObject == null)
+				{
 				TryGrabObject (col.gameObject);
+				}
 				Debug.Log ("trying to grb flag");
 			} else {
 				
@@ -142,7 +148,10 @@ public class GrabAndDrop : MonoBehaviour {
 
 		else if (col.gameObject.name == "Lighter") 
 		{
+			if (grabbedObject == null)
+			{
 			TryGrabObject (col.gameObject);
+			}
 		}
 	}
 
