@@ -33,16 +33,10 @@ public abstract class GamemodeBase : MonoBehaviour
 			//Calculate how much time has passed since the last frame and add it onto our total round end time
 			m_EndRoundTime += ( Time.realtimeSinceStartup - m_LastRealTime );
 
-			if( PhotonNetwork.isMasterClient == true )
+			// Wait 3 seconds after the game has ended for people to look at the scoreboard
+			if(m_EndRoundTime > 3f )
 			{
-				//We only want the master client to load the next map if at least two seconds have passed
-				//This prevents him from accidentally loading the next map because he presses a button
-				//immediately after the round was finished
-				if( Input.anyKeyDown == true && m_EndRoundTime > 2f )
-				{
-					//LoadNextMap();
-					EndGame();
-				}
+				EndGame();
 			}
 		}
 		else

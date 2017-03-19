@@ -44,6 +44,9 @@ public class ShipShooting : ShipBase
 
 	void UpdateShooting()
 	{
+		//@NOTE(Llewellin): Never shoot from this ship class
+		return;
+
 		//We only want to shoot lasers for the local ship here
 		//Remote ships create their lasers via RPC
 		if( PhotonView.isMine == false )

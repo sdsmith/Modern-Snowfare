@@ -186,21 +186,16 @@ public class GrabAndDrop : MonoBehaviour {
 		GetComponent<PhotonView> ().RPC ("RPCFlameOff", PhotonTargets.AllBuffered);
 	}
 
-	public string getGrabbedObjectName ()
-	{
-		return grabbedObject.name;
-	}
-
 	[PunRPC]
 	public void RPCFlameOff()
 	{
-		if (getGrabbedObjectName () == "Torch_Red") {
+		if (GetGrabbedObjectName () == "Torch_Red") {
 			Util.redTorchLit = false; 
 			grabbedObject.GetComponent<Torchelight> ().IntensityLight = 0;
 			grabbedObject.GetComponent<Torchelight> ().MaxLightIntensity = 0;
 
 		} 
-		else if (getGrabbedObjectName() == "Torch_Blue"){
+		else if (GetGrabbedObjectName() == "Torch_Blue"){
 			Util.blueTorchLit = false;
 			grabbedObject.GetComponent<Torchelight> ().IntensityLight = 0;
 			grabbedObject.GetComponent<Torchelight> ().MaxLightIntensity = 0;
@@ -259,10 +254,10 @@ public class GrabAndDrop : MonoBehaviour {
 		//In case the property doesn't yet exist, create it with a score of 1
 		newProperties.Add( property, 1 );
 
-		if( PhotonNetwork.room.customProperties.ContainsKey( property ) == true )
+		if( PhotonNetwork.room.CustomProperties.ContainsKey( property ) == true )
 		{
 			//if the property does exist, we just add one to the old value
-			newProperties[ property ] = (int)PhotonNetwork.room.customProperties[ property ] + 1;
+			newProperties[ property ] = (int)PhotonNetwork.room.CustomProperties[ property ] + 1;
 		}
 
 		PhotonNetwork.room.SetCustomProperties( newProperties );

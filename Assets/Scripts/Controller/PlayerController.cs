@@ -18,6 +18,11 @@ public class PlayerController : BaseController {
 	protected float damage = 1.0f;
     public float jumpSpeed;
 
+	int killCount;
+	int deathCount;
+	int flagCaptureCount;
+	int flagReturnCount;
+
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
     private GUITexture healthBarGUITexture;
@@ -28,6 +33,10 @@ public class PlayerController : BaseController {
         collider = GetComponent<CapsuleCollider>();
 
         jumpSpeed = 7f;
+		killCount = 0;
+		deathCount = 0;
+		flagCaptureCount = 0;
+		flagReturnCount = 0;
 
 		// @DEBUG(Llewellin): Add entry to debug overlay
 		DebugOverlay.AddAttr("speed", GetSpeed().ToString());
@@ -128,4 +137,28 @@ public class PlayerController : BaseController {
 	public  void SetSpeed(float new_Speed) {
 		this.speed = new_Speed;
 	}
+		
+	/// The string for the kill count custom property
+	const string KillCountProperty = "KillCount";
+
+	int m_killCount = 0;
+	/// <summary>
+	/// Gets or sets the kill count. Depending on whether we are online or offline, this is either
+	/// stored in the local m_killCount variable or in the players custom properties. 
+	/// This is all done in the helper functions Helper.GetCustomProperty and Helper.SetCustomProperty
+	/// </summary>
+	public int KillCount
+	{
+		get
+		{
+			PhotonView view = GetComponent<PhotonView> ();
+			return Util.GetCustomProperty<int>( view, KillCountProperty, m_killCount, 0 );
+		}
+		set
+		{
+			PhotonView view = GetComponent<PhotonView> ();
+			Util.SetCustomProperty<int>( view, KillCountProperty, ref m_killCount, value );
+		}
+	}
+
 }

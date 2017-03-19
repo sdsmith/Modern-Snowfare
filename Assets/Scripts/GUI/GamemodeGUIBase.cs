@@ -117,10 +117,10 @@ public class GamemodeGUIBase : MonoBehaviour
 
 	protected void DrawLeaderboards()
 	{
-//		if( GamemodeManager.CurrentGamemode.IsRoundFinished() == true )
-//		{
-//			m_LeaderboardsFadeIn = 1;
-//		}
+		if( GamemodeManager.CurrentGamemode.IsRoundFinished() == true )
+		{
+			m_LeaderboardsFadeIn = 1;
+		}
 
 		if( m_LeaderboardsFadeIn == 0 )
 		{
@@ -140,21 +140,22 @@ public class GamemodeGUIBase : MonoBehaviour
 			GUILayout.EndHorizontal();
 
 			//Draw the list of all players and their kill counts
-			List<Ship> sortedShips = GetSortedShips();
-			for( int i = 0; i < sortedShips.Count; ++i )
+			List<PlayerController> sortedPlayers = GetSortedPlayers();
+			for( int i = 0; i < sortedPlayers.Count; ++i )
 			{
-				string shipName = sortedShips[ i ].name;
+				string playerName = sortedPlayers[ i ].name;
 
 				if( PhotonNetwork.connected == true )
 				{
-					shipName = sortedShips[ i ].GetComponent<PhotonView>().owner.name;
+					playerName = sortedPlayers[ i ].GetComponent<PhotonView>().owner.name;
 				}
 
 				GUILayout.BeginHorizontal();
 				{
-					GUI.color = GetTeamColor( sortedShips[ i ].Team );
-					GUILayout.Label( shipName, LabelStyle, GUILayout.Width( 240 ) );
-					GUILayout.Label( sortedShips[ i ].KillCount.ToString(), LabelStyleCentered, GUILayout.Width( 140 ) );
+					PunTeams.Team team = sortedPlayers [i].GetComponent<PhotonView> ().owner.GetTeam ();
+					GUI.color = GetTeamColor( team );
+					GUILayout.Label( playerName, LabelStyle, GUILayout.Width( 240 ) );
+					GUILayout.Label( sortedPlayers[ i ].KillCount.ToString(), LabelStyleCentered, GUILayout.Width( 140 ) );
 				}
 				GUILayout.EndHorizontal();
 			}
@@ -164,35 +165,35 @@ public class GamemodeGUIBase : MonoBehaviour
 		GUI.color = Color.white;
 	}
 
-	Color GetTeamColor( Team team )
+	Color GetTeamColor( PunTeams.Team team )
 	{
 		switch( team )
 		{
-		case Team.Red:
+		case PunTeams.Team.red:
 			return new Color( 1f, 0.4f, 0.4f );
-		case Team.Blue:
+		case PunTeams.Team.blue:
 			return new Color( 0.4f, 0.4f, 1f );
 		}
 
 		return Color.white;
 	}
 
-	List<Ship> GetSortedShips()
+	List<PlayerController> GetSortedPlayers()
 	{
-		GameObject[] shipObjects = GameObject.FindGameObjectsWithTag( "Ship" );
-		List<Ship> ships = new List<Ship>();
+		GameObject[] playerObjects = GameObject.FindGameObjectsWithTag( "Player" );
+		List<PlayerController> players = new List<PlayerController>();
 
-		for( int i = 0; i < shipObjects.Length; ++i )
+		for( int i = 0; i < playerObjects.Length; ++i )
 		{
-			ships.Add( shipObjects[ i ].GetComponent<Ship>() );
+			players.Add( playerObjects[ i ].GetComponent<PlayerController>() );
 		}
 
-		ships.Sort( delegate( Ship ship1, Ship ship2 )
-		{
-			return ship2.KillCount.CompareTo( ship1.KillCount );
-		} );
+//		players.Sort( delegate( Ship ship1, Ship ship2 )
+//		{
+//			return ship2.KillCount.CompareTo( ship1.KillCount );
+//		} );
 
-		return ships;
+		return players;
 	}
 
 	/// <summary>

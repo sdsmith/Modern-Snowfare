@@ -55,6 +55,7 @@ public class Health : MonoBehaviour {
 	}
 
 	void Die(){
+		Debug.Log ("Dying");
 		// game objects created locally (crate)
 		if (GetComponent<PhotonView> ().instantiationId == 0) {
 			Destroy (gameObject);
@@ -70,8 +71,8 @@ public class Health : MonoBehaviour {
 				if (gameObject.tag == "Player") {
 					// show the standby camera. Optional for now
 					if (GetComponent <GrabAndDrop> () != null) {
-						if (GetComponent<GrabAndDrop> ().getGrabbedObjectName() == "Torch_Red"
-							|| GetComponent<GrabAndDrop> ().getGrabbedObjectName() == "Torch_Blue") {
+						if (GetComponent<GrabAndDrop> ().GetGrabbedObjectName() == "Torch_Red"
+							|| GetComponent<GrabAndDrop> ().GetGrabbedObjectName() == "Torch_Blue") {
 
 							GetComponent<GrabAndDrop> ().flameOff ();
 						}
