@@ -40,7 +40,8 @@ public abstract class GamemodeBase : MonoBehaviour
 				//immediately after the round was finished
 				if( Input.anyKeyDown == true && m_EndRoundTime > 2f )
 				{
-					LoadNextMap();
+					//LoadNextMap();
+					EndGame();
 				}
 			}
 		}
@@ -113,5 +114,9 @@ public abstract class GamemodeBase : MonoBehaviour
 		//the master client
 		PhotonNetwork.LoadLevel( "main" );
 		//PhotonNetwork.LoadLevel( map.Name );
+	}
+
+	protected void EndGame() {
+		PhotonNetwork.LoadLevel ("RoomBrowser");
 	}
 }
