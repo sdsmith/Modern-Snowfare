@@ -127,7 +127,7 @@ public class GamemodeGUIBase : MonoBehaviour
 			return;
 		}
 
-		float width = 400;
+		float width = 540;
 		float height = 300;
 
 		GUILayout.BeginArea( new Rect( ( Screen.width - width ) * 0.5f + ( 1 - m_LeaderboardsFadeIn ) * -Screen.width, ( Screen.height - height ) * 0.5f, width, height ), LeaderboardsBackgroundStyle );
@@ -136,6 +136,7 @@ public class GamemodeGUIBase : MonoBehaviour
 			{
 				GUILayout.Label( "Name", HeaderStyle, GUILayout.Width( 240 ) );
 				GUILayout.Label( "Kills", HeaderStyleCentered, GUILayout.Width( 140 ) );
+				GUILayout.Label( "Deaths", HeaderStyleCentered, GUILayout.Width( 140 ) );
 			}
 			GUILayout.EndHorizontal();
 
@@ -156,6 +157,7 @@ public class GamemodeGUIBase : MonoBehaviour
 					GUI.color = GetTeamColor( team );
 					GUILayout.Label( playerName, LabelStyle, GUILayout.Width( 240 ) );
 					GUILayout.Label( sortedPlayers[ i ].KillCount.ToString(), LabelStyleCentered, GUILayout.Width( 140 ) );
+					GUILayout.Label( sortedPlayers[ i ].DeathCount.ToString(), LabelStyleCentered, GUILayout.Width( 140 ) );
 				}
 				GUILayout.EndHorizontal();
 			}

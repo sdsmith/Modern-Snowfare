@@ -139,26 +139,39 @@ public class PlayerController : BaseController {
 	}
 		
 	/// The string for the kill count custom property
-	const string KillCountProperty = "KillCount";
-
+	const string killCountProperty = "KillCount";
 	int m_killCount = 0;
-	/// <summary>
-	/// Gets or sets the kill count. Depending on whether we are online or offline, this is either
-	/// stored in the local m_killCount variable or in the players custom properties. 
-	/// This is all done in the helper functions Helper.GetCustomProperty and Helper.SetCustomProperty
-	/// </summary>
+
 	public int KillCount
 	{
 		get
 		{
 			PhotonView view = GetComponent<PhotonView> ();
-			return Util.GetCustomProperty<int>( view, KillCountProperty, m_killCount, 0 );
+			return Util.GetCustomProperty<int>( view, killCountProperty, m_killCount, 0 );
 		}
 		set
 		{
 			PhotonView view = GetComponent<PhotonView> ();
-			Util.SetCustomProperty<int>( view, KillCountProperty, ref m_killCount, value );
+			Util.SetCustomProperty<int>( view, killCountProperty, ref m_killCount, value );
 		}
 	}
 
+
+	/// The string for the kill count custom property
+	const string killDeathProperty = "DeathCount";
+	int m_DeathCount = 0;
+
+	public int DeathCount
+	{
+		get
+		{
+			PhotonView view = GetComponent<PhotonView> ();
+			return Util.GetCustomProperty<int>( view, killDeathProperty, m_DeathCount, 0 );
+		}
+		set
+		{
+			PhotonView view = GetComponent<PhotonView> ();
+			Util.SetCustomProperty<int>( view, killDeathProperty, ref m_DeathCount, value );
+		}
+	}
 }

@@ -51,6 +51,7 @@ public class Health : MonoBehaviour {
 
         if (currentPoints <= 0) {
 			Die ();
+			((PlayerController)bc).DeathCount ++;
 		}
 	}
 
