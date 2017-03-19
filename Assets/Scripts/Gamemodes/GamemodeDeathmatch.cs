@@ -53,12 +53,12 @@ public class GamemodeDeathmatch : GamemodeBase
 
 		if( PhotonNetwork.room != null )
 		{
-			if( PhotonNetwork.room.customProperties.ContainsKey( RoomProperty.StartTime ) == true )
+			if( PhotonNetwork.room.CustomProperties.ContainsKey( RoomProperty.StartTime ) == true )
 			{
 				//PhotonNetwork.time is synchronized between all players, so we can be sure that each client
 				//gets the same result here
 				timePassed = PhotonNetwork.time
-						   - (double)PhotonNetwork.room.customProperties[ RoomProperty.StartTime ];
+						   - (double)PhotonNetwork.room.CustomProperties[ RoomProperty.StartTime ];
 			}
 		}
 

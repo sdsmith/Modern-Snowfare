@@ -92,19 +92,19 @@ public class GamemodeGUICaptureTheFlag : GamemodeGUIBase
 		{
 			//Receive the room properties which store all the data about the current match state
 
-			if( PhotonNetwork.room.customProperties.ContainsKey( RoomProperty.BlueScore ) == true )
+			if( PhotonNetwork.room.CustomProperties.ContainsKey( RoomProperty.BlueScore ) == true )
 			{
-				blueScore = (int)PhotonNetwork.room.customProperties[ RoomProperty.BlueScore ];
+				blueScore = (int)PhotonNetwork.room.CustomProperties[ RoomProperty.BlueScore ];
 			}
 
-			if( PhotonNetwork.room.customProperties.ContainsKey( RoomProperty.RedScore ) == true )
+			if( PhotonNetwork.room.CustomProperties.ContainsKey( RoomProperty.RedScore ) == true )
 			{
-				redScore = (int)PhotonNetwork.room.customProperties[ RoomProperty.RedScore ];
+				redScore = (int)PhotonNetwork.room.CustomProperties[ RoomProperty.RedScore ];
 			}
 
-			if( PhotonNetwork.room.customProperties.ContainsKey( RoomProperty.StartTime ) == true )
+			if( PhotonNetwork.room.CustomProperties.ContainsKey( RoomProperty.StartTime ) == true )
 			{
-				timePassed = PhotonNetwork.time - (double)PhotonNetwork.room.customProperties[ RoomProperty.StartTime ];
+				timePassed = PhotonNetwork.time - (double)PhotonNetwork.room.CustomProperties[ RoomProperty.StartTime ];
 			}
 		}
 

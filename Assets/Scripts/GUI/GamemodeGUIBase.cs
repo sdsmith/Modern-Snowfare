@@ -127,16 +127,19 @@ public class GamemodeGUIBase : MonoBehaviour
 			return;
 		}
 
-		float width = 540;
+		// width of all labels, plus 20 padding
+		float width = 665;
 		float height = 300;
 
 		GUILayout.BeginArea( new Rect( ( Screen.width - width ) * 0.5f + ( 1 - m_LeaderboardsFadeIn ) * -Screen.width, ( Screen.height - height ) * 0.5f, width, height ), LeaderboardsBackgroundStyle );
 		{
 			GUILayout.BeginHorizontal();
 			{
-				GUILayout.Label( "Name", HeaderStyle, GUILayout.Width( 240 ) );
-				GUILayout.Label( "Kills", HeaderStyleCentered, GUILayout.Width( 140 ) );
-				GUILayout.Label( "Deaths", HeaderStyleCentered, GUILayout.Width( 140 ) );
+				GUILayout.Label( "Name", HeaderStyle, GUILayout.Width( 200 ) );
+				GUILayout.Label( "Kills", HeaderStyleCentered, GUILayout.Width( 90 ) );
+				GUILayout.Label( "Deaths", HeaderStyleCentered, GUILayout.Width( 135 ) );
+				GUILayout.Label( "K/D", HeaderStyleCentered, GUILayout.Width( 80 ) );
+				GUILayout.Label( "Points", HeaderStyleCentered, GUILayout.Width( 140 ) );
 			}
 			GUILayout.EndHorizontal();
 
@@ -155,9 +158,13 @@ public class GamemodeGUIBase : MonoBehaviour
 				{
 					PunTeams.Team team = sortedPlayers [i].GetComponent<PhotonView> ().owner.GetTeam ();
 					GUI.color = GetTeamColor( team );
-					GUILayout.Label( playerName, LabelStyle, GUILayout.Width( 240 ) );
-					GUILayout.Label( sortedPlayers[ i ].KillCount.ToString(), LabelStyleCentered, GUILayout.Width( 140 ) );
-					GUILayout.Label( sortedPlayers[ i ].DeathCount.ToString(), LabelStyleCentered, GUILayout.Width( 140 ) );
+					string kdrString = GetKDRatio (sortedPlayers [i]);
+
+					GUILayout.Label( playerName, LabelStyle, GUILayout.Width( 200 ) );
+					GUILayout.Label( sortedPlayers[ i ].killCount.ToString(), LabelStyleCentered, GUILayout.Width( 90 ) );
+					GUILayout.Label( sortedPlayers[ i ].deathCount.ToString(), LabelStyleCentered, GUILayout.Width( 135 ) );
+					GUILayout.Label( kdrString, LabelStyleCentered, GUILayout.Width( 80 ) );
+					GUILayout.Label( sortedPlayers[ i ].flagCaptureCount.ToString(), LabelStyleCentered, GUILayout.Width( 140 ) );
 				}
 				GUILayout.EndHorizontal();
 			}
@@ -190,10 +197,10 @@ public class GamemodeGUIBase : MonoBehaviour
 			players.Add( playerObjects[ i ].GetComponent<PlayerController>() );
 		}
 
-//		players.Sort( delegate( Ship ship1, Ship ship2 )
-//		{
-//			return ship2.KillCount.CompareTo( ship1.KillCount );
-//		} );
+		players.Sort( delegate( PlayerController p1, PlayerController p2 )
+		{
+			return p2.killCount.CompareTo( p1.killCount );
+		} );
 
 		return players;
 	}
@@ -210,5 +217,14 @@ public class GamemodeGUIBase : MonoBehaviour
 		int secondsLeft = Mathf.FloorToInt( (float)timeLeft ) % 60;
 
 		return minutesLeft.ToString() + ":" + secondsLeft.ToString( "00" );
+	}
+
+	string GetKDRatio(PlayerController player) {
+		float kdr = (float)player.killCount;
+		// Don't divide by 0
+		if (player.deathCount != 0) {
+			kdr = (float)player.killCount / (float)player.deathCount;
+		}
+		return kdr.ToString("0.00");
 	}
 }

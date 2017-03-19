@@ -9,13 +9,13 @@ public class GamemodeCaptureTheFlag : GamemodeBase
 	/// <summary>
 	/// How long is one match?
 	/// </summary>
-	public const float TotalRoundTime = 10 * 60;
+	public const float TotalRoundTime = 5 * 60;
 
 
 	/// <summary>
 	/// How many captures are needed till one team wins?
 	/// </summary>
-	public const int TotalFlagCaptures = 1;
+	public const int TotalFlagCaptures = 3;
 
 	/// <summary>
 	/// The spawn point for the red team
@@ -64,10 +64,10 @@ public class GamemodeCaptureTheFlag : GamemodeBase
 		//In case the property doesn't yet exist, create it with a score of 1
 		newProperties.Add( property, 1 );
 
-		if( PhotonNetwork.room.customProperties.ContainsKey( property ) == true )
+		if( PhotonNetwork.room.CustomProperties.ContainsKey( property ) == true )
 		{
 			//if the property does exist, we just add one to the old value
-			newProperties[ property ] = (int)PhotonNetwork.room.customProperties[ property ] + 1;
+			newProperties[ property ] = (int)PhotonNetwork.room.CustomProperties[ property ] + 1;
 		}
 
 		PhotonNetwork.room.SetCustomProperties( newProperties );
@@ -81,19 +81,19 @@ public class GamemodeCaptureTheFlag : GamemodeBase
 
 		if( PhotonNetwork.room != null )
 		{
-			if( PhotonNetwork.room.customProperties.ContainsKey( RoomProperty.BlueScore ) == true )
+			if( PhotonNetwork.room.CustomProperties.ContainsKey( RoomProperty.BlueScore ) == true )
 			{
-				blueScore = (int)PhotonNetwork.room.customProperties[ RoomProperty.BlueScore ];
+				blueScore = (int)PhotonNetwork.room.CustomProperties[ RoomProperty.BlueScore ];
 			}
 
-			if( PhotonNetwork.room.customProperties.ContainsKey( RoomProperty.RedScore ) == true )
+			if( PhotonNetwork.room.CustomProperties.ContainsKey( RoomProperty.RedScore ) == true )
 			{
-				redScore = (int)PhotonNetwork.room.customProperties[ RoomProperty.RedScore ];
+				redScore = (int)PhotonNetwork.room.CustomProperties[ RoomProperty.RedScore ];
 			}
 
-			if( PhotonNetwork.room.customProperties.ContainsKey( RoomProperty.StartTime ) == true )
+			if( PhotonNetwork.room.CustomProperties.ContainsKey( RoomProperty.StartTime ) == true )
 			{
-				timePassed = PhotonNetwork.time - (double)PhotonNetwork.room.customProperties[ RoomProperty.StartTime ];
+				timePassed = PhotonNetwork.time - (double)PhotonNetwork.room.CustomProperties[ RoomProperty.StartTime ];
 			}
 		}
 
@@ -104,18 +104,18 @@ public class GamemodeCaptureTheFlag : GamemodeBase
 	{
 		int blueScore = 0;
 		int redScore = 0;
-		double timePassed = Time.timeSinceLevelLoad;
+		float timePassed = Time.timeSinceLevelLoad;
 
 		if( PhotonNetwork.room != null )
 		{
-			if( PhotonNetwork.room.customProperties.ContainsKey( RoomProperty.BlueScore ) == true )
+			if( PhotonNetwork.room.CustomProperties.ContainsKey( RoomProperty.BlueScore ) == true )
 			{
-				blueScore = (int)PhotonNetwork.room.customProperties[ RoomProperty.BlueScore ];
+				blueScore = (int)PhotonNetwork.room.CustomProperties[ RoomProperty.BlueScore ];
 			}
 
-			if( PhotonNetwork.room.customProperties.ContainsKey( RoomProperty.RedScore ) == true )
+			if( PhotonNetwork.room.CustomProperties.ContainsKey( RoomProperty.RedScore ) == true )
 			{
-				redScore = (int)PhotonNetwork.room.customProperties[ RoomProperty.RedScore ];
+				redScore = (int)PhotonNetwork.room.CustomProperties[ RoomProperty.RedScore ];
 			}
 		}
 
@@ -127,7 +127,7 @@ public class GamemodeCaptureTheFlag : GamemodeBase
 		{
 			return Team.Red;
 		}
-		else if( timePassed >= TotalRoundTime )
+		else if( Mathf.Ceil( timePassed ) >= TotalRoundTime )
 		{
 			if( blueScore > redScore )
 			{

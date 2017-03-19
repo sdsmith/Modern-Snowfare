@@ -18,11 +18,6 @@ public class PlayerController : BaseController {
 	protected float damage = 1.0f;
     public float jumpSpeed;
 
-	int killCount;
-	int deathCount;
-	int flagCaptureCount;
-	int flagReturnCount;
-
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
     private GUITexture healthBarGUITexture;
@@ -33,10 +28,6 @@ public class PlayerController : BaseController {
         collider = GetComponent<CapsuleCollider>();
 
         jumpSpeed = 7f;
-		killCount = 0;
-		deathCount = 0;
-		flagCaptureCount = 0;
-		flagReturnCount = 0;
 
 		// @DEBUG(Llewellin): Add entry to debug overlay
 		DebugOverlay.AddAttr("speed", GetSpeed().ToString());
@@ -142,7 +133,7 @@ public class PlayerController : BaseController {
 	const string killCountProperty = "KillCount";
 	int m_killCount = 0;
 
-	public int KillCount
+	public int killCount
 	{
 		get
 		{
@@ -158,20 +149,37 @@ public class PlayerController : BaseController {
 
 
 	/// The string for the kill count custom property
-	const string killDeathProperty = "DeathCount";
+	const string deathCountProperty = "DeathCount";
 	int m_DeathCount = 0;
 
-	public int DeathCount
+	public int deathCount
 	{
 		get
 		{
 			PhotonView view = GetComponent<PhotonView> ();
-			return Util.GetCustomProperty<int>( view, killDeathProperty, m_DeathCount, 0 );
+			return Util.GetCustomProperty<int>( view, deathCountProperty, m_DeathCount, 0 );
 		}
 		set
 		{
 			PhotonView view = GetComponent<PhotonView> ();
-			Util.SetCustomProperty<int>( view, killDeathProperty, ref m_DeathCount, value );
+			Util.SetCustomProperty<int>( view, deathCountProperty, ref m_DeathCount, value );
+		}
+	}
+
+	const string flagCaptureCountProperty = "FlagCaptureCount";
+	int m_flagCaptureCount = 0;
+
+	public int flagCaptureCount
+	{
+		get
+		{
+			PhotonView view = GetComponent<PhotonView> ();
+			return Util.GetCustomProperty<int>( view, flagCaptureCountProperty, m_flagCaptureCount, 0 );
+		}
+		set
+		{
+			PhotonView view = GetComponent<PhotonView> ();
+			Util.SetCustomProperty<int>( view, flagCaptureCountProperty, ref m_flagCaptureCount, value );
 		}
 	}
 }

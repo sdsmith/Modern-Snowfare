@@ -51,7 +51,7 @@ public class Health : MonoBehaviour {
 
         if (currentPoints <= 0) {
 			Die ();
-			((PlayerController)bc).DeathCount ++;
+			SetStats ();
 		}
 	}
 
@@ -117,5 +117,13 @@ public class Health : MonoBehaviour {
 
 	public void SetCurrentPoints(float health){
 		this.currentPoints = health;
+	}
+
+	// When a player dies, increment their death count and opponents kill count
+	void SetStats() {
+		((PlayerController)bc).deathCount ++;
+		if (Util.localPlayer) {
+			Util.localPlayer.GetComponent<PlayerController> ().killCount++;
+		}
 	}
 }

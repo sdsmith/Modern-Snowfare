@@ -277,8 +277,8 @@ public class MultiplayerConnector : MonoBehaviour
 		{
 			return;
 		}
-
-		Application.LoadLevel( "RoomBrowser" );
+		Cursor.lockState = CursorLockMode.None;
+		Application.LoadLevel( "MainMenu" );
 	}
 
 	public static MultiplayerConnector instance;

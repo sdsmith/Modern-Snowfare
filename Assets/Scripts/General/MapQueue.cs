@@ -92,19 +92,19 @@ public class MapQueue
 			return 0;
 		}
 
-		if( PhotonNetwork.room.customProperties == null )
+		if( PhotonNetwork.room.CustomProperties == null )
 		{
 			Debug.LogError( "Current room doesn't have custom properties. Can't find current map." );
 			return 0;
 		}
 
-		if( PhotonNetwork.room.customProperties.ContainsKey( RoomProperty.MapQueue ) == false )
+		if( PhotonNetwork.room.CustomProperties.ContainsKey( RoomProperty.MapQueue ) == false )
 		{
 			Debug.LogError( "Couldn't find map queue in room properties." );
 			return 0;
 		}
 
-		string mapQueueString = (string)PhotonNetwork.room.customProperties[ RoomProperty.MapQueue ];
+		string mapQueueString = (string)PhotonNetwork.room.CustomProperties[ RoomProperty.MapQueue ];
 		string[] mapSegments = mapQueueString.Split( '~' );
 
 		return mapSegments.Length;
@@ -154,26 +154,26 @@ public class MapQueue
 			return MapQueueEntry.None;
 		}
 
-		if( PhotonNetwork.room.customProperties == null )
+		if( PhotonNetwork.room.CustomProperties == null )
 		{
 			Debug.LogError( "Current room doesn't have custom properties. Can't find current map." );
 			return MapQueueEntry.None;
 		}
 
-		if( PhotonNetwork.room.customProperties.ContainsKey( RoomProperty.MapQueue ) == false )
+		if( PhotonNetwork.room.CustomProperties.ContainsKey( RoomProperty.MapQueue ) == false )
 		{
 			Debug.LogError( "Couldn't find map queue in room properties." );
 			return MapQueueEntry.None;
 		}
 
-		if( PhotonNetwork.room.customProperties.ContainsKey( RoomProperty.MapIndex ) == false )
+		if( PhotonNetwork.room.CustomProperties.ContainsKey( RoomProperty.MapIndex ) == false )
 		{
 			Debug.LogError( "Couldn't find map index in room properties." );
 			return MapQueueEntry.None;
 		}
 
-		string mapQueueString = (string)PhotonNetwork.room.customProperties[ RoomProperty.MapQueue ];
-		int mapIndex = (int)PhotonNetwork.room.customProperties[ RoomProperty.MapIndex ] + mapIndexOffset;
+		string mapQueueString = (string)PhotonNetwork.room.CustomProperties[ RoomProperty.MapQueue ];
+		int mapIndex = (int)PhotonNetwork.room.CustomProperties[ RoomProperty.MapIndex ] + mapIndexOffset;
 
 		return MapQueue.GetSingleEntryInMapQueue( mapQueueString, mapIndex );
 	}

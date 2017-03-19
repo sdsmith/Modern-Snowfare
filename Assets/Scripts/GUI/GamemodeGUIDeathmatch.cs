@@ -36,9 +36,9 @@ public class GamemodeGUIDeathmatch : GamemodeGUIBase
 
 		if( PhotonNetwork.room != null )
 		{
-			if( PhotonNetwork.room.customProperties.ContainsKey( RoomProperty.StartTime ) == true )
+			if( PhotonNetwork.room.CustomProperties.ContainsKey( RoomProperty.StartTime ) == true )
 			{
-				timePassed = PhotonNetwork.time - (double)PhotonNetwork.room.customProperties[ RoomProperty.StartTime ];
+				timePassed = PhotonNetwork.time - (double)PhotonNetwork.room.CustomProperties[ RoomProperty.StartTime ];
 			}
 		}
 

@@ -34,7 +34,7 @@ public abstract class GamemodeBase : MonoBehaviour
 			m_EndRoundTime += ( Time.realtimeSinceStartup - m_LastRealTime );
 
 			// Wait 3 seconds after the game has ended for people to look at the scoreboard
-			if(m_EndRoundTime > 3f )
+			if(PhotonNetwork.isMasterClient == true && m_EndRoundTime > 3f )
 			{
 				EndGame();
 			}
@@ -85,7 +85,7 @@ public abstract class GamemodeBase : MonoBehaviour
 
 		//We also have to calculate what the index of the next map is, so everybody knows where
 		//we are in the map queue
-		int currentMapIndex = (int)PhotonNetwork.room.customProperties[ RoomProperty.MapIndex ];
+		int currentMapIndex = (int)PhotonNetwork.room.CustomProperties[ RoomProperty.MapIndex ];
 
 		//The map queue simply loops when all maps have been played
 		int nextMapIndex = ( currentMapIndex + 1 ) % MapQueue.GetCurrentMapQueueLength();
@@ -111,6 +111,6 @@ public abstract class GamemodeBase : MonoBehaviour
 	}
 
 	protected void EndGame() {
-		PhotonNetwork.LoadLevel ("RoomBrowser");
+		PhotonNetwork.LeaveRoom ();
 	}
 }

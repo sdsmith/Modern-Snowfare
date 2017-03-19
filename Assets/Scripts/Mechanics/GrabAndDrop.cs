@@ -169,7 +169,7 @@ public class GrabAndDrop : MonoBehaviour {
 			DropObject ();
 
 			IncreaseTeamScore (ourTeam);
-
+			IncreasePlayerScore ();
 			//If we're red team, reset the blue flag
 			if (ourTeam == PunTeams.Team.red) {
 				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, PunTeams.Team.blue);
@@ -262,5 +262,8 @@ public class GrabAndDrop : MonoBehaviour {
 
 		PhotonNetwork.room.SetCustomProperties( newProperties );
 	}
-		
+
+	void IncreasePlayerScore () {
+		GetComponent<PlayerController> ().flagCaptureCount++;
+	}
 }
