@@ -106,6 +106,13 @@ public class Util : MonoBehaviour {
         return GetTeam(go1) == GetTeam(go2);
     }
 
+	/**
+     * Return true if the given game object is on the red team.
+     */
+	public static bool IsRedTeam(GameObject go) {
+		return GetTeam (go) == PunTeams.Team.red;
+	}
+
 
     /**
      * Return the first child transform of the given game object with the given tag,

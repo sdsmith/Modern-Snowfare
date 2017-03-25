@@ -144,6 +144,10 @@ public class Health : MonoBehaviour {
 		string murderer = Util.localPlayer.GetComponent<PhotonView> ().owner.NickName;
 		string victim = GetComponent<PhotonView> ().owner.NickName;
 
-		tm.AddKillMessage (murderer, victim);
+		if (Util.IsRedTeam (Util.localPlayer)) {
+			tm.AddRedKillMessage (murderer, victim);
+		} else {
+			tm.AddBlueKillMessage (murderer, victim);
+		}
 	}
 }

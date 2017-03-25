@@ -22,10 +22,11 @@ public class TextManager : MonoBehaviour {
 	 * as a parameter in an RPC call. So I send an enum to AddTextMessage_RPC, then
 	 * call GetColor() to retrieve the color.
 	 */
-	enum MColor
+	public enum MColor
 	{
-		green, 
-		cyan
+		spawn, 
+		redTeamKill,
+		blueTeamKill
 	}
 
 	List<Message> textMessages;
@@ -36,6 +37,7 @@ public class TextManager : MonoBehaviour {
 	void Start () {
 		textMessages = new List<Message>();
 		textStyle = new GUIStyle ();
+		textStyle.fontStyle = FontStyle.Bold;
 	}
 
 	void OnGUI() {
@@ -56,21 +58,25 @@ public class TextManager : MonoBehaviour {
 		GUILayout.EndVertical ();
 		GUILayout.EndArea ();
 	}
-
-	// Add a text message (currently appearing in the bottom left corner when a player spawns)
+		
 	public void AddSpawnMessage(string playerName) {
 		string message = "Spawning player: " + playerName;
-		Color color = Color.green;
-
-		// Send all buffered messages (messages that have been sent before the player joined)
-		GetComponent<PhotonView>().RPC("AddTextMessage_RPC", PhotonTargets.AllBuffered, message, MColor.green);
+		GetComponent<PhotonView>().RPC("AddTextMessage_RPC", 
+			PhotonTargets.AllBuffered, message, MColor.spawn);
 	}
 
-	public void AddKillMessage(string murderer, string victim) {
-		string message = murderer + " killed " + victim;
-		Color color = Color.cyan;
+	public void AddRedKillMessage(string murderer, string victim) {
+		string message = string.Format("{0} killed {1}",
+			murderer, victim);
+		GetComponent<PhotonView>().RPC("AddTextMessage_RPC", 
+			PhotonTargets.AllBuffered, message, MColor.redTeamKill);
+	}
 
-		GetComponent<PhotonView>().RPC("AddTextMessage_RPC", PhotonTargets.AllBuffered, message, MColor.cyan);
+	public void AddBlueKillMessage(string murderer, string victim) {
+		string message = string.Format("{0} killed {1}",
+			murderer, victim);
+		GetComponent<PhotonView>().RPC("AddTextMessage_RPC", 
+			PhotonTargets.AllBuffered, message, MColor.blueTeamKill);
 	}
 
 	[PunRPC]
@@ -88,10 +94,12 @@ public class TextManager : MonoBehaviour {
 	{
 		switch( color )
 		{
-		case MColor.green:
-			return Color.green;
-		case MColor.cyan:
-			return Color.cyan;
+		case MColor.spawn:
+			return Color.black;
+		case MColor.redTeamKill:
+			return Color.red;
+		case MColor.blueTeamKill:
+			return Color.blue;
 		}
 
 		return Color.white;
