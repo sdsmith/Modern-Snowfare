@@ -141,13 +141,16 @@ public class Health : MonoBehaviour {
 
 	// When a player dies, show a message saying "Player killed player"
 	void SendKillMessage () {
-		string murderer = Util.localPlayer.GetComponent<PhotonView> ().owner.NickName;
-		string victim = GetComponent<PhotonView> ().owner.NickName;
+		if(Util.localPlayer)
+		{
+			string murderer = Util.localPlayer.GetComponent<PhotonView> ().owner.NickName;
+			string victim = GetComponent<PhotonView> ().owner.NickName;
 
-		if (Util.IsRedTeam (Util.localPlayer)) {
-			tm.AddRedKillMessage (murderer, victim);
-		} else {
-			tm.AddBlueKillMessage (murderer, victim);
+			if (Util.IsRedTeam (Util.localPlayer)) {
+				tm.AddRedKillMessage (murderer, victim);
+			} else {
+				tm.AddBlueKillMessage (murderer, victim);
+			}
 		}
 	}
 }
