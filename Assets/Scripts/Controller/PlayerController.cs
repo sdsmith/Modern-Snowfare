@@ -18,9 +18,20 @@ public class PlayerController : BaseController {
 	protected float damage = 1.0f;
     public float jumpSpeed;
 
+    private bool isJumping; // True if the player is currently jumping
+    /** True if the player is airborn after jumping. */
+    /* 
+     * @NOTE(sdsmith): When a player starts a jump, they won't necessarily be 
+     * considered 'off the ground' in the next frame due to the error margin 
+     * in the calculation of 'IsGrounded()'. This variable is used to determine
+     * at what period the player is actually off the ground during a jump.
+     */
+    private bool isAirborn;
+
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
     private GUITexture healthBarGUITexture;
+
 
     protected void Start () {
         // Component references
@@ -28,6 +39,8 @@ public class PlayerController : BaseController {
         collider = GetComponent<CapsuleCollider>();
 
         jumpSpeed = 7f;
+        isJumping = IsGrounded();
+        isAirborn = isJumping;
 
 		// @DEBUG(Llewellin): Add entry to debug overlay
 		DebugOverlay.AddAttr("speed", GetSpeed().ToString());
@@ -43,6 +56,20 @@ public class PlayerController : BaseController {
             bool isGrounded = IsGrounded();
             bool cursorLocked = Cursor.lockState == CursorLockMode.Locked;
 
+            // Determine if the player is in the air
+            // @TODO(sdsmith): Doesn't always seem to recognize when a player has hit the ground.
+            if (isAirborn && isGrounded) {
+                // Player was airborn, but has now hit the ground
+                isAirborn = false;
+                isJumping = false;
+
+                // Play landing sound
+                AudioSource.PlayClipAtPoint(AudioClips.land, transform.position);
+            } else if (isJumping && !isAirborn && !isGrounded) {
+                // Player is jumping, and has just left the ground
+                isAirborn = true;
+            }
+
             // Only influence movement if cursor is locked in the window.
             if (cursorLocked) {
                 forwardMove = Input.GetAxis("Vertical");
@@ -54,7 +81,6 @@ public class PlayerController : BaseController {
             // Add speed to each direction in proportion to what direction we are moving.
             // @NOTE(sdsmith): This ensures that speed is always the same.
             moveDirection.Normalize();
-
 
             /* TODO(sdsmith): Need to apply a force to the character when they are in the air, and an instantanous velocity when they are on the ground. This gets rid of the unexpected 'jolt' when you release a key in the air. */
             // Calculate the velocity
@@ -72,15 +98,19 @@ public class PlayerController : BaseController {
 
             // Jump (only influence movement is cursor is locked in the window)
             if (cursorLocked && isGrounded && Input.GetButtonDown("Jump")) {
+                // Play jump sound
+                AudioSource.PlayClipAtPoint(AudioClips.jump, transform.position);
+
                 // Add upward velocity (jump!)
                 moveVelocity.y += jumpSpeed;
+
+                isJumping = true;
             }
 
             // Move
             rigidbody.velocity = moveVelocity;
         }
     }
-
 
     /**
      * Return true if the character is on the ground, false otherwise.
