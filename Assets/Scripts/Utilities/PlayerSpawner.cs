@@ -97,7 +97,7 @@ public class PlayerSpawner : MonoBehaviour
 	*/
 	public void SpawnMyPlayer() 
 	{
-		tm.AddChatMessage("Spawning player: " + PhotonNetwork.player.NickName);
+		tm.AddSpawnMessage(PhotonNetwork.player.NickName);
 
 		// Set the spawn point based on the team you're on
 		GameObject spawnPoint = Util.GetSpawnPoint(PhotonNetwork.player.GetTeam());

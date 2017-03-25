@@ -9,6 +9,8 @@ public class Health : MonoBehaviour {
 	float currentPoints;
 
 	private BaseController bc;
+	PlayerSpawner ps;
+	TextManager tm; 
 
 
 	// Use this for initialization
@@ -19,6 +21,16 @@ public class Health : MonoBehaviour {
             Debug.LogError ("Base Controller is null");
         }
 
+		ps = GameObject.FindObjectOfType<PlayerSpawner> ();
+		if (ps == null) {
+			Debug.LogError ("Player Spawner is null");
+		}
+
+		tm = GameObject.FindObjectOfType<TextManager> ();
+		if (tm == null) {
+			Debug.LogError ("Text Manager is null");
+		}
+			
         hitPoints = bc.GetHealth ();
         currentPoints = hitPoints;
 
@@ -52,6 +64,7 @@ public class Health : MonoBehaviour {
         if (currentPoints <= 0) {
 			Die ();
 			SetStats ();
+			SendKillMessage ();
 		}
 	}
 
@@ -79,8 +92,7 @@ public class Health : MonoBehaviour {
 						}
 						GetComponent<GrabAndDrop> ().DropObject ();
 					}
-
-					PlayerSpawner ps = GameObject.FindObjectOfType<PlayerSpawner> ();
+						
 					ps.standbyCamera.SetActive (true);
 					ps.respawnTimer = 2f;
 				}
@@ -125,5 +137,13 @@ public class Health : MonoBehaviour {
 		if (Util.localPlayer) {
 			Util.localPlayer.GetComponent<PlayerController> ().killCount++;
 		}
+	}
+
+	// When a player dies, show a message saying "Player killed player"
+	void SendKillMessage () {
+		string murderer = Util.localPlayer.GetComponent<PhotonView> ().owner.NickName;
+		string victim = GetComponent<PhotonView> ().owner.NickName;
+
+		tm.AddKillMessage (murderer, victim);
 	}
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class TextManager : MonoBehaviour {
 
 	List<string> textMessages;
-	int maxChatMessages = 5;
+	int maxTextMessages = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -29,17 +29,25 @@ public class TextManager : MonoBehaviour {
 		GUILayout.EndArea ();
 	}
 
-	// Add a chat message (currently appearing in the bottom left corner when a player spawns)
-	public void AddChatMessage(string m) {
+	// Add a text message (currently appearing in the bottom left corner when a player spawns)
+	public void AddSpawnMessage(string playerName) {
+
+		string message = "Spawning player: " + playerName;
 
 		// Send all buffered messages (messages that have been sent before the player joined)
-		GetComponent<PhotonView>().RPC("AddChatMessage_RPC", PhotonTargets.AllBuffered, m);
+		GetComponent<PhotonView>().RPC("AddTextMessage_RPC", PhotonTargets.AllBuffered, message);
+	}
+
+	public void AddKillMessage(string murderer, string victim) {
+		
+		string message = murderer + " killed " + victim;
+		GetComponent<PhotonView>().RPC("AddTextMessage_RPC", PhotonTargets.AllBuffered, message);
 	}
 
 	[PunRPC]
-	void AddChatMessage_RPC(string m) {
-		//When the max chat messages have been recieved, remove the oldest one to make room
-		while (textMessages.Count >= maxChatMessages) {
+	void AddTextMessage_RPC(string m) {
+		//When the max text messages have been recieved, remove the oldest one to make room
+		while (textMessages.Count >= maxTextMessages) {
 			textMessages.RemoveAt(0);
 		}
 		textMessages.Add(m);
