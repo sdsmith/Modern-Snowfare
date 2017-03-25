@@ -80,9 +80,9 @@ public class Health : MonoBehaviour {
 						GetComponent<GrabAndDrop> ().DropObject ();
 					}
 
-					NetworkManager nm = GameObject.FindObjectOfType<NetworkManager> ();
-					nm.standbyCamera.SetActive (true);
-					nm.respawnTimer = 2f;
+					PlayerSpawner ps = GameObject.FindObjectOfType<PlayerSpawner> ();
+					ps.standbyCamera.SetActive (true);
+					ps.respawnTimer = 2f;
 				}
 				GetComponent<PhotonView> ().RPC ("DeathAnimation", PhotonTargets.All);
 				//transform.DetachChildren();
