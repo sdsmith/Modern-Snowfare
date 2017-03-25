@@ -27,7 +27,7 @@ public class AudioClips : MonoBehaviour {
         snowballImpacts.Add((AudioClip)Resources.Load("SnowballHit2"));
         snowballImpacts.Add((AudioClip)Resources.Load("SnowballHit3"));
 
-        targetHit = (AudioClip)Resources.Load("TargetHit");
+        targetHit = (AudioClip)Resources.Load("PlayerHit");
 
         playerKill = (AudioClip)Resources.Load("KillConfirmed");
 

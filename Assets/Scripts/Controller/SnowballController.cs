@@ -30,6 +30,16 @@ public class SnowballController : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision) {
 
+        // Play snowball impact sound
+        //
+        // @NOTE(sdsmith): Must use AudioSource.PlayClipAtpoint so the clip 
+        // persists after the destruction of the object. If we ere using an 
+        // AudioSource component, the clip would stop playing once that 
+        // component was destroyed.
+        AudioClip impactClip = AudioClips.GetRand(AudioClips.snowballImpacts);
+        AudioSource.PlayClipAtPoint(impactClip, transform.position);
+
+
         if (collision.gameObject.name == "Mountain") {
             // @NOTE(sdsmith): @PERFORMANCE(sdsmith): Note that 'Destroy' 
             // delayed at least until the end of the frame update cycle. If we
