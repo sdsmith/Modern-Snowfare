@@ -17,6 +17,8 @@ public class PlayerSpawner : MonoBehaviour
 	public float respawnTimer = 0f;
 	public GameObject Indicator;
 
+	TextManager tm;
+
 	void Start()
 	{
 		//if we are not connected, than we probably pressed play in a level in editor mode.
@@ -37,6 +39,11 @@ public class PlayerSpawner : MonoBehaviour
 
 		PhotonNetwork.player.NickName = PlayerPrefs.GetString("Username", "Modern Snowfare");
 		PhotonNetwork.player.SetTeam(PunTeams.Team.none);
+
+		tm = GetComponent<TextManager> ();
+		if (tm == null) {
+			Debug.LogError ("Text Manager is null");
+		}
 	}
 
 	// NOTE: Update is called once per frame
@@ -90,7 +97,7 @@ public class PlayerSpawner : MonoBehaviour
 	*/
 	public void SpawnMyPlayer() 
 	{
-		// AddChatMessage("Spawning player: " + PhotonNetwork.player.NickName);
+		tm.AddChatMessage("Spawning player: " + PhotonNetwork.player.NickName);
 
 		// Set the spawn point based on the team you're on
 		GameObject spawnPoint = Util.GetSpawnPoint(PhotonNetwork.player.GetTeam());

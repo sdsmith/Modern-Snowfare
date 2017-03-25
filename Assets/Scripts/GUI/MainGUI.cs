@@ -8,7 +8,6 @@ public class MainGUI : MonoBehaviour {
 	{
 		pickingTeam, 
 		pickingCharacter,
-		ready,
 		inGame
 	}
 
@@ -18,13 +17,9 @@ public class MainGUI : MonoBehaviour {
 	public Font ButtonFont;
 	public Texture2D ButtonBackground;
 
-	List<string> chatMessages;
-	int maxChatMessages = 5;
-
 	// Use this for initialization
 	void Start () {
 		currentStatus = Status.pickingTeam;
-		chatMessages = new List<string>();
 	}
 	
 	// Update is called once per frame
@@ -33,9 +28,6 @@ public class MainGUI : MonoBehaviour {
 	}
 
 	void OnGUI() {
-
-		// Status of the connection found in the top left corner.
-		GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
 
 		switch (currentStatus) {
 		case Status.pickingTeam:
@@ -74,7 +66,7 @@ public class MainGUI : MonoBehaviour {
 					{
 						if (GUILayout.Button("healer", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f - 20), GUILayout.Height(Screen.height - 20)))
 						{
-							currentStatus = Status.ready;
+							currentStatus = Status.inGame;
 							GetComponent<PlayerSpawner> ().SpawnMyPlayer ("Healer");
 						}
 
@@ -82,39 +74,25 @@ public class MainGUI : MonoBehaviour {
 
 						if (GUILayout.Button("flash", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f), GUILayout.Height(Screen.height - 20)))
 						{
-							currentStatus = Status.ready;
+							currentStatus = Status.inGame;
 							GetComponent<PlayerSpawner> ().SpawnMyPlayer ("Flash");
 						}
 
 						if (GUILayout.Button("tank", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f), GUILayout.Height(Screen.height - 20)))
 						{
-							currentStatus = Status.ready;
+							currentStatus = Status.inGame;
 							GetComponent<PlayerSpawner> ().SpawnMyPlayer ("Juggernaut");
 						}
 
 						if (GUILayout.Button("sniper", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f), GUILayout.Height(Screen.height - 20)))
 						{
-							currentStatus = Status.ready;
+							currentStatus = Status.inGame;
 							GetComponent<PlayerSpawner> ().SpawnMyPlayer ("Sniper");
 						}
 					}
 					GUILayout.EndHorizontal();
 				}
 				GUILayout.EndArea();
-			}
-			break;
-		case Status.ready:
-			{
-				GUILayout.BeginArea (new Rect (0, 0, Screen.width, Screen.height));
-				GUILayout.BeginVertical ();
-				GUILayout.FlexibleSpace ();
-
-				foreach (string msg in chatMessages) {
-					GUILayout.Label (msg);
-				}
-
-				GUILayout.EndVertical ();
-				GUILayout.EndArea ();
 			}
 			break;
 		case Status.inGame:
@@ -130,21 +108,4 @@ public class MainGUI : MonoBehaviour {
 			m_PickButtonStyle.fontSize = 60;
 		}
 	}
-
-	// Add a chat message (currently appearing in the bottom left corner when a player spawns)
-	public void AddChatMessage(string m) {
-
-		// Send all buffered messages (messages that have been sent before the player joined)
-		GetComponent<PhotonView>().RPC("AddChatMessage_RPC", PhotonTargets.AllBuffered, m);
-	}
-
-	[PunRPC]
-	void AddChatMessage_RPC(string m) {
-		//When the max chat messages have been recieved, remove the oldest one to make room
-		while (chatMessages.Count >= maxChatMessages) {
-			chatMessages.RemoveAt(0);
-		}
-		chatMessages.Add(m);
-	}
-
 }
