@@ -9,6 +9,8 @@ public class GrabAndDrop : MonoBehaviour {
 	public PunTeams.Team ourTeam;
 	public Vector3 offset = new Vector3(0,0,0);
 
+    private Vector3 originalGrabbedObjectScale;
+
 	// Use this for initialization
 	void Start () {
 		ourTeam = PhotonNetwork.player.GetTeam();
@@ -50,6 +52,18 @@ public class GrabAndDrop : MonoBehaviour {
 		Vector3 offset = Quaternion.AngleAxis(-45, gameObject.transform.right) * gameObject.transform.forward * 4;
 		grabbedObject.transform.position = gameObject.transform.position + offset;
 
+        // Adjust the scale of the object to the scale of the new parent so it retains its size.
+        {
+            Vector3 parentScale = gameObject.transform.localScale;
+            originalGrabbedObjectScale = grabbedObject.transform.localScale;
+
+            Vector3 adjustedScale = originalGrabbedObjectScale;
+            adjustedScale.x /= parentScale.x;
+            adjustedScale.y /= parentScale.y;
+            adjustedScale.z /= parentScale.z;
+
+            grabbedObject.transform.localScale = adjustedScale;
+        }
 	}
 
 	public void DropObject()
@@ -67,7 +81,11 @@ public class GrabAndDrop : MonoBehaviour {
 		grabbedObject.transform.parent = null;
 		grabbedObject.GetComponent<CapsuleCollider> ().enabled = true;
 		grabbedObject.transform.position = gameObject.transform.position;
-		grabbedObject = null;
+        // Adjust the scale of the grabbed object back to normal
+        {
+            grabbedObject.transform.localScale = originalGrabbedObjectScale;
+        }
+        grabbedObject = null;
 	}
 
 	[PunRPC]

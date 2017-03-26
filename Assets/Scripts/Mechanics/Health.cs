@@ -50,7 +50,7 @@ public class Health : MonoBehaviour {
 
 	[PunRPC] // can be called indirectly
 	// all players recieve notification of something taking damage
-	public virtual void TakeDamage (float amt) {
+	public virtual void TakeDamage (float amt, int attackerViewID) {
         currentPoints -= amt;
 
         // @DEBUG(sdsmith): Update debug stats
@@ -62,10 +62,23 @@ public class Health : MonoBehaviour {
         //}
 
         if (currentPoints <= 0) {
-			Die ();
+            Die ();
 			SetStats ();
 			SendKillMessage ();
-		}
+
+            // Play kill sound for attacker
+            PhotonView pv = PhotonView.Find(attackerViewID);
+            if (pv) {
+                // Player that hit this target is still alive, play the notification
+                // @NOTE(sdsmith): If this is placed before 'Die()', players do not 
+                // die. Who knows.
+                pv.gameObject.GetComponent<PlayerController>().PlayKillNotification();
+            }
+
+            // Play death sound for killed player
+            AudioClip clip = AudioClips.GetRand(AudioClips.playerDeath);
+            AudioSource.PlayClipAtPoint(clip, this.gameObject.transform.position, 1.5f);
+        }
 	}
 
 	void Die(){ 
@@ -102,11 +115,12 @@ public class Health : MonoBehaviour {
 
                 // Update utilities
                 Util.localPlayer = null;
-			}
-		}
-	}
+            }
+        }
+    }
 
-	[PunRPC]
+
+    [PunRPC]
 	void DeathAnimation() {
 		ToonCharacterController toonCC = GetComponent<ToonCharacterController> ();
 		if (toonCC != null) {
