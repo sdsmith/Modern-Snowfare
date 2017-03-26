@@ -151,11 +151,19 @@ public class PlayerController : BaseController {
     }
 
     public void PlayHitNotification() {
-        audioSource.PlayOneShot(AudioClips.targetHit, 0.7f);
+        // @NOTE(sdsmith): There is a potential case where this function could
+        // be called after the player dies. Must check to avoid nullptr.
+        if (audioSource) {
+            audioSource.PlayOneShot(AudioClips.targetHit, 0.7f);
+        }
     }
 
     public void PlayKillNotification() {
-        audioSource.PlayOneShot(AudioClips.playerKill, 0.7f);
+        // @NOTE(sdsmith): There is a potential case where this function could
+        // be called after the player dies. Must check to avoid nullptr.
+        if (audioSource) {
+            audioSource.PlayOneShot(AudioClips.playerKill, 0.7f);
+        }
     }
 
     // @Note(Llewellin): Overridden in FlashController

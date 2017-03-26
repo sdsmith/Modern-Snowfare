@@ -17,10 +17,37 @@ public class MainGUI : MonoBehaviour {
 	public Font ButtonFont;
 	public Texture2D ButtonBackground;
 
-	// Use this for initialization
-	void Start () {
+    Texture2D sniperIcon;
+    Texture2D juggyIcon;
+    Texture2D healerIcon;
+    Texture2D flashIcon;
+    GUIContent sniperContent;
+    GUIContent juggyContent;
+    GUIContent healerContent;
+    GUIContent flashContent;
+
+
+    // Use this for initialization
+    void Start () {
 		currentStatus = Status.pickingTeam;
-	}
+
+        sniperIcon = Resources.Load<Texture2D>("GUI/sniper");
+        juggyIcon = Resources.Load<Texture2D>("GUI/juggy");
+        healerIcon = Resources.Load<Texture2D>("GUI/healer");
+        flashIcon = Resources.Load<Texture2D>("GUI/flash");
+
+        sniperContent = new GUIContent();
+        sniperContent.image = sniperIcon;
+
+        juggyContent = new GUIContent();
+        juggyContent.image = juggyIcon;
+
+        healerContent = new GUIContent();
+        healerContent.image = healerIcon;
+
+        flashContent = new GUIContent();
+        flashContent.image = flashIcon;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -64,7 +91,7 @@ public class MainGUI : MonoBehaviour {
 				{
 					GUILayout.BeginHorizontal();
 					{
-						if (GUILayout.Button("healer", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f - 20), GUILayout.Height(Screen.height - 20)))
+						if (GUILayout.Button(healerContent, m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f - 20), GUILayout.Height(Screen.height - 20)))
 						{
 							currentStatus = Status.inGame;
 							GetComponent<PlayerSpawner> ().SpawnMyPlayer ("Healer");
@@ -72,19 +99,19 @@ public class MainGUI : MonoBehaviour {
 
 						GUILayout.FlexibleSpace();
 
-						if (GUILayout.Button("flash", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f), GUILayout.Height(Screen.height - 20)))
+						if (GUILayout.Button(flashContent, m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f), GUILayout.Height(Screen.height - 20)))
 						{
 							currentStatus = Status.inGame;
 							GetComponent<PlayerSpawner> ().SpawnMyPlayer ("Flash");
 						}
 
-						if (GUILayout.Button("tank", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f), GUILayout.Height(Screen.height - 20)))
+						if (GUILayout.Button(juggyContent, m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f), GUILayout.Height(Screen.height - 20)))
 						{
 							currentStatus = Status.inGame;
 							GetComponent<PlayerSpawner> ().SpawnMyPlayer ("Juggernaut");
 						}
 
-						if (GUILayout.Button("sniper", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f), GUILayout.Height(Screen.height - 20)))
+						if (GUILayout.Button(sniperContent, m_PickButtonStyle, GUILayout.Width(Screen.width * 0.25f), GUILayout.Height(Screen.height - 20)))
 						{
 							currentStatus = Status.inGame;
 							GetComponent<PlayerSpawner> ().SpawnMyPlayer ("Sniper");
