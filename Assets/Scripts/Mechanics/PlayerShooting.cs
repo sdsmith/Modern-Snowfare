@@ -49,6 +49,11 @@ public class PlayerShooting : MonoBehaviour {
             return;
         }
 
+		//changed
+		if (gameObject.GetComponent<GrabAndDrop> ().GetGrabbedObject() != null) {
+			return;
+		}
+
         // Play fire/throw sound
         AudioClip clip = AudioClips.GetRand(AudioClips.playerThrow);
         audioSource.PlayOneShot(clip);

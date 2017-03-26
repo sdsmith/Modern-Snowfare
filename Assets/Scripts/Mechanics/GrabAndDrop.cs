@@ -190,6 +190,10 @@ public class GrabAndDrop : MonoBehaviour {
 		return grabbedObject.name;
 	}
 
+	public GameObject GetGrabbedObject()
+	{
+		return grabbedObject;
+	}
 	public void CaptureFlag()
 	{
 		if (grabbedObject != null) {
