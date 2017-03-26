@@ -8,6 +8,7 @@ public class GrabAndDrop : MonoBehaviour {
 	GameObject grabbedObject;
 	public PunTeams.Team ourTeam;
 	public Vector3 offset = new Vector3(0,0,0);
+	public Vector3 dropOffset = new Vector3(7,0,0);
 
     private Vector3 originalGrabbedObjectScale;
 
@@ -29,6 +30,16 @@ public class GrabAndDrop : MonoBehaviour {
 		}
 		return null; 
 	}*/
+
+	void Update()
+	{
+		if (Input.GetMouseButtonDown (1)) {
+			Debug.Log ("dropping object");
+
+			DropObject ();
+
+		}
+	}
 
 	void TryGrabObject(GameObject grabObject)
 	{
@@ -80,7 +91,7 @@ public class GrabAndDrop : MonoBehaviour {
 
 		grabbedObject.transform.parent = null;
 		grabbedObject.GetComponent<CapsuleCollider> ().enabled = true;
-		grabbedObject.transform.position = gameObject.transform.position;
+		//grabbedObject.transform.position = gameObject.transform.position + dropOffset;
         // Adjust the scale of the grabbed object back to normal
         {
             grabbedObject.transform.localScale = originalGrabbedObjectScale;
