@@ -8,6 +8,9 @@ public class Health : MonoBehaviour {
 	float hitPoints;
 	float currentPoints;
 
+	public Texture bloodyScreen;
+
+
 	private BaseController bc;
 	PlayerSpawner ps;
 	TextManager tm; 
@@ -15,7 +18,6 @@ public class Health : MonoBehaviour {
 
 	// Use this for initialization
 	public void Start () {
-
         bc = GetComponent<BaseController> ();
         if (bc == null) {
             Debug.LogError ("Base Controller is null");
@@ -37,6 +39,7 @@ public class Health : MonoBehaviour {
         // @DEBUG(sdsmith): Add entry to debug overlay
         DebugOverlay.AddAttr("Max health", hitPoints.ToString());
         DebugOverlay.AddAttr("Current health", currentPoints.ToString());
+
     }
 	
     public float GetMaxHitPoints() {
@@ -164,6 +167,13 @@ public class Health : MonoBehaviour {
 			} else {
 				tm.AddBlueKillMessage (murderer, victim);
 			}
+		}
+	}
+
+	void OnGUI(){
+		
+		if (currentPoints == 1) {
+			GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), bloodyScreen);	
 		}
 	}
 }

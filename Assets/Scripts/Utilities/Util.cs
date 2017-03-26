@@ -14,8 +14,6 @@ public class Util : MonoBehaviour {
     /** Contains reference to the local player, or null if it doesn't exist. */
     public static GameObject localPlayer = null;
 
-
-
 	public static GameObject redFortEntrance;
 	public static GameObject blueFortEntrance;
 
