@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 136796149957355048}
   - component: {fileID: 33547927208418320}
   - component: {fileID: 23579155621025010}
+  - component: {fileID: 114905468567646194}
   m_Layer: 0
   m_Name: Torch_Red
   m_TagString: Untagged
@@ -379,10 +380,22 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 41
+  instantiationId: 41
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114905468567646194
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1439286969151214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8c4ecdc1897fcf45abb737fada27df8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallSpeed: 10
 --- !u!136 &136796149957355048
 CapsuleCollider:
   m_ObjectHideFlags: 1
