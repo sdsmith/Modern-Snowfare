@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(PlayerController))]
 public class PlayerShooting : MonoBehaviour {
 
@@ -14,9 +15,10 @@ public class PlayerShooting : MonoBehaviour {
 	PlayerController pc;
 	float snowballDamage;
 
+    private AudioSource audioSource;
+
     void Start() {
         fxManager = GameObject.FindObjectOfType<FXManager>();
-
         if (fxManager == null) {
             Debug.LogError("No fxManager");
         }
@@ -25,6 +27,8 @@ public class PlayerShooting : MonoBehaviour {
 		if (pc == null) {
 			Debug.LogError ("Player Controller is null");
 		}
+
+        audioSource = GetComponent<AudioSource>();
 
 		snowballDamage = pc.GetDamage();
     }
@@ -44,6 +48,10 @@ public class PlayerShooting : MonoBehaviour {
         if (coolDown > 0) {
             return;
         }
+
+        // Play fire/throw sound
+        AudioClip clip = AudioClips.GetRand(AudioClips.playerThrow);
+        audioSource.PlayOneShot(clip);
 
         // Fire the snowball
         if (fxManager != null) {
