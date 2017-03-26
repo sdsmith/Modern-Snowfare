@@ -11,6 +11,6 @@ public class DestroyWhenParticlesAreDone : MonoBehaviour
 	void Start()
 	{
 		Particles = GetComponent<ParticleSystem>();
-		Destroy( this.gameObject, Particles.duration );
+		Destroy( this.gameObject, Particles.main.duration );
 	}
 }

@@ -24,6 +24,7 @@ public class FX_SpeedLines : MonoBehaviour
 
 	void Update()
 	{
-		Particles.emissionRate = Mathf.Clamp01( Ship.ShipMovement.GetCurrentSpeed() / 25f - 0.65f ) * 50;
+		ParticleSystem.EmissionModule emission = Particles.emission;
+		emission.rateOverTime = Mathf.Clamp01( Ship.ShipMovement.GetCurrentSpeed() / 25f - 0.65f ) * 50;
 	}
 }

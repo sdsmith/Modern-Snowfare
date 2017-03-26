@@ -32,7 +32,7 @@ public class ShipShooting : ShipBase
 		set;
 	}
 
-	float m_LastShootTime;
+	// float m_LastShootTime;
 	int m_LastProjectileId;
 
 	List<ProjectileBase> m_Projectiles = new List<ProjectileBase>();
@@ -46,7 +46,7 @@ public class ShipShooting : ShipBase
 	{
 		//@NOTE(Llewellin): Never shoot from this ship class
 		return;
-
+		/*
 		//We only want to shoot lasers for the local ship here
 		//Remote ships create their lasers via RPC
 		if( PhotonView.isMine == false )
@@ -103,6 +103,7 @@ public class ShipShooting : ShipBase
 										}
 							);
 		}
+		*/
 	}
 
 	[PunRPC]
@@ -120,7 +121,7 @@ public class ShipShooting : ShipBase
 
 	public void CreateProjectile( Vector3 position, Quaternion rotation, double createTime, int projectileId )
 	{
-		m_LastShootTime = Time.realtimeSinceStartup;
+		// m_LastShootTime = Time.realtimeSinceStartup;
 
 		//Every player receives this so we create the prefabs locally instead of calling PhotonNetwork.Instantiate
 		//By having its start position, start rotation and time when it was created, we can calculate where the laser is at all times

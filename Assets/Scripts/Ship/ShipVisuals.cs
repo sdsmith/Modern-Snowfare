@@ -137,33 +137,33 @@ public class ShipVisuals : ShipBase
 		//When setting the ships team, we want to change its colors too to represent it
 		//The colors have to be changed not only on the main mesh, but also on the exhaust trail
 
-		if( team == Team.Blue )
-		{
-			VisualParent.Find( "Ship_Player_07" ).GetComponent<Renderer>().material.color = Color.blue;
-			VisualParent.Find( "Ship_Player_07" ).GetComponent<Renderer>().material.SetColor( "_Color1", new Color( 0.5f, 0.5f, 1f ) );
-			VisualParent.Find( "FX_Exaust" ).GetComponent<ParticleSystem>().startColor = Color.blue;
-			VisualParent.Find( "FX_Exaust" ).Find( "Particle System Glow" ).GetComponent<ParticleSystem>().startColor = Color.blue;
-			VisualParent.Find( "FX_Exaust" ).Find( "Trail" ).GetComponent<Renderer>().material.SetColor( "_ColorBottom", Color.blue );
-			VisualParent.Find( "FX_Exaust" ).Find( "Trail" ).GetComponent<Renderer>().material.SetColor( "_ColorTop", new Color( 0.5f, 0.5f, 1f ) );
-		}
-		else if( team == Team.Red )
-		{
-			VisualParent.Find( "Ship_Player_07" ).GetComponent<Renderer>().material.color = Color.red;
-			VisualParent.Find( "Ship_Player_07" ).GetComponent<Renderer>().material.SetColor( "_Color1", new Color( 1f, 0.5f, 0.5f ) );
-			VisualParent.Find( "FX_Exaust" ).GetComponent<ParticleSystem>().startColor = Color.red;
-			VisualParent.Find( "FX_Exaust" ).Find( "Particle System Glow" ).GetComponent<ParticleSystem>().startColor = Color.red;
-			VisualParent.Find( "FX_Exaust" ).Find( "Trail" ).GetComponent<Renderer>().material.SetColor( "_ColorBottom", Color.red );
-			VisualParent.Find( "FX_Exaust" ).Find( "Trail" ).GetComponent<Renderer>().material.SetColor( "_ColorTop", new Color( 1f, 0.5f, 0.5f ) );
-		}
-		else
-		{
-			VisualParent.Find( "Ship_Player_07" ).GetComponent<Renderer>().material.color = new Color( 0.05f, 0.05f, 0.05f );
-			VisualParent.Find( "Ship_Player_07" ).GetComponent<Renderer>().material.SetColor( "_Color1", new Color( 0.5f, 0.5f, 0.5f ) );
-			VisualParent.Find( "FX_Exaust" ).GetComponent<ParticleSystem>().startColor = Color.red;
-			VisualParent.Find( "FX_Exaust" ).Find( "Particle System Glow" ).GetComponent<ParticleSystem>().startColor = Color.yellow;
-			VisualParent.Find( "FX_Exaust" ).Find( "Trail" ).GetComponent<Renderer>().material.SetColor( "_ColorBottom", Color.yellow );
-			VisualParent.Find( "FX_Exaust" ).Find( "Trail" ).GetComponent<Renderer>().material.SetColor( "_ColorTop", new Color( 1f, 1f, 0.8f ) );
-		}
+//		if( team == Team.Blue )
+//		{
+//			VisualParent.Find( "Ship_Player_07" ).GetComponent<Renderer>().material.color = Color.blue;
+//			VisualParent.Find( "Ship_Player_07" ).GetComponent<Renderer>().material.SetColor( "_Color1", new Color( 0.5f, 0.5f, 1f ) );
+//			VisualParent.Find( "FX_Exaust" ).GetComponent<ParticleSystem>().startColor = Color.blue;
+//			VisualParent.Find( "FX_Exaust" ).Find( "Particle System Glow" ).GetComponent<ParticleSystem>().startColor = Color.blue;
+//			VisualParent.Find( "FX_Exaust" ).Find( "Trail" ).GetComponent<Renderer>().material.SetColor( "_ColorBottom", Color.blue );
+//			VisualParent.Find( "FX_Exaust" ).Find( "Trail" ).GetComponent<Renderer>().material.SetColor( "_ColorTop", new Color( 0.5f, 0.5f, 1f ) );
+//		}
+//		else if( team == Team.Red )
+//		{
+//			VisualParent.Find( "Ship_Player_07" ).GetComponent<Renderer>().material.color = Color.red;
+//			VisualParent.Find( "Ship_Player_07" ).GetComponent<Renderer>().material.SetColor( "_Color1", new Color( 1f, 0.5f, 0.5f ) );
+//			VisualParent.Find( "FX_Exaust" ).GetComponent<ParticleSystem>().startColor = Color.red;
+//			VisualParent.Find( "FX_Exaust" ).Find( "Particle System Glow" ).GetComponent<ParticleSystem>().startColor = Color.red;
+//			VisualParent.Find( "FX_Exaust" ).Find( "Trail" ).GetComponent<Renderer>().material.SetColor( "_ColorBottom", Color.red );
+//			VisualParent.Find( "FX_Exaust" ).Find( "Trail" ).GetComponent<Renderer>().material.SetColor( "_ColorTop", new Color( 1f, 0.5f, 0.5f ) );
+//		}
+//		else
+//		{
+//			VisualParent.Find( "Ship_Player_07" ).GetComponent<Renderer>().material.color = new Color( 0.05f, 0.05f, 0.05f );
+//			VisualParent.Find( "Ship_Player_07" ).GetComponent<Renderer>().material.SetColor( "_Color1", new Color( 0.5f, 0.5f, 0.5f ) );
+//			VisualParent.Find( "FX_Exaust" ).GetComponent<ParticleSystem>().startColor = Color.red;
+//			VisualParent.Find( "FX_Exaust" ).Find( "Particle System Glow" ).GetComponent<ParticleSystem>().startColor = Color.yellow;
+//			VisualParent.Find( "FX_Exaust" ).Find( "Trail" ).GetComponent<Renderer>().material.SetColor( "_ColorBottom", Color.yellow );
+//			VisualParent.Find( "FX_Exaust" ).Find( "Trail" ).GetComponent<Renderer>().material.SetColor( "_ColorTop", new Color( 1f, 1f, 0.8f ) );
+//		}
 	}
 
 	public void OnRespawn()
@@ -172,7 +172,8 @@ public class ShipVisuals : ShipBase
 		m_UpsideDownRoll = 0;
 		m_UpsideDownTurnModifier = 1;
 		m_VisualTurn = 0;
-		m_SmokeFx.emissionRate = 0f;
+		ParticleSystem.EmissionModule emission = m_SmokeFx.emission;
+		emission.rateOverTime = 0f;
 	}
 
 	public void OnHealthChanged( float health )
@@ -184,17 +185,18 @@ public class ShipVisuals : ShipBase
 
 		//If the players health is below a certain threshold, we want to create a smoke effect 
 		//that gets stronger when the player takes more damage
+		ParticleSystem.EmissionModule emission = m_SmokeFx.emission;
 		if( health <= 11f )
 		{
-			m_SmokeFx.emissionRate = 30f;
+			emission.rateOverTime = 30f;
 		}
 		else if( health <= 21f )
 		{
-			m_SmokeFx.emissionRate = 10f;
+			emission.rateOverTime = 10f;
 		}
 		else
 		{
-			m_SmokeFx.emissionRate = 0f;
+			emission.rateOverTime = 0f;
 		}
 	}
 

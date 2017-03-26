@@ -14,7 +14,7 @@ public class WallHealth : Health {
 	 */
 	float ratio;
 
-	void Start() {
+	new void Start() {
 		base.Start ();
 		ratio = 10 / GetComponent<WallController> ().GetHealth ();
 	}

@@ -151,7 +151,7 @@ public class GamemodeGUIBase : MonoBehaviour
 
 				if( PhotonNetwork.connected == true )
 				{
-					playerName = sortedPlayers[ i ].GetComponent<PhotonView>().owner.name;
+					playerName = sortedPlayers[ i ].GetComponent<PhotonView>().owner.NickName;
 				}
 
 				GUILayout.BeginHorizontal();

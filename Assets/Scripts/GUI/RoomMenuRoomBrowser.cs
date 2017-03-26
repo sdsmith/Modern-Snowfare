@@ -265,44 +265,44 @@ public class RoomMenuRoomBrowser : RoomMenuBase
 		case SortRoomList.NameAsc:
 			list.Sort( delegate( RoomInfo room1, RoomInfo room2 )
 			{
-				return room1.name.CompareTo( room2.name );
+				return room1.Name.CompareTo( room2.Name );
 			} );
 			break;
 		case SortRoomList.NameDesc:
 			list.Sort( delegate( RoomInfo room1, RoomInfo room2 )
 			{
-				return room2.name.CompareTo( room1.name );
+				return room2.Name.CompareTo( room1.Name );
 			} );
 			break;
 
 		case SortRoomList.PlayersAsc:
 			list.Sort( delegate( RoomInfo room1, RoomInfo room2 )
 			{
-				if( room1.playerCount == room2.playerCount )
+				if( room1.PlayerCount == room2.PlayerCount )
 				{
-					return room1.maxPlayers.CompareTo( room2.maxPlayers );
+					return room1.MaxPlayers.CompareTo( room2.MaxPlayers );
 				}
 
-				return room1.playerCount.CompareTo( room2.playerCount );
+				return room1.PlayerCount.CompareTo( room2.PlayerCount );
 			} );
 			break;
 		case SortRoomList.PlayersDesc:
 			list.Sort( delegate( RoomInfo room1, RoomInfo room2 )
 			{
-				if( room1.playerCount == room2.playerCount )
+				if( room1.PlayerCount == room2.PlayerCount )
 				{
-					return room2.maxPlayers.CompareTo( room1.maxPlayers );
+					return room2.MaxPlayers.CompareTo( room1.MaxPlayers );
 				}
 
-				return room2.playerCount.CompareTo( room1.playerCount );
+				return room2.PlayerCount.CompareTo( room1.PlayerCount );
 			} );
 			break;
 
 		case SortRoomList.MapAsc:
 			list.Sort( delegate( RoomInfo room1, RoomInfo room2 )
 			{
-				string map1 = (string)room1.customProperties[ RoomProperty.Map ];
-				string map2 = (string)room2.customProperties[ RoomProperty.Map ];
+				string map1 = (string)room1.CustomProperties[ RoomProperty.Map ];
+				string map2 = (string)room2.CustomProperties[ RoomProperty.Map ];
 
 				return map1.CompareTo( map2 );
 			} );
@@ -310,8 +310,8 @@ public class RoomMenuRoomBrowser : RoomMenuBase
 		case SortRoomList.MapDesc:
 			list.Sort( delegate( RoomInfo room1, RoomInfo room2 )
 			{
-				string map1 = (string)room1.customProperties[ RoomProperty.Map ];
-				string map2 = (string)room2.customProperties[ RoomProperty.Map ];
+				string map1 = (string)room1.CustomProperties[ RoomProperty.Map ];
+				string map2 = (string)room2.CustomProperties[ RoomProperty.Map ];
 
 				return map2.CompareTo( map1 );
 			} );
@@ -320,8 +320,8 @@ public class RoomMenuRoomBrowser : RoomMenuBase
 		case SortRoomList.ModeAsc:
 			list.Sort( delegate( RoomInfo room1, RoomInfo room2 )
 			{
-				int mode1 = (int)room1.customProperties[ RoomProperty.Mode ];
-				int mode2 = (int)room2.customProperties[ RoomProperty.Mode ];
+				int mode1 = (int)room1.CustomProperties[ RoomProperty.Mode ];
+				int mode2 = (int)room2.CustomProperties[ RoomProperty.Mode ];
 
 				return mode1.CompareTo( mode2 );
 			} );
@@ -329,8 +329,8 @@ public class RoomMenuRoomBrowser : RoomMenuBase
 		case SortRoomList.ModeDesc:
 			list.Sort( delegate( RoomInfo room1, RoomInfo room2 )
 			{
-				int mode1 = (int)room1.customProperties[ RoomProperty.Mode ];
-				int mode2 = (int)room2.customProperties[ RoomProperty.Mode ];
+				int mode1 = (int)room1.CustomProperties[ RoomProperty.Mode ];
+				int mode2 = (int)room2.CustomProperties[ RoomProperty.Mode ];
 
 				return mode2.CompareTo( mode1 );
 			} );
@@ -375,8 +375,8 @@ public class RoomMenuRoomBrowser : RoomMenuBase
 	void DrawRoomListButton( float top, RoomInfo roomInfo )
 	{
 		//Receive the map and mode data from the rooms custom properties
-		string map = (string)roomInfo.customProperties[ RoomProperty.Map ];
-		Gamemode mode = (Gamemode)( (int)roomInfo.customProperties[ RoomProperty.Mode ] );
+		string map = (string)roomInfo.CustomProperties[ RoomProperty.Map ];
+		Gamemode mode = (Gamemode)( (int)roomInfo.CustomProperties[ RoomProperty.Mode ] );
 
 		//Create the rect where the button should be drawn
 		Rect buttonRect = new Rect( 40, top, Screen.width - 80, 40 );
@@ -391,9 +391,9 @@ public class RoomMenuRoomBrowser : RoomMenuBase
 		if( GUI.Button( buttonRect, "", Styles.DarkButton ) )
 		{
 			m_IsJoiningRoom = true;
-			m_JoinRoomName = roomInfo.name;
+			m_JoinRoomName = roomInfo.Name;
 
-			PhotonNetwork.JoinRoom( roomInfo.name );
+			PhotonNetwork.JoinRoom( roomInfo.Name );
 		}
 
 		//Now we fake a mouse over color change for our button content
@@ -415,8 +415,8 @@ public class RoomMenuRoomBrowser : RoomMenuBase
 			GUILayout.BeginHorizontal();
 			{
 				GUILayout.Space( 20 );
-				GUILayout.Label( roomInfo.name, Styles.LabelSmall, GUILayout.Width( RoomNameWidth ), GUILayout.Height( buttonRect.height ) );
-				GUILayout.Label( roomInfo.playerCount + "/" + roomInfo.maxPlayers, Styles.LabelSmall, GUILayout.Width( RoomPlayerWidth ), GUILayout.Height( buttonRect.height ) );
+				GUILayout.Label( roomInfo.Name, Styles.LabelSmall, GUILayout.Width( RoomNameWidth ), GUILayout.Height( buttonRect.height ) );
+				GUILayout.Label( roomInfo.PlayerCount + "/" + roomInfo.MaxPlayers, Styles.LabelSmall, GUILayout.Width( RoomPlayerWidth ), GUILayout.Height( buttonRect.height ) );
 				GUILayout.Label( mode.ToString(), Styles.LabelSmall, GUILayout.Width( RoomModeWidth ), GUILayout.Height( buttonRect.height ) );
 				GUILayout.Label( map, Styles.LabelSmall, GUILayout.Width( RoomMapWidth ), GUILayout.Height( buttonRect.height ) );
 			}

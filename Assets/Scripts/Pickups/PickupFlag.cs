@@ -161,16 +161,16 @@ public class PickupFlag : PickupBase
 	/// <param name="team">The team.</param>
 	void SetTeamColor( Team team )
 	{
-		if( team == Team.Blue )
-		{
-			transform.Find( "FX_Flag" ).GetComponent<ParticleSystem>().startColor = Color.blue;
-			transform.Find( "FX_Flag" ).GetChild( 0 ).GetComponent<ParticleSystem>().startColor = Color.blue;
-		}
-		else
-		{
-			transform.Find( "FX_Flag" ).GetComponent<ParticleSystem>().startColor = Color.red;
-			transform.Find( "FX_Flag" ).GetChild( 0 ).GetComponent<ParticleSystem>().startColor = Color.red;
-		}
+//		if( team == Team.Blue )
+//		{
+//			transform.Find( "FX_Flag" ).GetComponent<ParticleSystem>().startColor = Color.blue;
+//			transform.Find( "FX_Flag" ).GetChild( 0 ).GetComponent<ParticleSystem>().startColor = Color.blue;
+//		}
+//		else
+//		{
+//			transform.Find( "FX_Flag" ).GetComponent<ParticleSystem>().startColor = Color.red;
+//			transform.Find( "FX_Flag" ).GetChild( 0 ).GetComponent<ParticleSystem>().startColor = Color.red;
+//		}
 	}
 
 	/// <summary>

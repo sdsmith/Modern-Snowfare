@@ -91,7 +91,6 @@ public class GrabAndDrop : MonoBehaviour {
 				{
 				TryGrabObject (col.gameObject);
 				}
-				Debug.Log ("trying to grb flag");
 			} 
 			//red torch not lit
 			else {
@@ -111,7 +110,6 @@ public class GrabAndDrop : MonoBehaviour {
 				{
 				TryGrabObject (col.gameObject);
 				}
-				Debug.Log ("trying to grb flag");
 			} else {
 				
 				if (grabbedObject.name == "Lighter") {
