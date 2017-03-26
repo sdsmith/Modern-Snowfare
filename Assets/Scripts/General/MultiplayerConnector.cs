@@ -66,7 +66,7 @@ public class MultiplayerConnector : MonoBehaviour
 
 		try
 		{
-			PhotonNetwork.ConnectUsingSettings( "1.0" );
+			PhotonNetwork.ConnectUsingSettings( "1.0-dev" );
 		}
 		catch
 		{
