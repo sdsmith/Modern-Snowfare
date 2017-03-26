@@ -66,4 +66,9 @@ public class PlayerShooting : MonoBehaviour {
 
         coolDown = fireRate;
     }
+
+    public void SetFireRate(float rate)
+    {
+        this.fireRate = rate;
+    }
 }

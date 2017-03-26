@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InvPickUp : MonoBehaviour {
+public class SteroidsPickUp : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -13,26 +13,26 @@ public class InvPickUp : MonoBehaviour {
 	void Update () {
 		
 	}
-	void OnCollisionEnter(Collision collision) {
-		Debug.Log (collision.gameObject.name);
+
+    	void OnCollisionEnter(Collision collision) {
 
 		if (collision.gameObject.name != "Terrain" && collision.gameObject.name != "Snowball(Clone)" &&
 			 collision.gameObject.name != "Torch_Blue" && collision.gameObject.name != "Torch_Red") {
 			int viewID = collision.gameObject.GetPhotonView ().viewID;
-			GetComponent<PhotonView> ().RPC("InvUnit", PhotonTargets.AllBuffered, viewID);
+			GetComponent<PhotonView> ().RPC("SteroidUnit", PhotonTargets.AllBuffered, viewID);
 
 		}
 	}
 
 	[PunRPC] 
-	void InvUnit(int viewID){
+	void SteroidUnit(int viewID){
 		PlayerController Player = PhotonView.Find (viewID).gameObject.GetComponent<PlayerController>();
 		SkinnedMeshRenderer Renderer = PhotonView.Find (viewID).gameObject.transform.FindChild("MicroMale").GetComponent<SkinnedMeshRenderer>();
-		Renderer.enabled = false;
+        Player.GetComponent<PlayerShooting>().SetFireRate(.15f);
 		this.GetComponent<MeshRenderer>().enabled = false;
 		this.GetComponent<SphereCollider>().enabled = false;
         Vector3 SpawnPosition = new Vector3 (0,0,0);
-		GameObject temp = PhotonNetwork.Instantiate ("InvPowerUpIndicator", SpawnPosition,gameObject.transform.rotation,0);
+		GameObject temp = PhotonNetwork.Instantiate ("SteroidsPowerUpIndicator", SpawnPosition,gameObject.transform.rotation,0);
 		temp.transform.parent = Player.transform;
 		temp.transform.localPosition = Vector3.zero;
 		StartCoroutine(Timer(Player, Renderer));
@@ -42,9 +42,9 @@ public class InvPickUp : MonoBehaviour {
 	[PunRPC] 
 	IEnumerator Timer(PlayerController Player, SkinnedMeshRenderer Renderer) {
 		yield return new WaitForSeconds(15);
-		if (Player != null && Player.transform.Find("InvPowerUpIndicator(Clone)").gameObject!= null) {
-			Renderer.enabled = true;
-			Destroy(Player.transform.Find("InvPowerUpIndicator(Clone)").gameObject);
+        Player.GetComponent<PlayerShooting>().SetFireRate(.5f);
+        if (Player != null && Player.transform.Find("SteroidsPowerUpIndicator(Clone)").gameObject!= null) {
+			Destroy(Player.transform.Find("SteroidsPowerUpIndicator(Clone)").gameObject);
 		}
 		Destroy (this.gameObject);
 	}

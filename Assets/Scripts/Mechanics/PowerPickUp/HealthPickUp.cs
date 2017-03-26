@@ -15,8 +15,6 @@ public class HealthPickUp : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
-		Debug.Log (collision.gameObject.name);
-
 		if (collision.gameObject.name != "Terrain" && collision.gameObject.name != "Snowball(Clone)" &&
 			collision.gameObject.name != "Torch_Blue" && collision.gameObject.name != "Torch_Red") {
 			int viewID = collision.gameObject.GetPhotonView ().viewID;
@@ -32,7 +30,7 @@ public class HealthPickUp : MonoBehaviour {
 		Player.GetComponent<Health> ().SetCurrentPoints (Player.GetHealth() * 2f);
 		this.GetComponent<MeshRenderer>().enabled = false;
 		this.GetComponent<SphereCollider>().enabled = false;
-		Vector3 SpawnPosition = new Vector3 (0,0,0);
+        Vector3 SpawnPosition = new Vector3 (0,0,0);
 		GameObject temp = PhotonNetwork.Instantiate ("HealthPowerUpIndicator", SpawnPosition,gameObject.transform.rotation,0);
 		temp.transform.parent = Player.transform;
 		temp.transform.localPosition = Vector3.zero;

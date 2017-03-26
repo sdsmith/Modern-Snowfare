@@ -30,7 +30,7 @@ public class SpeedPickUp : MonoBehaviour {
 		Player.SetSpeed ((Speed * 1.5f));
 		this.GetComponent<MeshRenderer>().enabled = false;
 		this.GetComponent<SphereCollider>().enabled = false;
-		Vector3 SpawnPosition = new Vector3 (0,0,0);
+        Vector3 SpawnPosition = new Vector3 (0,0,0);
 		GameObject temp = PhotonNetwork.Instantiate ("SpeedPowerUpIndicator", SpawnPosition,gameObject.transform.rotation,0);
 		temp.transform.parent = Player.transform;
 		temp.transform.localPosition = Vector3.zero;
