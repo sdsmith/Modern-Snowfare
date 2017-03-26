@@ -21,12 +21,12 @@ public class WallHealth : Health {
 
 	[PunRPC] // can be called indirectly
 	// all players recieve notification of something taking damage
-	public override void TakeDamage (float amt) {
+	public override void TakeDamage (float amt, int attackerViewID) {
 		// Shift the wall down
 		shiftOffset = new Vector3(0, amt * ratio, 0);
 		//ShiftDown();
 		gameObject.transform.position -= shiftOffset;
-		base.TakeDamage (amt);
+		base.TakeDamage (amt, attackerViewID);
 	}
 
 	void ShiftDown() {

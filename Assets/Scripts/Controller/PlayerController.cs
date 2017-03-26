@@ -3,6 +3,7 @@ using System.Collections;
 
 
 
+[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
@@ -18,7 +19,8 @@ public class PlayerController : BaseController {
 	protected float damage = 1.0f;
     public float jumpSpeed;
 
-    private bool isJumping; // True if the player is currently jumping
+    /** True if the player is currently jumping. */
+    private bool isJumping;
     /** True if the player is airborn after jumping. */
     /* 
      * @NOTE(sdsmith): When a player starts a jump, they won't necessarily be 
@@ -27,6 +29,8 @@ public class PlayerController : BaseController {
      * at what period the player is actually off the ground during a jump.
      */
     private bool isAirborn;
+
+    private AudioSource audioSource;
 
     private new Rigidbody rigidbody;
     private new CapsuleCollider collider;
@@ -37,6 +41,7 @@ public class PlayerController : BaseController {
         // Component references
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
+        audioSource = GetComponent<AudioSource>();
 
         jumpSpeed = 7f;
         isJumping = IsGrounded();
@@ -145,8 +150,16 @@ public class PlayerController : BaseController {
         return hit;
     }
 
-	// @Note(Llewellin): Overridden in FlashController
-	public virtual float GetSpeed() {
+    public void PlayHitNotification() {
+        audioSource.PlayOneShot(AudioClips.targetHit, 0.7f);
+    }
+
+    public void PlayKillNotification() {
+        audioSource.PlayOneShot(AudioClips.playerKill, 0.7f);
+    }
+
+    // @Note(Llewellin): Overridden in FlashController
+    public virtual float GetSpeed() {
         return speed;
     }
 
