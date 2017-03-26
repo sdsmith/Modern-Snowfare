@@ -61,7 +61,8 @@ public class PlayerShooting : MonoBehaviour {
             // @TODO(sdsmith): Set offset of the snowball spawn location to be relative to the size of the player's 
             // collider plus the width of the snowball collider and some error margin to make it change proof.
 			Vector3 startPos = Camera.main.transform.position + (Camera.main.transform.forward * 1.1f);
-			fxManager.GetComponent<PhotonView>().RPC("SnowballFX", PhotonTargets.All, startPos, Camera.main.transform.rotation, snowballDamage);
+            int playerViewID = this.gameObject.GetComponent<PhotonView>().viewID;
+            fxManager.GetComponent<PhotonView>().RPC("SnowballFX", PhotonTargets.All, startPos, Camera.main.transform.rotation, snowballDamage, playerViewID);
         }
 
         coolDown = fireRate;

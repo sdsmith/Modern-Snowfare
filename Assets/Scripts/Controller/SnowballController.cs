@@ -14,6 +14,9 @@ public class SnowballController : MonoBehaviour {
 	// the players to take 0 damage...why?
 	public float damage;
 
+    /** Reference to the player that threw the snowball. */
+    private GameObject thrower;
+
 	// Use this for initialization
 	void Start () {
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -94,6 +97,11 @@ public class SnowballController : MonoBehaviour {
                     if (ourTeam != theirTeam) {
                         // Not targeting same team
                         pv.RPC("TakeDamage", PhotonTargets.AllBuffered, damage);
+
+                        // Play hit sound if we threw the snowball
+                        if (Util.localPlayer == thrower) {
+                            AudioSource.PlayClipAtPoint(AudioClips.targetHit,thrower.transform.position);
+                        }
                     } else {
                         // Targeting same team
                     }
@@ -106,5 +114,9 @@ public class SnowballController : MonoBehaviour {
 	public void SetSnowballDamage(float damage) {
 		this.damage = damage;
 	}
+
+    public void SetThrower(int playerViewID) {
+        thrower = PhotonView.Find(playerViewID).gameObject;
+    }
 }
 
