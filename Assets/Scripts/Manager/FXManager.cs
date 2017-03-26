@@ -80,12 +80,16 @@ public class FXManager : MonoBehaviour {
 
 	IEnumerator Spawner(){	
 		while (true) {
-			int randomTimer =  Random.Range (0, 120);
+			int randomTimer =  Random.Range (0, 30);
 			yield return new WaitForSeconds (randomTimer);
 			RandPowerUp = Random.Range (0, 3);
 			Vector3 SpawnPosition = new Vector3 (Random.Range (20, 150), 7, Random.Range (20, 150));
-			PhotonNetwork.Instantiate (PowerUps[RandPowerUp], SpawnPosition, gameObject.transform.rotation,0);
-		}
+			GameObject temp = PhotonNetwork.Instantiate (PowerUps[RandPowerUp], SpawnPosition, gameObject.transform.rotation,0);
+            GameObject indicator = PhotonNetwork.Instantiate("PowerUpGlow", SpawnPosition, gameObject.transform.rotation, 0);
+            indicator.transform.parent = temp.transform;
+            indicator.transform.rotation = Quaternion.Euler(-90, 0, 0);
+            indicator.transform.position += new Vector3(0, -0.75f, 0);
+        }
 
 	}
 }
