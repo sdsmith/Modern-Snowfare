@@ -74,6 +74,10 @@ public class Health : MonoBehaviour {
                 // die. Who knows.
                 pv.gameObject.GetComponent<PlayerController>().PlayKillNotification();
             }
+
+            // Play death sound for killed player
+            AudioClip clip = AudioClips.GetRand(AudioClips.playerDeath);
+            AudioSource.PlayClipAtPoint(clip, this.gameObject.transform.position, 1.5f);
         }
 	}
 
