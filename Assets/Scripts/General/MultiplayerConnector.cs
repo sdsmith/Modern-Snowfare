@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// This script wraps photons connect functionality and defines several of the callbacks Photon invokes
@@ -35,6 +36,14 @@ public class MultiplayerConnector : MonoBehaviour
 	void Start()
 	{
 		DontDestroyOnLoad( gameObject );
+	}
+
+	void OnEnable() {
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+
+	void OnDisable() {
+		SceneManager.sceneLoaded -= OnSceneLoaded;
 	}
 
 	/// <summary>
@@ -115,17 +124,17 @@ public class MultiplayerConnector : MonoBehaviour
 			return;
 		}
 
-		if( Application.loadedLevelName == "MainMenu" )
+		if( SceneManager.GetActiveScene().name == "MainMenu" )
 		{
-			Application.LoadLevel( "RoomBrowser" );
+			SceneManager.LoadScene( "RoomBrowser" );
 
-			ChatHandler.Instance.SetOnlineStatus( ExitGames.Client.Photon.Chat.ChatUserStatus.Online, "In Lobby" );
+			// ChatHandler.Instance.SetOnlineStatus( ExitGames.Client.Photon.Chat.ChatUserStatus.Online, "In Lobby" );
 		}
 		else
 		{
 			//If we join the lobby while not being in the MainMenu scene, something went wrong. We disconnect from Photon and go back to the main menu
 			PhotonNetwork.Disconnect();
-			Application.LoadLevel( "MainMenu" );
+			SceneManager.LoadScene( "MainMenu" );
 		}
 	}
 
@@ -215,12 +224,12 @@ public class MultiplayerConnector : MonoBehaviour
         }
         else
         {
-            Debug.Log("OnJoinedRoom. LoadedLevel: " + Application.loadedLevelName);
+			Debug.Log("OnJoinedRoom. LoadedLevel: " + SceneManager.GetActiveScene().name);
         }
 
         ChatHandler.Instance.SetOnlineStatus(
             ExitGames.Client.Photon.Chat.ChatUserStatus.Playing,
-            PhotonNetwork.room.name
+            PhotonNetwork.room.Name
         );
     }
 
@@ -229,9 +238,27 @@ public class MultiplayerConnector : MonoBehaviour
 	/// Called by Unity after Application.LoadLevel is completed
 	/// </summary>
 	/// <param name="level">The index of the level that was loaded</param>
-	void OnLevelWasLoaded( int level )
+	/// *** DEPRECATED: SEE OnSceneLoaded() below
+//	void OnLevelWasLoaded( int level )
+//	{
+//		Debug.Log( "OnLevelWasLoaded: " + SceneManager.GetActiveScene().name );
+//
+//		//Resume the Photon message queue so we get all the updates.
+//		//All updates that were sent during the level load were cached and are dispatched now so we can handle them properly.
+//		PhotonNetwork.isMessageQueueRunning = true;
+//
+//		//Time is frozen at the end of a round, so make sure that we resume it when we load a new level
+//		Time.timeScale = 1f;
+//	}
+
+	/// <summary>
+	/// Called by Unity after SceneManager.LoadScene() is completed
+	/// </summary>
+	/// <param name="scene">Scene.</param>
+	/// <param name="mode">Mode.</param>
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode) 
 	{
-		Debug.Log( "OnLevelWasLoaded: " + Application.loadedLevelName );
+		Debug.Log( "OnLevelWasLoaded: " + scene.name );
 
 		//Resume the Photon message queue so we get all the updates.
 		//All updates that were sent during the level load were cached and are dispatched now so we can handle them properly.
@@ -243,9 +270,9 @@ public class MultiplayerConnector : MonoBehaviour
 
 	void OnDisconnectedFromPhoton()
 	{
-		if( Application.loadedLevelName != "MainMenu" )
+		if( SceneManager.GetActiveScene().name != "MainMenu" )
 		{
-			Application.LoadLevel( "MainMenu" );
+			SceneManager.LoadScene( "MainMenu" );
 		}
 	}
 
@@ -278,7 +305,7 @@ public class MultiplayerConnector : MonoBehaviour
 			return;
 		}
 		Cursor.lockState = CursorLockMode.None;
-		Application.LoadLevel( "MainMenu" );
+		SceneManager.LoadScene( "MainMenu" );
 	}
 
 	public static MultiplayerConnector instance;

@@ -27,9 +27,9 @@ public class Helper
 			//Check if the KillCount property already exist
 			if( view != null && 
 				view.owner != null && 
-				view.owner.customProperties.ContainsKey( property ) == true )
+				view.owner.CustomProperties.ContainsKey( property ) == true )
 			{
-				return (T)view.owner.customProperties[ property ];
+				return (T)view.owner.CustomProperties[ property ];
 			}
 
 			//If not, no kills have been registered yet, return 0

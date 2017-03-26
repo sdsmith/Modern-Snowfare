@@ -9,6 +9,8 @@ public class Health : MonoBehaviour {
 	float currentPoints;
 
 	private BaseController bc;
+	PlayerSpawner ps;
+	TextManager tm; 
 
 
 	// Use this for initialization
@@ -19,6 +21,16 @@ public class Health : MonoBehaviour {
             Debug.LogError ("Base Controller is null");
         }
 
+		ps = GameObject.FindObjectOfType<PlayerSpawner> ();
+		if (ps == null) {
+			Debug.LogError ("Player Spawner is null");
+		}
+
+		tm = GameObject.FindObjectOfType<TextManager> ();
+		if (tm == null) {
+			Debug.LogError ("Text Manager is null");
+		}
+			
         hitPoints = bc.GetHealth ();
         currentPoints = hitPoints;
 
@@ -52,6 +64,7 @@ public class Health : MonoBehaviour {
         if (currentPoints <= 0) {
             Die ();
 			SetStats ();
+			SendKillMessage ();
 
             // Play kill sound for attacker
             PhotonView pv = PhotonView.Find(attackerViewID);
@@ -64,38 +77,37 @@ public class Health : MonoBehaviour {
         }
 	}
 
-    void Die() {
-        Debug.Log("Dying");
-        // game objects created locally (crate)
-        if (GetComponent<PhotonView>().instantiationId == 0) {
-            Destroy(gameObject);
-        }
-        //game objects instantiated over the network (players)
-        else {
-            // Only the owner of the object destroys the game object
-            if (GetComponent<PhotonView>().isMine) {
-                //GetComponent<PhotonView> ().transform.FindChild("IndicatorLogic(Clone)").gameObject.SetActive(false);
-                // Check to see if this is MY player object. If it's mine, respawn my character
-                // Note: make sure character prefab has the tag set to player
-                if (gameObject.tag == "Player") {
-                    // show the standby camera. Optional for now
-                    if (GetComponent<GrabAndDrop>() != null) {
-                        if (GetComponent<GrabAndDrop>().GetGrabbedObjectName() == "Torch_Red"
-                            || GetComponent<GrabAndDrop>().GetGrabbedObjectName() == "Torch_Blue") {
+	void Die(){ 
+		// game objects created locally (crate)
+		if (GetComponent<PhotonView> ().instantiationId == 0) {
+			Destroy (gameObject);
+		} 
 
-                            GetComponent<GrabAndDrop>().flameOff();
-                        }
-                        GetComponent<GrabAndDrop>().DropObject();
-                    }
+		//game objects instantiated over the network (players)
+		else {
+			// Only the owner of the object destroys the game object
+			if (GetComponent<PhotonView> ().isMine) {
+				//GetComponent<PhotonView> ().transform.FindChild("IndicatorLogic(Clone)").gameObject.SetActive(false);
+				// Check to see if this is MY player object. If it's mine, respawn my character
+				// Note: make sure character prefab has the tag set to player
+				if (gameObject.tag == "Player") {
+					// show the standby camera. Optional for now
+					if (GetComponent <GrabAndDrop> () != null) {
+						if (GetComponent<GrabAndDrop> ().GetGrabbedObjectName() == "Torch_Red"
+							|| GetComponent<GrabAndDrop> ().GetGrabbedObjectName() == "Torch_Blue") {
 
-                    NetworkManager nm = GameObject.FindObjectOfType<NetworkManager>();
-                    nm.standbyCamera.SetActive(true);
-                    nm.respawnTimer = 2f;
-                }
-                GetComponent<PhotonView>().RPC("DeathAnimation", PhotonTargets.All);
-                //transform.DetachChildren();
-                // DeathAnimation ();
-                PhotonNetwork.Destroy(gameObject);
+							GetComponent<GrabAndDrop> ().flameOff ();
+						}
+						GetComponent<GrabAndDrop> ().DropObject ();
+					}
+						
+					ps.standbyCamera.SetActive (true);
+					ps.respawnTimer = 2f;
+				}
+				GetComponent<PhotonView> ().RPC ("DeathAnimation", PhotonTargets.All);
+				//transform.DetachChildren();
+				// DeathAnimation ();
+				PhotonNetwork.Destroy (gameObject);
 
                 // Update utilities
                 Util.localPlayer = null;
@@ -133,6 +145,21 @@ public class Health : MonoBehaviour {
 		((PlayerController)bc).deathCount ++;
 		if (Util.localPlayer) {
 			Util.localPlayer.GetComponent<PlayerController> ().killCount++;
+		}
+	}
+
+	// When a player dies, show a message saying "Player killed player"
+	void SendKillMessage () {
+		if(Util.localPlayer)
+		{
+			string murderer = Util.localPlayer.GetComponent<PhotonView> ().owner.NickName;
+			string victim = GetComponent<PhotonView> ().owner.NickName;
+
+			if (Util.IsRedTeam (Util.localPlayer)) {
+				tm.AddRedKillMessage (murderer, victim);
+			} else {
+				tm.AddBlueKillMessage (murderer, victim);
+			}
 		}
 	}
 }

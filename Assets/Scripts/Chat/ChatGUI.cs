@@ -52,7 +52,7 @@ public class ChatGUI : MonoBehaviour
     void Update()
     {
         //Whenever menus are visible, we want to show the cursor
-        bool showCuror = m_IsOpen == true || m_ShowFriendList == true || Ship.LocalPlayer == null;
+        // bool showCuror = m_IsOpen == true || m_ShowFriendList == true || Ship.LocalPlayer == null;
 
         //Cursor.visible = showCuror;
         //Screen.lockCursor = !showCuror;

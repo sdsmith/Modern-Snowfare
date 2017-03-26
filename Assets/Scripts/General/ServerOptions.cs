@@ -23,19 +23,19 @@ public class ServerOptions
 		MapQueueEntry firstMap = MapQueue.GetSingleEntryInMapQueue( mapQueueString, 0 );
 
 		RoomOptions roomOptions = new RoomOptions();
-		roomOptions.maxPlayers = 8;
+		roomOptions.MaxPlayers = 8;
 
-		roomOptions.customRoomProperties = new ExitGames.Client.Photon.Hashtable();
-		roomOptions.customRoomProperties.Add( RoomProperty.MapQueue, mapQueueString );
-		roomOptions.customRoomProperties.Add( RoomProperty.MapIndex, 0 );
-		roomOptions.customRoomProperties.Add( RoomProperty.RedScore, 0 );
-		roomOptions.customRoomProperties.Add( RoomProperty.BlueScore, 0 );
-		roomOptions.customRoomProperties.Add( RoomProperty.Map, firstMap.Name );
-		roomOptions.customRoomProperties.Add( RoomProperty.Mode, (int)firstMap.Mode );
+		roomOptions.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
+		roomOptions.CustomRoomProperties.Add( RoomProperty.MapQueue, mapQueueString );
+		roomOptions.CustomRoomProperties.Add( RoomProperty.MapIndex, 0 );
+		roomOptions.CustomRoomProperties.Add( RoomProperty.RedScore, 0 );
+		roomOptions.CustomRoomProperties.Add( RoomProperty.BlueScore, 0 );
+		roomOptions.CustomRoomProperties.Add( RoomProperty.Map, firstMap.Name );
+		roomOptions.CustomRoomProperties.Add( RoomProperty.Mode, (int)firstMap.Mode );
 		Debug.Log (firstMap.Mode);
-		roomOptions.customRoomProperties.Add( RoomProperty.SkillLevel, skillLevel );
+		roomOptions.CustomRoomProperties.Add( RoomProperty.SkillLevel, skillLevel );
 
-		roomOptions.customRoomPropertiesForLobby = new string[] {
+		roomOptions.CustomRoomPropertiesForLobby = new string[] {
 			RoomProperty.Map,
 			RoomProperty.Mode,
 			RoomProperty.SkillLevel,

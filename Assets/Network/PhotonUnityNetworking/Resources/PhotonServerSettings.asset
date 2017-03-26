@@ -67,4 +67,5 @@ MonoBehaviour:
   - RPCFlameOff
   - RPCFlameOn
   - SetToLight
+  - AddTextMessage_RPC
   DisableAutoOpenWizard: 1

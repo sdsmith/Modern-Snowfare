@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class RoomMenu : MonoBehaviour 
 {
@@ -140,7 +141,7 @@ public class RoomMenu : MonoBehaviour
 		{
 			ChatHandler.Instance.Client.Disconnect();
 			MultiplayerConnector.Instance.Disconnect();
-			Application.LoadLevel( "MainMenu" );
+			SceneManager.LoadScene ( "MainMenu" );
 		}
 	}
 }

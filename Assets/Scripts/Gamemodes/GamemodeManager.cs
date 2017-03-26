@@ -86,12 +86,12 @@ public class GamemodeManager : MonoBehaviour
 			return;
 		}
 
-		MapQueueEntry map = MapQueue.GetCurrentMap();
-
-		if( map.Equals( MapQueueEntry.None ) == false )
-		{
-			SelectedGamemode = map.Mode;
-		}
+//		MapQueueEntry map = MapQueue.GetCurrentMap();
+//
+//		if( map.Equals( MapQueueEntry.None ) == false )
+//		{
+//			SelectedGamemode = map.Mode;
+//		}
 	}
 
 	/// <summary>

@@ -119,8 +119,8 @@ public class RoomMenuMatchmaking : RoomMenuBase
 
 	void DrawMatchmakingTypeOptions()
 	{
-		switch( Matchmaking.SelectedMatchmakingType )
-		{
+		//switch( Matchmaking.SelectedMatchmakingType )
+		//{
 		//case MatchmakingType.RoomProperties:
 		//	DrawRoomPropertiesMatchmakingOptions();
 		//	break;
@@ -130,7 +130,7 @@ public class RoomMenuMatchmaking : RoomMenuBase
 		//case MatchmakingType.Random:
 		//	DrawRandomMatchmakingOptions();
 		//	break;
-		}
+		//}
 	}
 
 	void DrawRandomMatchmakingOptions()

@@ -45,7 +45,7 @@ public class MainMenu : MonoBehaviour
 		{
 			if( ChatHandler.Instance.ChatUsername != "" )
 			{
-				PlayerPrefs.SetString( "LoginUsername", ChatHandler.Instance.ChatUsername );
+				PlayerPrefs.SetString("Username", PhotonNetwork.player.NickName);
 				ChatHandler.Instance.Connect();
 				MultiplayerConnector.Instance.Connect();
 			}

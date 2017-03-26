@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon.Chat;
 using AuthenticationValues = ExitGames.Client.Photon.Chat.AuthenticationValues;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// This class implements everything related to the Photon Chat API. 
@@ -15,6 +16,7 @@ public class ChatHandler : MonoBehaviour, IChatClientListener
 {
     #region Properties
     static ChatHandler m_Instance;
+	static bool noChatNeeded = true; // Modern Snowfare doesn't support chats
     /// <summary>
     /// This static variable provides a quick way to access the chat functionality from everywhere in the project
     /// </summary>
@@ -162,7 +164,7 @@ public class ChatHandler : MonoBehaviour, IChatClientListener
 
     void Update() 
     {
-        if( m_ChatClient == null )
+		if( m_ChatClient == null || noChatNeeded)
         {
             return;
         }
@@ -181,6 +183,14 @@ public class ChatHandler : MonoBehaviour, IChatClientListener
         //for incoming messages and events and calls the necessary callback functions
         m_ChatClient.Service();
     }
+
+	void OnEnable() {
+		SceneManager.sceneLoaded += OnSceneLoaded;
+	}
+
+	void OnDisable() {
+		SceneManager.sceneLoaded -= OnSceneLoaded;
+	}
 
     /// <summary>
     /// Connect to the chat server using the app id and username the player chose
@@ -202,7 +212,7 @@ public class ChatHandler : MonoBehaviour, IChatClientListener
 
         //PhotonNetwork.room.name is the name of the currently joined room. This is the
         //same for all players in that room so we can use it to construct the room channel name
-        m_RoomChannelName = "room" + PhotonNetwork.room.name.GetHashCode();
+        m_RoomChannelName = "room" + PhotonNetwork.room.Name.GetHashCode();
 
         //For the team channel, we simply use the same room channel name and add the team color at the end
         m_TeamChannelName = m_RoomChannelName + Ship.LocalPlayer.Team;
@@ -240,7 +250,7 @@ public class ChatHandler : MonoBehaviour, IChatClientListener
     /// I use this to send the name of the room the player is currently playing in so friends can find each other easily</param>
     public void SetOnlineStatus( int status, string message )
     {
-        m_ChatClient.SetOnlineStatus( status, message );
+        // m_ChatClient.SetOnlineStatus( status, message );
     }
 
     /// <summary>
@@ -573,14 +583,24 @@ public class ChatHandler : MonoBehaviour, IChatClientListener
     /// Called by Unity when a level finished loading
     /// </summary>
     /// <param name="level">The level.</param>
-    public void OnLevelWasLoaded( int level )
-    {
+	/// *** DEPRECATED
+//    public void OnLevelWasLoaded( int level )
+//    {
+//        //If we are back in the main menu or the room browser
+//        if( level == 0 || level == 1 )
+//        {
+//            LeaveRoomChannels();
+//        }
+//    }
+
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode) 
+	{
         //If we are back in the main menu or the room browser
-        if( level == 0 || level == 1 )
+		if( scene.buildIndex == 0 || scene.buildIndex == 1 )
         {
             LeaveRoomChannels();
         }
-    }
+	}
 }
 
 /// <summary>

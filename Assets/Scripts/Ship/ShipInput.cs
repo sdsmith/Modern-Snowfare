@@ -20,7 +20,8 @@ public class ShipInput : ShipBase
 			//lockCursor makes sure that the cursor always stays in the middle of the screen
 			//This is useful if players are playing with mouse input in windowed mode so that
 			//the mouse will never leave the screen area
-			Screen.lockCursor = true;
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
 		}
 	}
 
@@ -57,11 +58,11 @@ public class ShipInput : ShipBase
 
 	void UpdateCursorLock()
 	{
-		if( Screen.lockCursor == false )
+		if( Cursor.lockState == CursorLockMode.None )
 		{
 			if( Input.GetMouseButtonDown( 0 ) == true )
 			{
-				Screen.lockCursor = true;
+				Cursor.lockState = CursorLockMode.Locked;
 			}
 		}
 	}
