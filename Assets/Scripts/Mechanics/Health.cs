@@ -50,60 +50,61 @@ public class Health : MonoBehaviour {
         //}
 
         if (currentPoints <= 0) {
+            Die ();
+			SetStats ();
+
             // Play kill sound for attacker
             PhotonView pv = PhotonView.Find(attackerViewID);
             if (pv) {
                 // Player that hit this target is still alive, play the notification
-                // @TODO(sdsmith): When I play the sound, players don't die. wtf.
-                //pv.gameObject.GetComponent<PlayerController>().PlayKillNotification();
+                // @NOTE(sdsmith): If this is placed before 'Die()', players do not 
+                // die. Who knows.
+                pv.gameObject.GetComponent<PlayerController>().PlayKillNotification();
             }
-
-            Die ();
-			SetStats ();
-		}
+        }
 	}
 
-	void Die(){
-		Debug.Log ("Dying");
-		// game objects created locally (crate)
-		if (GetComponent<PhotonView> ().instantiationId == 0) {
-			Destroy (gameObject);
-		} 
+    void Die() {
+        Debug.Log("Dying");
+        // game objects created locally (crate)
+        if (GetComponent<PhotonView>().instantiationId == 0) {
+            Destroy(gameObject);
+        }
+        //game objects instantiated over the network (players)
+        else {
+            // Only the owner of the object destroys the game object
+            if (GetComponent<PhotonView>().isMine) {
+                //GetComponent<PhotonView> ().transform.FindChild("IndicatorLogic(Clone)").gameObject.SetActive(false);
+                // Check to see if this is MY player object. If it's mine, respawn my character
+                // Note: make sure character prefab has the tag set to player
+                if (gameObject.tag == "Player") {
+                    // show the standby camera. Optional for now
+                    if (GetComponent<GrabAndDrop>() != null) {
+                        if (GetComponent<GrabAndDrop>().GetGrabbedObjectName() == "Torch_Red"
+                            || GetComponent<GrabAndDrop>().GetGrabbedObjectName() == "Torch_Blue") {
 
-		//game objects instantiated over the network (players)
-		else {
-			// Only the owner of the object destroys the game object
-			if (GetComponent<PhotonView> ().isMine) {
-				//GetComponent<PhotonView> ().transform.FindChild("IndicatorLogic(Clone)").gameObject.SetActive(false);
-				// Check to see if this is MY player object. If it's mine, respawn my character
-				// Note: make sure character prefab has the tag set to player
-				if (gameObject.tag == "Player") {
-					// show the standby camera. Optional for now
-					if (GetComponent <GrabAndDrop> () != null) {
-						if (GetComponent<GrabAndDrop> ().GetGrabbedObjectName() == "Torch_Red"
-							|| GetComponent<GrabAndDrop> ().GetGrabbedObjectName() == "Torch_Blue") {
+                            GetComponent<GrabAndDrop>().flameOff();
+                        }
+                        GetComponent<GrabAndDrop>().DropObject();
+                    }
 
-							GetComponent<GrabAndDrop> ().flameOff ();
-						}
-						GetComponent<GrabAndDrop> ().DropObject ();
-					}
-
-					NetworkManager nm = GameObject.FindObjectOfType<NetworkManager> ();
-					nm.standbyCamera.SetActive (true);
-					nm.respawnTimer = 2f;
-				}
-				GetComponent<PhotonView> ().RPC ("DeathAnimation", PhotonTargets.All);
-				//transform.DetachChildren();
-				// DeathAnimation ();
-				PhotonNetwork.Destroy (gameObject);
+                    NetworkManager nm = GameObject.FindObjectOfType<NetworkManager>();
+                    nm.standbyCamera.SetActive(true);
+                    nm.respawnTimer = 2f;
+                }
+                GetComponent<PhotonView>().RPC("DeathAnimation", PhotonTargets.All);
+                //transform.DetachChildren();
+                // DeathAnimation ();
+                PhotonNetwork.Destroy(gameObject);
 
                 // Update utilities
                 Util.localPlayer = null;
-			}
-		}
-	}
+            }
+        }
+    }
 
-	[PunRPC]
+
+    [PunRPC]
 	void DeathAnimation() {
 		ToonCharacterController toonCC = GetComponent<ToonCharacterController> ();
 		if (toonCC != null) {
