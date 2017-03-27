@@ -17,7 +17,7 @@ public class GUIHealthBar : MonoBehaviour {
 	void Start() {
         health = GetComponent<Health>();
 
-        size = new Vector2(Mathf.Min(Screen.width / 5.0f, 500), Mathf.Min(Screen.height / 8.0f, 50));
+        size = new Vector2(Mathf.Min(Screen.width / 3.0f, 500), Mathf.Min(Screen.height / 10.0f, 50));
         position = new Vector2(Screen.width / 2.0f - size.x / 2.0f, Screen.height - size.y);
 
         // Create health bar colours
