@@ -51,7 +51,12 @@ public class MainGUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (currentStatus == Status.inGame) {
+			// KeyCode.BackQuote is when shift + ~ is pressed,
+			if (Input.GetKeyDown (KeyCode.BackQuote)) {
+				PhotonNetwork.LeaveRoom ();
+			}
+		}
 	}
 
 	void OnGUI() {
@@ -65,7 +70,7 @@ public class MainGUI : MonoBehaviour {
 				{
 					GUILayout.BeginHorizontal();
 					{
-						if (GUILayout.Button("blue", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 20)))
+						if (GUILayout.Button(GetButtonLabel(PunTeams.Team.blue), m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 20)))
 						{
 							PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
 							currentStatus = Status.pickingCharacter;
@@ -73,7 +78,7 @@ public class MainGUI : MonoBehaviour {
 
 						GUILayout.FlexibleSpace();
 
-						if (GUILayout.Button("red", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 20)))
+						if (GUILayout.Button(GetButtonLabel(PunTeams.Team.red), m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 20)))
 						{
 							PhotonNetwork.player.SetTeam(PunTeams.Team.red);
 							currentStatus = Status.pickingCharacter;
@@ -123,6 +128,8 @@ public class MainGUI : MonoBehaviour {
 			}
 			break;
 		case Status.inGame:
+			// Logout description found in the top left corner
+			GUILayout.Label("Logout: shift + ~");
 			break;
 		}
 	}
@@ -134,5 +141,33 @@ public class MainGUI : MonoBehaviour {
 			m_PickButtonStyle = new GUIStyle(Styles.Button);
 			m_PickButtonStyle.fontSize = 60;
 		}
+	}
+
+	string GetButtonLabel( PunTeams.Team team )
+	{
+		GameObject[] playerObjects = GameObject.FindGameObjectsWithTag( "Player" );
+		int playerCount = 0;
+
+		for( int i = 0; i < playerObjects.Length; ++i )
+		{
+			if( playerObjects[ i ].GetPhotonView().owner.GetTeam() == team )
+			{
+				playerCount++;
+			}
+		}
+
+		string label = team.ToString() + " team\n";
+		label += playerCount.ToString();
+
+		if( playerCount == 1 )
+		{
+			label += " player";
+		}
+		else
+		{
+			label += " players";
+		}
+
+		return label;
 	}
 }

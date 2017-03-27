@@ -44,7 +44,7 @@ public class TextManager : MonoBehaviour {
 	void OnGUI() {
 
 		// Status of the connection found in the top left corner.
-		GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
+		// GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
 
 		GUILayout.BeginArea (new Rect (0, 0, Screen.width, Screen.height));
 		GUILayout.BeginVertical ();
@@ -171,4 +171,26 @@ public class TextManager : MonoBehaviour {
 		return Color.white;
 	}
 
+	/*
+	 * @TODO(Llewellin):
+	 * Get these two functions working
+	 
+	/// <summary>Needed to update the team lists when joining a room.</summary>
+	/// <remarks>Called by PUN. See enum PhotonNetworkingMessage for an explanation.</remarks>
+	public void OnJoinedRoom()
+	{
+		string playerName = Util.localPlayer.GetPhotonView ().owner.NickName;
+		string message = playerName + " has joined";
+		GetComponent<PhotonView>().RPC("AddTextMessage_RPC", 
+			PhotonTargets.AllBuffered, message, MColor.spawn);
+	}
+
+	public void OnLeftRoom()
+	{
+		string playerName = Util.localPlayer.GetPhotonView ().owner.NickName;
+		string message = playerName + " has left";
+		GetComponent<PhotonView>().RPC("AddTextMessage_RPC", 
+			PhotonTargets.AllBuffered, message, MColor.spawn);
+	}
+	*/
 }
