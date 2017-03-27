@@ -44,7 +44,7 @@ public class TextManager : MonoBehaviour {
 	void OnGUI() {
 
 		// Status of the connection found in the top left corner.
-		GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
+		// GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
 
 		GUILayout.BeginArea (new Rect (0, 0, Screen.width, Screen.height));
 		GUILayout.BeginVertical ();

@@ -51,7 +51,12 @@ public class MainGUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (currentStatus == Status.inGame) {
+			// KeyCode.BackQuote is when shift + ~ is pressed,
+			if (Input.GetKeyDown (KeyCode.BackQuote)) {
+				PhotonNetwork.LeaveRoom ();
+			}
+		}
 	}
 
 	void OnGUI() {
@@ -123,6 +128,8 @@ public class MainGUI : MonoBehaviour {
 			}
 			break;
 		case Status.inGame:
+			// Logout description found in the top left corner
+			GUILayout.Label("Logout: shift + ~");
 			break;
 		}
 	}
