@@ -113,6 +113,16 @@ public class Util : MonoBehaviour {
 		return GetTeam (go) == PunTeams.Team.red;
 	}
 
+	public static bool IsFortSameTeam(GameObject fortObject, GameObject playerObject) {
+		WallController wc = fortObject.GetComponent<WallController> ();
+
+		if (wc == null) {
+			Debug.LogError ("Wall Controller is null");
+			return false;
+		}
+
+		return wc.team == GetTeam (playerObject);
+	}
 
     /**
      * Return the first child transform of the given game object with the given tag,

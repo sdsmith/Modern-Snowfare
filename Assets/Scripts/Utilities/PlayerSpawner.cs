@@ -61,26 +61,26 @@ public class PlayerSpawner : MonoBehaviour
 
 	public void CreateLocalPlayer( Team team )
 	{
-		object[] instantiationData = new object[] { (int)team } ;
-
-		//Notice the differences from PhotonNetwork.Instantiate to Unitys GameObject.Instantiate
-		GameObject newShipObject = PhotonNetwork.Instantiate( 
-			"Ship", 
-			Vector3.zero, 
-			Quaternion.identity, 
-			0,
-			instantiationData
-		);
-
-		Transform spawnPoint = GamemodeManager.CurrentGamemode.GetSpawnPoint( team );
-		newShipObject.transform.position = spawnPoint.transform.position;
-		newShipObject.transform.rotation = spawnPoint.transform.rotation;
-
-		Ship newShip = newShipObject.GetComponent<Ship>();
-		newShip.SetTeam( team );
-
-		//Since this function is called on every machine to create it's one and only local player, the new ship is always the camera target
-		Camera.main.GetComponent<CameraShipFollow>().SetTarget( newShip );
+//		object[] instantiationData = new object[] { (int)team } ;
+//
+//		//Notice the differences from PhotonNetwork.Instantiate to Unitys GameObject.Instantiate
+//		GameObject newShipObject = PhotonNetwork.Instantiate( 
+//			"Ship", 
+//			Vector3.zero, 
+//			Quaternion.identity, 
+//			0,
+//			instantiationData
+//		);
+//
+//		Transform spawnPoint = GamemodeManager.CurrentGamemode.GetSpawnPoint( team );
+//		newShipObject.transform.position = spawnPoint.transform.position;
+//		newShipObject.transform.rotation = spawnPoint.transform.rotation;
+//
+//		Ship newShip = newShipObject.GetComponent<Ship>();
+//		newShip.SetTeam( team );
+//
+//		//Since this function is called on every machine to create it's one and only local player, the new ship is always the camera target
+//		Camera.main.GetComponent<CameraShipFollow>().SetTarget( newShip );
 	}
 
 	// When the user selectes a new character, set the prefab
