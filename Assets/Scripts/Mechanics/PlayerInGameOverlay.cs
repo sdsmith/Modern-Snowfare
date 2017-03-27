@@ -156,7 +156,7 @@ public class PlayerInGameOverlay : MonoBehaviour {
 
 
     /**
-     * Disabled the canvas component to hide the overlay.
+     * Disable the canvas component to hide the overlay.
      */
     public void Disable() {
         // NOTE(sdsmith): Could do overlayCanvas.enabled = false, however, read the STUDY.
