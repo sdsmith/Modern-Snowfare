@@ -71,14 +71,14 @@ public class GamemodeGUICaptureTheFlag : GamemodeGUIBase
 		}
 
 		GUI.color = Color.white;
-		GUI.Label( new Rect( 0, Screen.height * 0.5f + 140, Screen.width, 50 ), "Next Map: " + MapQueue.GetNextMap(), Styles.LabelSmallCentered );
+		// GUI.Label( new Rect( 0, Screen.height * 0.5f + 140, Screen.width, 50 ), "Next Map: " + MapQueue.GetNextMap(), Styles.LabelSmallCentered );
 
 		if( PhotonNetwork.isMasterClient == true && m_Gamemode.GetEndRoundTime() > 2f )
 		{
 			float blinkAlpha = (int)( m_Gamemode.GetEndRoundTime() * 2 ) % 2;
 
 			GUI.color = new Color( 1f, 1f, 1f, blinkAlpha );
-			GUI.Label( new Rect( 0, 0, Screen.width, Screen.height ), "Press any key to load the next map.", LabelStyleCentered );
+			// GUI.Label( new Rect( 0, 0, Screen.width, Screen.height ), "Press any key to load the next map.", LabelStyleCentered );
 		}
 	}
 
