@@ -12,10 +12,18 @@ public class GrabAndDrop : MonoBehaviour {
 
     private Vector3 originalGrabbedObjectScale;
 
+    private TextManager textManager;
+
+
 	// Use this for initialization
 	void Start () {
 		ourTeam = PhotonNetwork.player.GetTeam();
-	}
+
+        textManager = GameObject.FindObjectOfType<TextManager>();
+        if (textManager == null) {
+            Debug.LogError("Text Manager is null");
+        }
+    }
 
 	/*
 	GameObject GetMouseHoverObject(float range)
@@ -75,7 +83,7 @@ public class GrabAndDrop : MonoBehaviour {
 
             grabbedObject.transform.localScale = adjustedScale;
         }
-	}
+    }
 
 	public void DropObject()
 	{
@@ -109,80 +117,77 @@ public class GrabAndDrop : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter (Collision col)
-	{
-		//if blue team colliding with red torch
-		if (col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.blue) {
-			//if red torch is lit
-			if (Util.redTorchLit == true) {
-				//grab it
-				if (grabbedObject == null)
-				{
-				TryGrabObject (col.gameObject);
-				}
-			} 
-			//red torch not lit
-			else {
-				//if holding lighter
-				if (grabbedObject.name == "Lighter") {
-					toLight = col.gameObject;
-					//light the torch
-					GetComponent<PhotonView> ().RPC ("LightTorch", PhotonTargets.AllBuffered, "red");
-					//LightTorch ("red");
-					//col.gameObject.GetComponent<Torchelight> ().IntensityLight = 1;
-					//col.gameObject.GetComponent<Torchelight> ().MaxLightIntensity = 3;
-				}
-			}
-		} else if (col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.red) {
-			if (Util.blueTorchLit == true) {
-				if (grabbedObject == null)
-				{
-				TryGrabObject (col.gameObject);
-				}
-			} else {
-				
-				if (grabbedObject.name == "Lighter") {
-					toLight = col.gameObject;
-					GetComponent<PhotonView> ().RPC ("LightTorch", PhotonTargets.AllBuffered, "blue");
-					//LightTorch ("blue");
-					//col.gameObject.GetComponent<Torchelight> ().IntensityLight = 1;
-					//col.gameObject.GetComponent<Torchelight> ().MaxLightIntensity = 3;
-				}
-			}
-		} else if ((col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.red) ||
-		         (col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.blue)) {
-			// col.gameObject.transform.position = RedTorchSpawn.transform.position;
-			GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
-			// Debug.Log ("Red reclaiming red torch");
+    void OnCollisionEnter(Collision col) {
+        //if blue team colliding with red torch
+        if (col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.blue) {
+            //if red torch is lit
+            if (Util.redTorchLit == true) {
+                //grab it
+                if (grabbedObject == null) {
+                    TryGrabObject(col.gameObject);
 
-		}
-		// If we collide with our own flag (red team)
-		else if (col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.red) 
-		{
-			// Reset the flag only if its not at the base
-			if (col.gameObject.transform.position != Util.defaultRedFlag) {
-				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
-			}
-		} 
-		// If we collide with our own flag (blue team)
-		else if(col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.blue) 
-		{
-			// Reset the flag only if its not at the base
-			if (col.gameObject.transform.position != Util.defaultBlueFlag) {
-				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
-			}
-		} 
+                    // Notify players flag has been picked up
+                    textManager.AddFlagPickupMessage(PunTeams.Team.blue);
+                }
+            }
+            //red torch not lit
+            else {
+                //if holding lighter
+                if (grabbedObject.name == "Lighter") {
+                    toLight = col.gameObject;
+                    //light the torch
+                    GetComponent<PhotonView>().RPC("LightTorch", PhotonTargets.AllBuffered, "red");
+                    //LightTorch ("red");
+                    //col.gameObject.GetComponent<Torchelight> ().IntensityLight = 1;
+                    //col.gameObject.GetComponent<Torchelight> ().MaxLightIntensity = 3;
+                }
+            }
+        } else if (col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.red) {
+            if (Util.blueTorchLit == true) {
+                if (grabbedObject == null) {
+                    TryGrabObject(col.gameObject);
 
-		else if (col.gameObject.name == "Lighter") 
-		{
-			if (grabbedObject == null)
-			{
-			TryGrabObject (col.gameObject);
-			}
-		}
-	}
+                    // Notify players flag has been picked up
+                    textManager.AddFlagPickupMessage(PunTeams.Team.red);
+                }
+            } else {
 
-	public string GetGrabbedObjectName()
+                if (grabbedObject.name == "Lighter") {
+                    toLight = col.gameObject;
+                    GetComponent<PhotonView>().RPC("LightTorch", PhotonTargets.AllBuffered, "blue");
+                    //LightTorch ("blue");
+                    //col.gameObject.GetComponent<Torchelight> ().IntensityLight = 1;
+                    //col.gameObject.GetComponent<Torchelight> ().MaxLightIntensity = 3;
+                }
+            }
+        } else if ((col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.red) ||
+                 (col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.blue)) {
+            // col.gameObject.transform.position = RedTorchSpawn.transform.position;
+            GetComponent<PhotonView>().RPC("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
+            // Debug.Log ("Red reclaiming red torch");
+
+        }
+        // If we collide with our own flag (red team)
+        else if (col.gameObject.name == "Torch_Red" && ourTeam == PunTeams.Team.red) {
+            // Reset the flag only if its not at the base
+            if (col.gameObject.transform.position != Util.defaultRedFlag) {
+                GetComponent<PhotonView>().RPC("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
+            }
+        }
+        // If we collide with our own flag (blue team)
+        else if (col.gameObject.name == "Torch_Blue" && ourTeam == PunTeams.Team.blue) {
+            // Reset the flag only if its not at the base
+            if (col.gameObject.transform.position != Util.defaultBlueFlag) {
+                GetComponent<PhotonView>().RPC("ResetFlag", PhotonTargets.AllBuffered, ourTeam);
+            }
+        } else if (col.gameObject.name == "Lighter") {
+            if (grabbedObject == null) {
+                TryGrabObject(col.gameObject);
+            }
+        }
+    }
+
+    public string GetGrabbedObjectName()
 	{
 		if (grabbedObject == null) {
 			return "";

@@ -4,24 +4,27 @@ using UnityEngine;
 
 public class TorchSpawnCollision : MonoBehaviour {
 
-	// Use this for initialization
+    private TextManager textManager;
+
+
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        textManager = GameObject.FindObjectOfType<TextManager>();
+        if (textManager == null) {
+            Debug.LogError("Text Manager is null");
+        }
+    }
 
 	void OnTriggerEnter (Collider col)
 	{
 		if (col.gameObject.GetComponent<GrabAndDrop>() != null){
 			if (gameObject.name == "BlueTorchSpawn" && col.gameObject.GetComponent<GrabAndDrop> ().GetGrabbedObjectName() == "Torch_Red") {
 				col.gameObject.GetComponent<GrabAndDrop> ().CaptureFlag ();
+                textManager.AddFlagCaptureMessage(PunTeams.Team.blue);
+
 			} else if (gameObject.name == "RedTorchSpawn" && col.gameObject.GetComponent<GrabAndDrop> ().GetGrabbedObjectName() == "Torch_Blue") {
 				col.gameObject.GetComponent<GrabAndDrop> ().CaptureFlag ();
-			}
+                textManager.AddFlagCaptureMessage(PunTeams.Team.red);
+            }
 		} 
 	}
 }

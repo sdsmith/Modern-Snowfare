@@ -25,8 +25,9 @@ public class TextManager : MonoBehaviour {
 	public enum MColor
 	{
 		spawn, 
-		redTeamKill,
-		blueTeamKill
+		redTeam,
+		blueTeam,
+        neutralTeam
 	}
 
 	List<Message> textMessages;
@@ -58,7 +59,70 @@ public class TextManager : MonoBehaviour {
 		GUILayout.EndVertical ();
 		GUILayout.EndArea ();
 	}
-		
+
+    /**
+     * Create a message indicating which team has picked up the flag.
+     */
+    public void AddFlagPickupMessage(PunTeams.Team pickupTeam) {
+        string teamStr = "";
+        MColor color = MColor.neutralTeam;
+
+        switch (pickupTeam) {
+            case PunTeams.Team.red:
+                teamStr = "Red";
+                color = MColor.redTeam;
+                break;
+
+            case PunTeams.Team.blue:
+                teamStr = "Blue";
+                color = MColor.blueTeam;
+                break;
+
+            case PunTeams.Team.none:
+                teamStr = "Neutral";
+                color = MColor.neutralTeam;
+                break;
+
+            default:
+                Debug.Assert(false, "Panic: Invalid team value");
+                break;
+        }
+
+        string message = string.Format(">>> {0} team has the flag", teamStr);
+        GetComponent<PhotonView>().RPC("AddTextMessage_RPC", 
+            PhotonTargets.AllBuffered, message, color);
+    }
+
+    public void AddFlagCaptureMessage(PunTeams.Team captureTeam) {
+        string teamStr = "";
+        MColor color = MColor.neutralTeam;
+
+        switch (captureTeam) {
+            case PunTeams.Team.red:
+                teamStr = "Red";
+                color = MColor.redTeam;
+                break;
+
+            case PunTeams.Team.blue:
+                teamStr = "Blue";
+                color = MColor.blueTeam;
+                break;
+
+            case PunTeams.Team.none:
+                teamStr = "Neutral";
+                color = MColor.neutralTeam;
+                break;
+
+            default:
+                Debug.Assert(false, "Panic: Invalid team value");
+                break;
+        }
+
+        string message = string.Format(">>> {0} team has captured the flag", teamStr);
+        GetComponent<PhotonView>().RPC("AddTextMessage_RPC",
+            PhotonTargets.AllBuffered, message, color);
+    }
+
 	public void AddSpawnMessage(string playerName) {
 		string message = "Spawning player: " + playerName;
 		GetComponent<PhotonView>().RPC("AddTextMessage_RPC", 
@@ -69,14 +133,14 @@ public class TextManager : MonoBehaviour {
 		string message = string.Format("{0} killed {1}",
 			murderer, victim);
 		GetComponent<PhotonView>().RPC("AddTextMessage_RPC", 
-			PhotonTargets.AllBuffered, message, MColor.redTeamKill);
+			PhotonTargets.AllBuffered, message, MColor.redTeam);
 	}
 
 	public void AddBlueKillMessage(string murderer, string victim) {
 		string message = string.Format("{0} killed {1}",
 			murderer, victim);
 		GetComponent<PhotonView>().RPC("AddTextMessage_RPC", 
-			PhotonTargets.AllBuffered, message, MColor.blueTeamKill);
+			PhotonTargets.AllBuffered, message, MColor.blueTeam);
 	}
 
 	[PunRPC]
@@ -96,10 +160,12 @@ public class TextManager : MonoBehaviour {
 		{
 		case MColor.spawn:
 			return Color.black;
-		case MColor.redTeamKill:
+		case MColor.redTeam:
 			return Color.red;
-		case MColor.blueTeamKill:
+		case MColor.blueTeam:
 			return Color.blue;
+        case MColor.neutralTeam:
+            return Color.gray;
 		}
 
 		return Color.white;
