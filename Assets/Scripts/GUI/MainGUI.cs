@@ -65,7 +65,7 @@ public class MainGUI : MonoBehaviour {
 				{
 					GUILayout.BeginHorizontal();
 					{
-						if (GUILayout.Button("blue", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 140)))
+						if (GUILayout.Button("blue", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 20)))
 						{
 							PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
 							currentStatus = Status.pickingCharacter;
@@ -73,7 +73,7 @@ public class MainGUI : MonoBehaviour {
 
 						GUILayout.FlexibleSpace();
 
-						if (GUILayout.Button("red", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 140)))
+						if (GUILayout.Button("red", m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 20)))
 						{
 							PhotonNetwork.player.SetTeam(PunTeams.Team.red);
 							currentStatus = Status.pickingCharacter;
