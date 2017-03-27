@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChatAppId: 
-  ChatUsername: Pilot XXX
+  ChatUsername: Player X
 --- !u!4 &1326397530
 Transform:
   m_ObjectHideFlags: 0

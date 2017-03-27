@@ -78,6 +78,7 @@ public class FXManager : MonoBehaviour {
         GameObject snowballGO = Instantiate(SnowballPrefab, startPos, rotation);
         snowballGO.GetComponent<SnowballController>().SetThrower(throwingPlayerViewID);
 	}
+
     [PunRPC]
     IEnumerator Spawner(){	
 		while (true) {
@@ -88,8 +89,13 @@ public class FXManager : MonoBehaviour {
             GameObject temp = PhotonNetwork.Instantiate (PowerUps[RandPowerUp], SpawnPosition, gameObject.transform.rotation,0);
             GameObject indicator = PhotonNetwork.Instantiate("PowerUpGlow", SpawnPosition += new Vector3(0, -0.85f, 0), Quaternion.Euler(-90, 0, 0), 0);
             indicator.transform.parent = temp.transform;
-
         }
-
 	}
+
+    /**
+     * Play a flag capture notification sound for the local player.
+     */
+    public void PlayFlagCaptureNotification() {
+        Util.localPlayer.GetComponent<AudioSource>().PlayOneShot(AudioClips.flagCapture);
+    }
 }
