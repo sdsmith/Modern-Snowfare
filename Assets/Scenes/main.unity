@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.054895222, g: 0.064828634, b: 0.065008275, a: 1}
+  m_IndirectSpecularColor: {r: 0.054779693, g: 0.06481815, b: 0.06477428, a: 1}
 --- !u!157 &4
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -479,6 +479,22 @@ Prefab:
         type: 2}
       propertyPath: team
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1663405603533248, guid: 173d1e2652a524963869f6064151712b, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517273934059660, guid: 173d1e2652a524963869f6064151712b, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4230596515302230, guid: 173d1e2652a524963869f6064151712b, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866472401302708, guid: 173d1e2652a524963869f6064151712b, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 173d1e2652a524963869f6064151712b, type: 2}
@@ -2199,6 +2215,22 @@ Prefab:
         type: 2}
       propertyPath: team
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1352562312147444, guid: 5e6e89736ddd542e79937c13eb4e1c5e, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1121955279836898, guid: 5e6e89736ddd542e79937c13eb4e1c5e, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4653915070492692, guid: 5e6e89736ddd542e79937c13eb4e1c5e, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409157270657312, guid: 5e6e89736ddd542e79937c13eb4e1c5e, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5e6e89736ddd542e79937c13eb4e1c5e, type: 2}
