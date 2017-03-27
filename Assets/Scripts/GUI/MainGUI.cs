@@ -52,8 +52,11 @@ public class MainGUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (currentStatus == Status.inGame) {
-			// KeyCode.BackQuote is when shift + ~ is pressed,
-			if (Input.GetKeyDown (KeyCode.BackQuote)) {
+			// KeyCode.BackQuote is ` key
+			// When user presses shift and `, leave game
+			if (Input.GetKey (KeyCode.BackQuote) && 
+				(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))) 
+			{
 				PhotonNetwork.LeaveRoom ();
 			}
 		}
