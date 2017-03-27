@@ -386,6 +386,7 @@ GameObject:
   - component: {fileID: 114654733161869742}
   - component: {fileID: 114258216538836462}
   - component: {fileID: 82660581647610382}
+  - component: {fileID: 114876512711028414}
   m_Layer: 0
   m_Name: LeChamp
   m_TagString: Player
@@ -2164,6 +2165,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318ef6c03461b43ff8c6078bab2c433b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114876512711028414
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1566578113427420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ca061cac135484e93a94d1ea83f122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114942419978823028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2201,6 +2213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7af82c54f4dc44168d2e3a7d63c5108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodyScreen: {fileID: 0}
 --- !u!119 &119329496238828488
 Projector:
   m_ObjectHideFlags: 1

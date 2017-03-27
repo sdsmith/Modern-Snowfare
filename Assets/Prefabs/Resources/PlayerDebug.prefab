@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 114415207831768650}
   - component: {fileID: 95626319974976760}
   - component: {fileID: 82436373187049614}
+  - component: {fileID: 114148154959806728}
   m_Layer: 0
   m_Name: PlayerDebug
   m_TagString: Player
@@ -837,6 +838,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114148154959806728
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1250862331626028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ca061cac135484e93a94d1ea83f122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114176826242461702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -865,6 +877,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ourTeam: 0
   offset: {x: 0, y: 0, z: 0}
+  dropOffset: {x: 7, y: 0, z: 0}
 --- !u!114 &114415207831768650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -876,6 +889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7af82c54f4dc44168d2e3a7d63c5108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodyScreen: {fileID: 0}
 --- !u!114 &114464049636251584
 MonoBehaviour:
   m_ObjectHideFlags: 1

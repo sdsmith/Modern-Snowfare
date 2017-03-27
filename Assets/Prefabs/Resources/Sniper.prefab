@@ -252,6 +252,7 @@ GameObject:
   - component: {fileID: 114597856661928384}
   - component: {fileID: 114301195688061410}
   - component: {fileID: 82208496230167628}
+  - component: {fileID: 114179786675752560}
   m_Layer: 0
   m_Name: Sniper
   m_TagString: Player
@@ -2029,6 +2030,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114179786675752560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1382479482714554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ca061cac135484e93a94d1ea83f122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114200115745630270
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 114562707678721170}
   - component: {fileID: 114387687997691438}
   - component: {fileID: 82270584825694616}
+  - component: {fileID: 114590847898529052}
   m_Layer: 0
   m_Name: PlayerCapsule
   m_TagString: Player
@@ -560,6 +561,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ourTeam: 0
   offset: {x: 0, y: 0, z: 0}
+  dropOffset: {x: 7, y: 0, z: 0}
 --- !u!114 &114349373924631168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -586,6 +588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7af82c54f4dc44168d2e3a7d63c5108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodyScreen: {fileID: 0}
 --- !u!114 &114508375098701528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -650,6 +653,17 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114590847898529052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1236302937884282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ca061cac135484e93a94d1ea83f122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114609214456522714
 MonoBehaviour:
   m_ObjectHideFlags: 1
