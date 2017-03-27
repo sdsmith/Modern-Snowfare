@@ -154,7 +154,7 @@ public class PlayerController : BaseController {
         // @NOTE(sdsmith): There is a potential case where this function could
         // be called after the player dies. Must check to avoid nullptr.
         if (audioSource) {
-            audioSource.PlayOneShot(AudioClips.targetHit, 0.7f);
+            audioSource.PlayOneShot(AudioClips.targetHit, 0.25f);
         }
     }
 
@@ -162,7 +162,16 @@ public class PlayerController : BaseController {
         // @NOTE(sdsmith): There is a potential case where this function could
         // be called after the player dies. Must check to avoid nullptr.
         if (audioSource) {
-            audioSource.PlayOneShot(AudioClips.playerKill, 0.7f);
+            audioSource.PlayOneShot(AudioClips.playerKill, 0.6f);
+        }
+    }
+
+    public void PlayTakenDamageNotification() {
+        // @NOTE(sdsmith): There is a potential case where this function could
+        // be called after the player dies. Must check to avoid nullptr.
+        if (audioSource) {
+            AudioClip clip = AudioClips.GetRand(AudioClips.maleGrunts);
+            audioSource.PlayOneShot(clip);
         }
     }
 

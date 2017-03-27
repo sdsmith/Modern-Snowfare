@@ -10,10 +10,13 @@ public class AudioClips : MonoBehaviour {
     public static AudioClip playerKill;
     public static List<AudioClip> playerDeath;
     public static AudioClip playerDeathScreen;
+    public static List<AudioClip> maleGrunts;
 
     public static List<AudioClip> footsteps;
     public static AudioClip jump;
     public static AudioClip land;
+
+    public static AudioClip flagCapture;
 
 
     void Awake() {
@@ -39,6 +42,11 @@ public class AudioClips : MonoBehaviour {
 
         playerDeathScreen = (AudioClip)Resources.Load("YouDied");
 
+        maleGrunts = new List<AudioClip>();
+        maleGrunts.Add((AudioClip)Resources.Load("MaleGrunt1"));
+        maleGrunts.Add((AudioClip)Resources.Load("MaleGrunt2"));
+        maleGrunts.Add((AudioClip)Resources.Load("MaleGrunt3"));
+
         footsteps = new List<AudioClip>();
         footsteps.Add((AudioClip)Resources.Load("Footstep01"));
         footsteps.Add((AudioClip)Resources.Load("Footstep02"));
@@ -48,6 +56,8 @@ public class AudioClips : MonoBehaviour {
         jump = (AudioClip)Resources.Load("Jump");
 
         land = (AudioClip)Resources.Load("Land");
+
+        flagCapture = (AudioClip)Resources.Load("FlagCapture");
     }
 
     public static AudioClip GetRand(List<AudioClip> clips) {

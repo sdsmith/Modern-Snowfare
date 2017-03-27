@@ -13,7 +13,7 @@ public class GrabAndDrop : MonoBehaviour {
     private Vector3 originalGrabbedObjectScale;
 
     private TextManager textManager;
-
+    private FXManager fxManager;
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +22,11 @@ public class GrabAndDrop : MonoBehaviour {
         textManager = GameObject.FindObjectOfType<TextManager>();
         if (textManager == null) {
             Debug.LogError("Text Manager is null");
+        }
+
+        fxManager = GameObject.FindObjectOfType<FXManager>();
+        if (fxManager == null) {
+            Debug.LogError("No fxManager");
         }
     }
 
@@ -199,6 +204,7 @@ public class GrabAndDrop : MonoBehaviour {
 	{
 		return grabbedObject;
 	}
+
 	public void CaptureFlag()
 	{
 		if (grabbedObject != null) {
@@ -209,13 +215,22 @@ public class GrabAndDrop : MonoBehaviour {
 			//If we're red team, reset the blue flag
 			if (ourTeam == PunTeams.Team.red) {
 				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, PunTeams.Team.blue);
+                textManager.AddFlagCaptureMessage(PunTeams.Team.red);
 			} 
 			else {
 				GetComponent<PhotonView> ().RPC ("ResetFlag", PhotonTargets.AllBuffered, PunTeams.Team.red);
-			}
+                textManager.AddFlagCaptureMessage(PunTeams.Team.blue);
+            }
 
-		}
-	}
+            // Play flag captured sound effect
+            GetComponent<PhotonView>().RPC("PlayFlagCaptureNotification", PhotonTargets.AllBuffered);
+        }
+    }
+
+    [PunRPC]
+    public void PlayFlagCaptureNotification() {
+        fxManager.PlayFlagCaptureNotification();
+    }
 		
 	public void flameOff()
 	{

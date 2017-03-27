@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [RequireComponent(typeof(BaseController))]
 public class Health : MonoBehaviour {
 
@@ -13,7 +14,7 @@ public class Health : MonoBehaviour {
 
 	private BaseController bc;
 	PlayerSpawner ps;
-	TextManager tm; 
+	TextManager tm;
 
 
 	// Use this for initialization
@@ -32,7 +33,7 @@ public class Health : MonoBehaviour {
 		if (tm == null) {
 			Debug.LogError ("Text Manager is null");
 		}
-			
+
         hitPoints = bc.GetHealth ();
         currentPoints = hitPoints;
 
@@ -55,6 +56,13 @@ public class Health : MonoBehaviour {
 	// all players recieve notification of something taking damage
 	public virtual void TakeDamage (float amt, int attackerViewID) {
         currentPoints -= amt;
+
+        // Play player damage notification
+        if (gameObject.tag == "Player") {
+            PlayerController pc = gameObject.GetComponent<PlayerController>();
+            Debug.Assert(pc != null, "Object tagged as 'Player' does not have a 'PlayerController'");
+            pc.PlayTakenDamageNotification();
+        }
 
         // @DEBUG(sdsmith): Update debug stats
         // @TODO(sdsmith): @PERFORMANCE(sdsmith): Should have these calls 
