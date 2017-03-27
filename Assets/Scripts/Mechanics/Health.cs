@@ -172,7 +172,7 @@ public class Health : MonoBehaviour {
 
 	void OnGUI(){
 		
-		if (currentPoints == 1) {
+		if (currentPoints == 1 && GetComponent<PhotonView> ().isMine) {
 			GUI.DrawTexture (new Rect (0, 0, Screen.width, Screen.height), bloodyScreen);	
 		}
 	}
