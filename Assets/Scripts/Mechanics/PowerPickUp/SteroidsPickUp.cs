@@ -42,8 +42,8 @@ public class SteroidsPickUp : MonoBehaviour {
 	[PunRPC] 
 	IEnumerator Timer(PlayerController Player, SkinnedMeshRenderer Renderer) {
 		yield return new WaitForSeconds(15);
-        Player.GetComponent<PlayerShooting>().SetFireRate(.5f);
         if (Player != null && Player.transform.Find("SteroidsPowerUpIndicator(Clone)").gameObject!= null) {
+			Player.GetComponent<PlayerShooting>().SetFireRate(.5f);
 			Destroy(Player.transform.Find("SteroidsPowerUpIndicator(Clone)").gameObject);
 		}
 		Destroy (this.gameObject);

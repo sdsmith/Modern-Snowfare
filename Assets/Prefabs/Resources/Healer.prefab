@@ -27,11 +27,11 @@ GameObject:
   - component: {fileID: 114241620342360978}
   - component: {fileID: 114663215730774422}
   - component: {fileID: 114009329262916494}
-  - component: {fileID: 114448713524927526}
   - component: {fileID: 114243521120319612}
   - component: {fileID: 114662585712027956}
   - component: {fileID: 114340235680341916}
   - component: {fileID: 82140155380948750}
+  - component: {fileID: 114481672761726550}
   m_Layer: 0
   m_Name: Healer
   m_TagString: Player
@@ -2040,6 +2040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7af82c54f4dc44168d2e3a7d63c5108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bloodyScreen: {fileID: 2800000, guid: 84c4b6d2e63264c14aba9875d05bccaa, type: 3}
 --- !u!114 &114050145138391270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2124,7 +2125,7 @@ MonoBehaviour:
   ourTeam: 0
   offset: {x: 0, y: 0, z: 0}
   dropOffset: {x: 7, y: 0, z: 0}
---- !u!114 &114448713524927526
+--- !u!114 &114481672761726550
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2132,7 +2133,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1004987332016042}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7449bebd92721482db650a241a98d09f, type: 3}
+  m_Script: {fileID: 11500000, guid: e80ef71396b994cc793b3b3d90245659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   jumpSpeed: 15

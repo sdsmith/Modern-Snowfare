@@ -14,8 +14,6 @@ public class Util : MonoBehaviour {
     /** Contains reference to the local player, or null if it doesn't exist. */
     public static GameObject localPlayer = null;
 
-
-
 	public static GameObject redFortEntrance;
 	public static GameObject blueFortEntrance;
 
@@ -113,6 +111,16 @@ public class Util : MonoBehaviour {
 		return GetTeam (go) == PunTeams.Team.red;
 	}
 
+	public static bool IsFortSameTeam(GameObject fortObject, GameObject playerObject) {
+		WallController wc = fortObject.GetComponent<WallController> ();
+
+		if (wc == null) {
+			Debug.LogError ("Wall Controller is null");
+			return false;
+		}
+
+		return wc.team == GetTeam (playerObject);
+	}
 
     /**
      * Return the first child transform of the given game object with the given tag,
