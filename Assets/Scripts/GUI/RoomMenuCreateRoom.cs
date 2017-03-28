@@ -20,10 +20,12 @@ public class RoomMenuCreateRoom : RoomMenuBase
 
     void DrawVideo()
     {
-        GUILayout.BeginArea(new Rect(Screen.width / 2.0f, Screen.height / 2.0f, Screen.width, Screen.height));
+        float buttonWidth = 600;
+        float buttonHeight = 40;
+
+        if (GUI.Button(new Rect((Screen.width - buttonWidth) * 0.5f, (Screen.height - buttonHeight) * 0.5f, buttonWidth, buttonHeight), "Youtube Tutorial", Styles.Button))
         {
-            GUILayout.Label("Insert some youtube link", Styles.Header);
+            Application.OpenURL("https://www.youtube.com/watch?v=rxz4S-w7KgY");
         }
-        GUILayout.EndArea();
-        }
+    }
 }
