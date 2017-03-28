@@ -15,6 +15,8 @@ public class GrabAndDrop : MonoBehaviour {
     private TextManager textManager;
     private FXManager fxManager;
 
+	static bool NoLighter = true;
+
 	// Use this for initialization
 	void Start () {
 		ourTeam = PhotonNetwork.player.GetTeam();
@@ -234,6 +236,9 @@ public class GrabAndDrop : MonoBehaviour {
 		
 	public void flameOff()
 	{
+		if (NoLighter) {
+			return;
+		}
 		GetComponent<PhotonView> ().RPC ("RPCFlameOff", PhotonTargets.AllBuffered);
 	}
 
