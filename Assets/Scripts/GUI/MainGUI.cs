@@ -26,6 +26,82 @@ public class MainGUI : MonoBehaviour {
     GUIContent healerContent;
     GUIContent flashContent;
 
+	float controlsFadeIn;
+	GUIStyle controlsBackgroundStyle;
+	protected GUIStyle ControlsBackgroundStyle
+	{
+		get
+		{
+			if( controlsBackgroundStyle == null )
+			{
+				controlsBackgroundStyle = new GUIStyle( GUI.skin.box );
+				controlsBackgroundStyle.normal.background = ButtonBackground;
+				controlsBackgroundStyle.padding = new RectOffset( 10, 10, 10, 10 );
+			}
+
+			return controlsBackgroundStyle;
+		}
+	}
+
+	GUIStyle m_LabelStyle;
+	protected GUIStyle LabelStyle
+	{
+		get
+		{
+			if( m_LabelStyle == null )
+			{
+				m_LabelStyle = new GUIStyle( GUI.skin.label );
+				// m_LabelStyle.font = Font;
+				m_LabelStyle.fontSize = 30;
+				m_LabelStyle.alignment = TextAnchor.UpperLeft;
+			}
+			return m_LabelStyle;
+		}
+	}
+
+	GUIStyle m_LabelStyleCentered;
+	protected GUIStyle LabelStyleCentered
+	{
+		get
+		{
+			if( m_LabelStyleCentered == null )
+			{
+				m_LabelStyleCentered = new GUIStyle( LabelStyle );
+				m_LabelStyleCentered.alignment = TextAnchor.UpperCenter;
+			}
+			return m_LabelStyleCentered;
+		}
+	}
+
+	GUIStyle m_HeaderStyle;
+	protected GUIStyle HeaderStyle
+	{
+		get
+		{
+			if( m_HeaderStyle == null )
+			{
+				m_HeaderStyle = new GUIStyle( LabelStyle );
+				m_HeaderStyle.fontStyle = FontStyle.Bold;
+			}
+
+			return m_HeaderStyle;
+		}
+	}
+
+	GUIStyle m_HeaderStyleCentered;
+	protected GUIStyle HeaderStyleCentered
+	{
+		get
+		{
+			if( m_HeaderStyleCentered == null )
+			{
+				m_HeaderStyleCentered = new GUIStyle( HeaderStyle );
+				m_HeaderStyleCentered.alignment = TextAnchor.UpperCenter;
+			}
+
+			return m_HeaderStyleCentered;
+		}
+	}
 
     // Use this for initialization
     void Start () {
@@ -60,6 +136,19 @@ public class MainGUI : MonoBehaviour {
 				PhotonNetwork.LeaveRoom ();
 			}
 		}
+
+		UpdateControlsFadeIn();
+	}
+
+	void UpdateControlsFadeIn()
+	{
+		float target = 0f;
+		if( Input.GetKey( KeyCode.C ) )
+		{
+			target = 1f;
+		}
+
+		controlsFadeIn = Mathf.Lerp( controlsFadeIn, target, Time.deltaTime * 10f );
 	}
 
 	void OnGUI() {
@@ -131,8 +220,12 @@ public class MainGUI : MonoBehaviour {
 			}
 			break;
 		case Status.inGame:
-			// Logout description found in the top left corner
-			GUILayout.Label("Logout: shift + ~");
+			// top left corner
+			GUILayout.Label("Controls: C");
+			GUILayout.Label("Scoreboard: TAB");
+			GUILayout.Label("Logout: SHIFT + ~");
+
+			DrawControls();
 			break;
 		}
 	}
@@ -172,5 +265,63 @@ public class MainGUI : MonoBehaviour {
 		}
 
 		return label;
+	}
+
+	protected void DrawControls()
+	{
+		if( controlsFadeIn == 0 )
+		{
+			return;
+		}
+			
+		float width = 680;
+		float height = 325;
+
+		GUILayout.BeginArea( new Rect( ( Screen.width - width ) * 0.5f + ( 1 - controlsFadeIn ) * -Screen.width, ( Screen.height - height ) * 0.5f, width, height ), ControlsBackgroundStyle );
+		{
+			GUILayout.BeginHorizontal();
+			{
+				GUILayout.Label("Controls", HeaderStyleCentered );
+			}
+			GUILayout.EndHorizontal ();
+
+			GUILayout.BeginHorizontal();
+			{
+				GUILayout.Label("Keyboard", HeaderStyleCentered, GUILayout.Width( 300 ) );
+				GUILayout.Label("Mouse", HeaderStyleCentered, GUILayout.Width( 400 ) );
+			}
+			GUILayout.EndHorizontal ();
+
+			GUILayout.BeginHorizontal();
+			{
+				GUILayout.Label ("W - Move Forward", LabelStyle, GUILayout.Width(300));
+				GUILayout.Label ("Mouse Movement - Aim", LabelStyle, GUILayout.Width(400));
+			}
+			GUILayout.EndHorizontal();
+
+			GUILayout.BeginHorizontal();
+			{
+				GUILayout.Label ("S - Move Backward", LabelStyle, GUILayout.Width(300));
+				GUILayout.Label ("Left Click - Fire", LabelStyle, GUILayout.Width(400));
+			}
+			GUILayout.EndHorizontal();
+
+			GUILayout.BeginHorizontal();
+			{
+				GUILayout.Label ("A - Move Left", LabelStyle, GUILayout.Width(300));
+				GUILayout.Label ("Right Click - Drop Object", LabelStyle, GUILayout.Width(400));
+			}
+			GUILayout.EndHorizontal();
+
+			GUILayout.BeginVertical ();
+			{
+				GUILayout.Label ("D - Move Right", LabelStyle, GUILayout.Width(300));
+				GUILayout.Label ("Spacebar - Jump", LabelStyle, GUILayout.Width(400));
+			}
+			GUILayout.EndVertical ();
+		}
+		GUILayout.EndArea();
+
+		GUI.color = Color.white;
 	}
 }
