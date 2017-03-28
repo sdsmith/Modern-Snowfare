@@ -30,7 +30,6 @@ public class SnowballController : MonoBehaviour {
 	void Update () {
 	}
 
-
     void OnCollisionEnter(Collision collision) {
 
         // Play snowball impact sound
