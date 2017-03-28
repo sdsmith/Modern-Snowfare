@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour {
 	GameObject character;
 
     private Vector2 lastLockedInput;
-
+    private float initialRotationAboutY;
 
     
 	void Start () {
@@ -22,6 +22,7 @@ public class CameraController : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
 
         character = this.transform.parent.gameObject;
+        initialRotationAboutY = character.transform.eulerAngles.y;
 	}
 	
     
@@ -61,6 +62,6 @@ public class CameraController : MonoBehaviour {
         mouseLook.y = Mathf.Clamp(mouseLook.y, clampMin, clampMax);
 
         transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
-        character.transform.localRotation = Quaternion.AngleAxis(mouseLook.x, character.transform.up);
+        character.transform.localRotation = Quaternion.AngleAxis(initialRotationAboutY + mouseLook.x, character.transform.up);
     }
 }
