@@ -2041,7 +2041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7af82c54f4dc44168d2e3a7d63c5108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bloodyScreen: {fileID: 2800000, guid: 84c4b6d2e63264c14aba9875d05bccaa, type: 3}
+  bloodyScreen: {fileID: 2800000, guid: 1cdf081264bd74a94b1929cdac618cb8, type: 3}
 --- !u!114 &114050145138391270
 MonoBehaviour:
   m_ObjectHideFlags: 1
