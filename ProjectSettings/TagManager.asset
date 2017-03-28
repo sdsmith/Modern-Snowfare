@@ -11,6 +11,7 @@ TagManager:
   - BlueSpawn
   - RedSpawn
   - PlayerinGameOverlay
+  - Terrain
   layers:
   - Default
   - TransparentFX
