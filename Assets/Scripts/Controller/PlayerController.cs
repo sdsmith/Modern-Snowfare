@@ -146,17 +146,20 @@ public class PlayerController : BaseController {
          * you get a potential 4x slowdown on steep slopes.
          *                                                         - 2017-02-13
          */
-        const float errorMargin = 0.1F;
+        const float errorMargin = 0.5F;
         float colliderRadius = collider.radius;
 
         bool hit = false;
 
         for (float deltaX = -colliderRadius; deltaX <= colliderRadius; deltaX += 2*colliderRadius) {
-            for (float deltaY = -colliderRadius; deltaY <= colliderRadius; deltaY += 2 * colliderRadius) {
-                Vector3 delta = new Vector3(deltaX, deltaY, 0);
-                hit = hit || Physics.Raycast(transform.position + delta, -Vector3.up, collider.bounds.extents.y + errorMargin);
+            for (float deltaZ = -colliderRadius; deltaZ <= colliderRadius; deltaZ += 2 * colliderRadius) {
+                Vector3 delta = new Vector3(deltaX, 0, deltaZ);
+                hit = hit || Physics.Raycast(transform.position + delta, -Vector3.up, errorMargin);
+                //Debug.DrawRay(transform.position + delta, -Vector3.up * errorMargin, Color.yellow, 5);
             }
         }
+
+        DebugOverlay.AddAttr("isGrounded", hit.ToString());
 
         return hit;
     }
