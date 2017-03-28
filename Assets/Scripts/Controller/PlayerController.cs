@@ -45,7 +45,7 @@ public class PlayerController : BaseController {
         collider = GetComponent<CapsuleCollider>();
         audioSource = GetComponent<AudioSource>();
 
-        jumpSpeed = 7f;
+        jumpSpeed = 5f;
         isJumping = IsGrounded();
         isAirborn = isJumping;
 
