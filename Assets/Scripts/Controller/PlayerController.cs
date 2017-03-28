@@ -30,6 +30,8 @@ public class PlayerController : BaseController {
      */
     private bool isAirborn;
 
+    private Vector3 oldMoveInput;
+
     private AudioSource audioSource;
 
     private new Rigidbody rigidbody;
@@ -43,12 +45,14 @@ public class PlayerController : BaseController {
         collider = GetComponent<CapsuleCollider>();
         audioSource = GetComponent<AudioSource>();
 
-        jumpSpeed = 7f;
+        jumpSpeed = 5f;
         isJumping = IsGrounded();
         isAirborn = isJumping;
 
-		// @DEBUG(Llewellin): Add entry to debug overlay
-		DebugOverlay.AddAttr("speed", GetSpeed().ToString());
+        oldMoveInput = Vector3.zero;
+
+        // @DEBUG(Llewellin): Add entry to debug overlay
+        DebugOverlay.AddAttr("speed", GetSpeed().ToString());
 		DebugOverlay.AddAttr("damage", GetDamage().ToString());
     }
 
@@ -70,6 +74,7 @@ public class PlayerController : BaseController {
 
                 // Play landing sound
                 AudioSource.PlayClipAtPoint(AudioClips.land, transform.position);
+
             } else if (isJumping && !isAirborn && !isGrounded) {
                 // Player is jumping, and has just left the ground
                 isAirborn = true;
@@ -83,15 +88,21 @@ public class PlayerController : BaseController {
 
             moveDirection = new Vector3(sideMove, 0, forwardMove);
 
+            // Ensure that if the player is airborn, their old trajectory stays the same 
+            // after keys have been released.
+            if (isJumping && moveDirection == Vector3.zero) {
+                moveDirection = oldMoveInput;
+            }
+
+            // Record latest input
+            oldMoveInput = moveDirection;
+
             // Add speed to each direction in proportion to what direction we are moving.
             // @NOTE(sdsmith): This ensures that speed is always the same.
             moveDirection.Normalize();
 
-            /* TODO(sdsmith): Need to apply a force to the character when they are in the air, and an instantanous velocity when they are on the ground. This gets rid of the unexpected 'jolt' when you release a key in the air. */
             // Calculate the velocity
-			moveVelocity = (isGrounded ?
-							moveDirection * GetSpeed() :      // Ground speed is full
-							moveDirection * GetSpeed() / 3f); // Air speed is 1/3 regluar speed
+            moveVelocity = moveDirection * GetSpeed();
 
             // Transform move direction from Local to World space
             moveVelocity = transform.TransformDirection(moveVelocity);
@@ -102,7 +113,7 @@ public class PlayerController : BaseController {
             moveVelocity.y = rigidbody.velocity.y;
 
             // Jump (only influence movement is cursor is locked in the window)
-            if (cursorLocked && isGrounded && Input.GetButtonDown("Jump")) {
+            if (cursorLocked && !isJumping && isGrounded && Input.GetButtonDown("Jump")) {
                 // Play jump sound
                 AudioSource.PlayClipAtPoint(AudioClips.jump, transform.position);
 
@@ -135,17 +146,20 @@ public class PlayerController : BaseController {
          * you get a potential 4x slowdown on steep slopes.
          *                                                         - 2017-02-13
          */
-        const float errorMargin = 0.1F;
+        const float errorMargin = 0.5F;
         float colliderRadius = collider.radius;
 
         bool hit = false;
 
         for (float deltaX = -colliderRadius; deltaX <= colliderRadius; deltaX += 2*colliderRadius) {
-            for (float deltaY = -colliderRadius; deltaY <= colliderRadius; deltaY += 2 * colliderRadius) {
-                Vector3 delta = new Vector3(deltaX, deltaY, 0);
-                hit = hit || Physics.Raycast(transform.position + delta, -Vector3.up, collider.bounds.extents.y + errorMargin);
+            for (float deltaZ = -colliderRadius; deltaZ <= colliderRadius; deltaZ += 2 * colliderRadius) {
+                Vector3 delta = new Vector3(deltaX, 0, deltaZ);
+                hit = hit || Physics.Raycast(transform.position + delta, -Vector3.up, errorMargin);
+                //Debug.DrawRay(transform.position + delta, -Vector3.up * errorMargin, Color.yellow, 5);
             }
         }
+
+        DebugOverlay.AddAttr("isGrounded", hit.ToString());
 
         return hit;
     }
