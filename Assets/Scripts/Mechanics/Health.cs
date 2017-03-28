@@ -75,7 +75,7 @@ public class Health : MonoBehaviour {
         if (currentPoints <= 0) {
             Die ();
 			SetStats (attackerViewID);
-			SendKillMessage ();
+			SendKillMessage (attackerViewID);
 
             // Play kill sound for attacker
             PhotonView pv = PhotonView.Find(attackerViewID);
@@ -173,13 +173,13 @@ public class Health : MonoBehaviour {
 	}
 
 	// When a player dies, show a message saying "Player killed player"
-	void SendKillMessage () {
-		if(Util.localPlayer)
-		{
-			string murderer = Util.localPlayer.GetComponent<PhotonView> ().owner.NickName;
+	void SendKillMessage (int attackerViewID) {
+		PhotonView pv = PhotonView.Find(attackerViewID);
+		if (pv) {
+			string murderer = pv.owner.NickName;
 			string victim = GetComponent<PhotonView> ().owner.NickName;
 
-			if (Util.IsRedTeam (Util.localPlayer)) {
+			if (Util.IsRedTeam (pv.gameObject)) {
 				tm.AddRedKillMessage (murderer, victim);
 			} else {
 				tm.AddBlueKillMessage (murderer, victim);
