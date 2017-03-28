@@ -82,7 +82,7 @@ public class FXManager : MonoBehaviour {
     [PunRPC]
     IEnumerator Spawner(){	
 		while (true) {
-			int randomTimer =  Random.Range (0, 120);
+			int randomTimer =  Random.Range (0, 240);
 			yield return new WaitForSeconds (randomTimer);
 			RandPowerUp = Random.Range (0, 4);
 			Vector3 SpawnPosition = new Vector3 (Random.Range (20, 150), 7, Random.Range (20, 150));

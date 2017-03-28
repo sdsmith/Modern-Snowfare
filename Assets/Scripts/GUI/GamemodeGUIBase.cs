@@ -129,7 +129,7 @@ public class GamemodeGUIBase : MonoBehaviour
 
 		// width of all labels, plus 20 padding
 		float width = 665;
-		float height = 300;
+		float height = 500;
 
 		GUILayout.BeginArea( new Rect( ( Screen.width - width ) * 0.5f + ( 1 - m_LeaderboardsFadeIn ) * -Screen.width, ( Screen.height - height ) * 0.5f, width, height ), LeaderboardsBackgroundStyle );
 		{
