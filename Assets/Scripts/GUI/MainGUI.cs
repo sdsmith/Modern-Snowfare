@@ -158,23 +158,28 @@ public class MainGUI : MonoBehaviour {
 			{
 				// Player has not yet selected a team
 				LoadStyles();
+				PunTeams.Team teamWithMorePlayers = GetTeamWithMorePlayers ();
 				GUILayout.BeginArea(new Rect(10, 10, Screen.width - 20, Screen.height - 20));
 				{
 					GUILayout.BeginHorizontal();
 					{
+						GUI.enabled = (teamWithMorePlayers != PunTeams.Team.blue);
 						if (GUILayout.Button(GetButtonLabel(PunTeams.Team.blue), m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 20)))
 						{
 							PhotonNetwork.player.SetTeam(PunTeams.Team.blue);
 							currentStatus = Status.pickingCharacter;
 						}
+						GUI.enabled = true;
 
 						GUILayout.FlexibleSpace();
 
+						GUI.enabled = (teamWithMorePlayers != PunTeams.Team.red);
 						if (GUILayout.Button(GetButtonLabel(PunTeams.Team.red), m_PickButtonStyle, GUILayout.Width(Screen.width * 0.5f - 20), GUILayout.Height(Screen.height - 20)))
 						{
 							PhotonNetwork.player.SetTeam(PunTeams.Team.red);
 							currentStatus = Status.pickingCharacter;
 						}
+						GUI.enabled = true;
 					}
 					GUILayout.EndHorizontal();
 				}
@@ -323,5 +328,45 @@ public class MainGUI : MonoBehaviour {
 		GUILayout.EndArea();
 
 		GUI.color = Color.white;
+	}
+
+	/* @NOTE(Llewellin):
+	 * PunTeams has PunTeams.PlayersPerTeam, which should give you the count of each team.
+	 * This does nothing but error for me atm, so due to lack of time I'm going around it
+	 */
+	PunTeams.Team GetTeamWithMorePlayers()
+	{
+		int numberOfRedTeamPlayers = 0;
+		int numberOfBlueTeamPlayer = 0;
+
+		GameObject[] playerObjects = GameObject.FindGameObjectsWithTag( "Player" );
+
+		for( int i = 0; i < playerObjects.Length; ++i )
+		{
+			PhotonView pv = playerObjects [i].GetPhotonView ();
+
+			if( pv != null )
+			{
+				if( pv.owner.GetTeam() == PunTeams.Team.red )
+				{
+					numberOfRedTeamPlayers++;
+				}
+				else if( pv.owner.GetTeam() == PunTeams.Team.blue )
+				{
+					numberOfBlueTeamPlayer++;
+				}
+			}
+		}
+
+		if( numberOfRedTeamPlayers > numberOfBlueTeamPlayer )
+		{
+			return PunTeams.Team.red;
+		}
+		else if (numberOfRedTeamPlayers < numberOfBlueTeamPlayer)
+		{
+			return PunTeams.Team.blue;
+		}
+
+		return PunTeams.Team.none;
 	}
 }
