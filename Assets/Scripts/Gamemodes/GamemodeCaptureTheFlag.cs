@@ -9,7 +9,7 @@ public class GamemodeCaptureTheFlag : GamemodeBase
 	/// <summary>
 	/// How long is one match?
 	/// </summary>
-	public const float TotalRoundTime = 5 * 60;
+	public const float TotalRoundTime = 15 * 60;
 
 
 	/// <summary>
