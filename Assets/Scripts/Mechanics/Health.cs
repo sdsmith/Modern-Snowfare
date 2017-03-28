@@ -157,19 +157,20 @@ public class Health : MonoBehaviour {
 
 	// When a player dies, increment their death count and opponents kill count
 	void SetStats(int attackerViewID) {
+		if (GetComponent<PhotonView> ().isMine) {
 			((PlayerController)bc).deathCount++;
 //			if (Util.localPlayer) {
 //				Util.localPlayer.GetComponent<PlayerController> ().killCount++;
 //			}
 
-			PhotonView pv = PhotonView.Find(attackerViewID);
+			PhotonView pv = PhotonView.Find (attackerViewID);
 			if (pv) {
 				// Player that hit this target is still alive, play the notification
 				// @NOTE(sdsmith): If this is placed before 'Die()', players do not 
 				// die. Who knows.
-				pv.gameObject.GetComponent<PlayerController>().killCount++;
+				pv.gameObject.GetComponent<PlayerController> ().killCount++;
 			}
-			
+		}
 	}
 
 	// When a player dies, show a message saying "Player killed player"
