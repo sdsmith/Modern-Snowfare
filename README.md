@@ -3,6 +3,9 @@
 # Game Design Document
 https://docs.google.com/document/d/1cmrM5BWBfYip_qLcnMGAChTiRMqcC9xrbsMQoVImvSQ/edit
 
+# Slack
+modernsnowfare.slack.com
+
 # Coding Standards
 ## Naming
 - Use camel case (ThisIsAnExampleOfCamelCase) when naming (files, classes, functions, etc.)
